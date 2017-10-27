@@ -5,6 +5,7 @@ Interface d'administration du projet Oxford
 ### Installation
 
 _Installer les composants_: Executez la commande ``composer install`` dans l'invite de commande à la racine du dossier
+
 _Changer les identifiants de base de données_: Dans le fichier ``src\App\Database.php`` changer les valeurs des variables de la classe
 
 ## Démarrage

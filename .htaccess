@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteBase /Oxford/
+
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]

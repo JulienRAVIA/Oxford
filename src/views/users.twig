@@ -1,0 +1,29 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block content %}
+	<div class="row">
+		{% for user in users %}
+			<a href="user/{{user.iduser}}">
+		    	<div class="col-md-2 user">
+		    		<div class="panel panel-default">
+		    			<div class="panel-body">
+		    				<img src="http://julienravia.fr/photo.jpg" alt="" width="160">
+		    			</div>
+		    			<div class="panel-footer">
+		    				{{ user.nom }} {{ user.prenom }}
+		    			</div>
+		    		</div>
+		    	</div>
+			</a>
+		{% else %}
+			{{ component.well("Il n'y a pas d'utilisateurs enregistrés", 'sm', 'col-md-8 col-md-offset-2') }}
+		{% endfor %}
+		<div class="col-md-2 col-tile">
+			{{ component.tile('green', 'plus', 'Nouveau', 'users/new') }}
+			{{ component.tile('red tile-normal', 'times', null, 'users/deleteAll') }}
+		</div>
+	</div>
+{% endblock %}

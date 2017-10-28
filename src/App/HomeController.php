@@ -15,8 +15,7 @@ class HomeController
 
     public function index()
     {
-        $categories = $this->_db->getUsers();
-    	View::make('index.twig', array('name' => 'ALBERT'));
+        View::make('index.twig');
     }
 }
 

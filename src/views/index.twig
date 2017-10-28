@@ -4,16 +4,16 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-	<div class="col-sm-6 col-md-4">
+	<div class="col-sm-6 col-md-4 col-tile">
 		{{ component.tile('teal', 'users', 'Utilisateurs', 'users') }}
 	</div>
-	<div class="col-sm-6 col-md-2">
+	<div class="col-sm-6 col-md-2 col-tile">
 		{{ component.tile('blue', 'tasks', 'Logs', 'events') }}
 	</div>
-	<div class="col-sm-6 col-md-4">
+	<div class="col-sm-6 col-md-4 col-tile">
 		{{ component.tile('red', 'ticket', 'Tickets de support', 'tickets') }}
 	</div>
-	<div class="col-sm-6 col-md-2">
+	<div class="col-sm-6 col-md-2 col-tile">
 		{{ component.tile('silver', 'wrench', 'Config', 'config') }}
 	</div>
 {% endblock %}

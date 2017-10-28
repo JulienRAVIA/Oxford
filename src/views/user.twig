@@ -1,0 +1,34 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Edition de l'utilisateur {{ user.nom }}{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default">
+			  <div class="panel-body">
+			    <img src="http://julienravia.fr/photo.jpg" alt=""><br>
+			    <center><h3>{{ user.nom }} {{ user.prenom }}</h3></center>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form>
+						{% set groups = {
+						    'M': 'Masculin',
+						    'F': 'Féminin'
+						} %}
+						{{ component.input('nom', 'text', 'Nom :', user.nom, null, 'Nom :', 'user') }}
+						{{ component.input('prenom', 'text', 'Prénom :', user.prenom, null, 'Prénom :', 'user') }}
+						{{ component.input('email', 'email', 'Adresse email :', user.email, null, 'Adresse email', 'at') }}
+						{{ component.date('birth', 'birth', 'Date de naissance :') }}
+						{{ component.select('sexe', 'sexe', groups, user.sexe, true, 'Sexe :') }}
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

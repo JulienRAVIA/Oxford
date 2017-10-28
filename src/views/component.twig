@@ -1,8 +1,72 @@
 {% macro tile(color, icon, text, link = '#') %}
 	<div class="thumbnail tile tile-wide tile-{{ color }}">
-		<a href="{{ link }}" >
-			<h1><i class="fa fa-{{ icon }}"></i></h1>
-			<h1>{{ text }}</h1>
+		<a href="{{ link }}" class="fa-links" >
+			{% if text is not null %}
+				<h1>{{ text }}</h1>
+			{% endif %}
+			<i class="fa fa-{{ icon }} fa-3x"></i>
 		</a>
 	</div>
+{% endmacro %}
+
+{% macro input(id, type, placeholder, value, label, addon, icon, size) %}
+	<div class="form-group {{ size|default('col-md-5') }}">
+    	{% if label is not null %}
+    		<label for="{{ id }}">{{ label }}</label>
+    	{% endif %}
+    	{% if addon is defined %}
+			<span class="input-group-addon"><i class="fa fa-{{ icon }}"></i> {{ addon }}</span>
+    	{% endif %}
+    	<input type="{{ type|default('text') }}" class="form-control" id="{{ id }}" placeholder="{{ placeholder }}" value="{{ value }}">
+  	</div>
+{% endmacro %}
+
+{% macro input_group(params) %}
+	
+{% endmacro %}
+
+{% macro date(name, id, label, size) %}
+	<div class="form-group {{ size|default('col-md-3') }}">
+    	{# <label for="{{ id }}">{{ label }}</label> #}
+    	{% if label is not null %}
+    		<label for="{{ id }}">{{ label }}</label>
+    	{% endif %}
+		<input type="date" name="{{ name }}" id="{{ id }}" class="form-control">
+	</div>
+{% endmacro %}
+
+{# {% macro select(name, size, id, label, options = []) %}
+	<div class="form-group {{ size|default('col-md-3') }}">
+		{% if label is not null %}
+    		<label for="{{ id }}">{{ label }}</label>
+    	{% endif %}
+    	<select name="{{ name }}" id="{{ id }}">
+    		{% for option in option %}
+				<option></option>
+    		{% endfor %}
+    	</select>
+	</div>
+{% endmacro %} #}
+
+{% macro select (name, id, options, selected, required, label, size) %}
+	<div class="form-group {{ size|default('col-md-3') }}">
+		{% if label is not null %}
+    		<label for="{{ id }}">{{ label }}</label>
+    	{% endif %}
+    	<select name="{{ name }}" id="{{ id }}" class="form-control" {{ required ? 'required' : '' }}>
+    	    {% for key, value in options %}
+    	        <option value="{{ key }}" {{ key == selected ? 'selected' : '' }}>{{ value }}</option>
+    	    {% endfor %}
+    	</select>
+	</div>
+{% endmacro %}
+
+{% macro alert(type, message, size) %}
+	<div class="{{ size|default('col-md-12') }}">
+		<div class="alert alert-{{ type }}" role="alert">{{ message }}</div>
+	</div>
+{% endmacro %}
+
+{% macro well(message, width, size) %}
+	<div class="well well-{{ width|default('sm') }} {{ size|default('col-md-12') }}">{{ message }}</div>
 {% endmacro %}

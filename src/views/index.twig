@@ -1,38 +1,19 @@
 {% extends 'template.twig' %}
+{% import 'component.twig' as component %}
 
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
 	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail tile tile-wide tile-teal">
-			<a href="#" >
-				<h1><i class="fa fa-users"></i></h1>
-				<h1>Utilisateurs</h1>
-			</a>
-		</div>
+		{{ component.tile('teal', 'users', 'Utilisateurs', 'users') }}
 	</div>
 	<div class="col-sm-6 col-md-2">
-		<div class="thumbnail tile tile-wide tile-blue">
-			<a href="#" >
-				<h1><i class="fa fa-tasks"></i></h1>
-				<h1>Logs</h1>
-			</a>
-		</div>
+		{{ component.tile('blue', 'tasks', 'Logs', 'events') }}
 	</div>
 	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail tile tile-wide tile-red">
-			<a href="#" >
-				<h1><i class="fa fa-ticket"></i></h1>
-				<h1>Tickets de support</h1>
-			</a>
-		</div>
+		{{ component.tile('red', 'ticket', 'Tickets de support', 'tickets') }}
 	</div>
 	<div class="col-sm-6 col-md-2">
-		<div class="thumbnail tile tile-wide tile-silver">
-			<a href="#" >
-				<h1><i class="fa fa-wrench"></i></h1>
-				<h1>Config</h1>
-			</a>
-		</div>
+		{{ component.tile('silver', 'wrench', 'Config', 'config') }}
 	</div>
 {% endblock %}

@@ -30,7 +30,7 @@ class Database
 
         // Création du pdo
         Database::$dbh = new PDO($dsn, $user, $password, $options);
-        Database::$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        Database::$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
     // Singleton
     public static function getInstance()
@@ -47,9 +47,21 @@ class Database
 
     public function getUsers()
     {
-        $req = Database::$dbh->query('SELECT * FROM categories');
-        $result = $req->fetch();
+        $req = Database::$dbh->query('SELECT * FROM users ORDER BY iduser');
+        $result = $req->fetchAll();
         return $result;
+    }
+
+    public function getUser($user)
+    {
+        $req = Database::$dbh->prepare('SELECT * FROM users WHERE iduser = :user');
+        $req->execute(array('user' => $user));
+        $result = $req->fetch();
+        if($result) {
+            return $result;
+        } else {
+            throw new \Exception('Cet utilisateur n\'existe pas');
+        }
     }
 
 }

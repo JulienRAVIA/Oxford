@@ -21,4 +21,10 @@ class UsersController
     	$users = $this->_db->getUsers();
         View::make('users.twig', array('users' => $users));
     }
+
+    public function showUser($request)
+    {
+       $user = $this->_db->getUser($request['id']);
+       View::make('user.twig', array('user' => $user));
+    }
 }

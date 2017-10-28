@@ -15,7 +15,9 @@ class Twig
         $this->_loader = new Twig_Loader_Filesystem('..\src\views');
 		$this->_twig = new Twig_Environment($this->_loader, array(
     		'cache' => false,
+            'debug' => true
 		));
+        $this->_twig->addExtension(new \Twig_Extension_Debug());
 		return $this->_twig;
     }
 

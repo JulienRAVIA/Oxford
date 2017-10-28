@@ -1,0 +1,8 @@
+{% macro tile(color, icon, text, link = '#') %}
+	<div class="thumbnail tile tile-wide tile-{{ color }}">
+		<a href="{{ link }}" >
+			<h1><i class="fa fa-{{ icon }}"></i></h1>
+			<h1>{{ text }}</h1>
+		</a>
+	</div>
+{% endmacro %}

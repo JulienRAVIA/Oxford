@@ -47,14 +47,15 @@ class Database
 
     public function getUsers()
     {
-        $req = Database::$dbh->query('SELECT * FROM users ORDER BY iduser');
+        $req = Database::$dbh->query('SELECT * FROM users ORDER BY id');
         $result = $req->fetchAll();
         return $result;
     }
 
     public function getUser($user)
     {
-        $req = Database::$dbh->prepare('SELECT * FROM users WHERE iduser = :user');
+        $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email 
+                                        FROM users INNER JOIN types ON users.type = types.id WHERE users.id = :user');
         $req->execute(array('user' => $user));
         $result = $req->fetch();
         if($result) {
@@ -62,6 +63,25 @@ class Database
         } else {
             throw new \Exception('Cet utilisateur n\'existe pas');
         }
+    }
+
+    public function getEvents()
+    {
+        $req = Database::$dbh->query('SELECT events.id as id, date, events.value as value, categories.value as category, 
+                                      users.id as user, nom, prenom, users.status
+                                      FROM events 
+                                      INNER JOIN users ON events.user = users.id 
+                                      INNER JOIN categories ON events.category = categories.id
+                                      ORDER BY date DESC');
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    public function getTypes()
+    {
+        $req = Database::$dbh->query('SELECT id, value FROM types');
+        $result = $req->fetchAll();
+        return $result;
     }
 
 }

@@ -5,25 +5,44 @@
 
 {% block content %}
 	<div class="row">
+		<div class="col-md-3">
+			<ul class="nav nav-pills nav-stacked">
+  			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  			  	<li class="active"><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+			  	<li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+			  	<li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+			</ul>
+		</div>
+		<div class="col-md-9">
 		{% for user in users %}
-			<a href="user/{{user.iduser}}">
-		    	<div class="col-md-2 user">
-		    		<div class="panel panel-default">
-		    			<div class="panel-body">
-		    				<img src="http://julienravia.fr/photo.jpg" alt="" width="160">
-		    			</div>
-		    			<div class="panel-footer">
-		    				{{ user.nom }} {{ user.prenom }}
-		    			</div>
-		    		</div>
-		    	</div>
-			</a>
+			<div class="col-md-3 user">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<a href="user/{{user.id}}"><img src="http://julienravia.fr/photo.jpg" alt="" width="160"></a>
+					</div>
+					<div class="panel-footer">
+						{{ user.nom }} {{ user.prenom }} <span class="badge pull-right"><i class="fa fa-user-secret"></i></span>
+					</div>
+				</div>
+				<div class="btn-group">
+				  <a href="user/{{user.id}}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+				  <a href="user/{{user.id}}/delete" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
+				  <a href="user/{{user.id}}/revoke" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
+				</div>
+		   </div>
 		{% else %}
-			{{ component.well("Il n'y a pas d'utilisateurs enregistrés", 'sm', 'col-md-8 col-md-offset-2') }}
+			{{ component.well("Il n'y a pas d'utilisateurs enregistrés", 'sm', 'col-md-10 col-md-offset-1') }}
 		{% endfor %}
-		<div class="col-md-2 col-tile">
-			{{ component.tile('green', 'plus', 'Nouveau', 'users/new') }}
-			{{ component.tile('red tile-normal', 'times', null, 'users/deleteAll') }}
+		</div>
+		{# <div class="col-md-1 col-tile">
+			{{ component.tile('green tile-normal', 'plus-circle', null, 'users/new') }}
+			{{ component.tile('red tile-normal', 'trash-o', null, 'users/deleteAll') }}
+			{{ component.tile('red tile-normal', 'ban', null, 'users/deleteAll') }}
+		</div> #}
+
+		<div class="btn-group pull-right">
+		  <a href="users/new" title="Nouvel utilisateur" class="btn btn-default"><i class="fa fa-plus"></i> Nouveau</a>
 		</div>
 	</div>
 {% endblock %}

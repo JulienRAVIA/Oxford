@@ -25,6 +25,12 @@ class UsersController
     public function showUser($request)
     {
        $user = $this->_db->getUser($request['id']);
-       View::make('user.twig', array('user' => $user));
+       $types = $this->_db->getTypes();
+       View::make('user.twig', array('user' => $user, 'types' => $types));
+    }
+
+    public function updateUser($request)
+    {
+    	var_dump($_POST);
     }
 }

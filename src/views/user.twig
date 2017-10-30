@@ -4,6 +4,24 @@
 {% block title %}Edition de l'utilisateur {{ user.nom }}{% endblock %}
 
 {% block content %}
+	<div class="row" style="margin-bottom: 10px;">
+		<div class="col-md-12">
+			<ul class="nav nav-pills">
+  			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  			  	<li class="dropdown active">
+  				  <a class="dropdown-toggle" data-toggle="dropdown" href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs
+  				  <span class="caret"></span></a>
+  				  <ul class="dropdown-menu">
+  				    <li><a href="{{component.url('/users') }}"><i class="fa fa-list"></i> Liste des employés</a></li>
+  				    <li><a href="{{component.url('/user/new') }}"><i class="fa fa-plus"></i> Nouvel employé</a></li>
+  				  </ul>
+  				</li>
+			  	<li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+			  	<li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+			</ul>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-3">
 			<div class="panel panel-default">
@@ -16,19 +34,63 @@
 		<div class="col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<form>
+					<form method="post">
 						{% set groups = {
 						    'M': 'Masculin',
 						    'F': 'Féminin'
 						} %}
-						{{ component.input('nom', 'text', 'Nom :', user.nom, null, 'Nom :', 'user') }}
-						{{ component.input('prenom', 'text', 'Prénom :', user.prenom, null, 'Prénom :', 'user') }}
-						{{ component.input('email', 'email', 'Adresse email :', user.email, null, 'Adresse email', 'at') }}
-						{{ component.date('birth', 'birth', 'Date de naissance :') }}
+						{{ component.input('nom', 'text', 'Nom :', user.nom, 'Nom :', 'col-md-5') }}
+						{{ component.input('prenom', 'text', 'Prénom :', user.prenom, 'Prémom :', 'col-md-5') }}
+						{{ component.input('email', 'email', 'Adresse email :', user.email, 'Adresse mail :', 'col-md-5') }}
+						{{ component.input('birth', 'birth', 'dd/mm/YY', user.birth|date('d/m/Y'), 'Date de naissance :', 'col-md-4') }}
 						{{ component.select('sexe', 'sexe', groups, user.sexe, true, 'Sexe :') }}
+
+						<div class="form-group">
+    					  <div class="col-lg-6 col-md-offset-3 btn-group">
+    					    <button type="reset" class="btn btn-default">Annuler</button>
+    					    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Sauvegarder les informations</button>
+    					  </div>
+    					</div>
+					</form>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form method="post" name="jobForm">
+						<div class="col-md-5 form-group">
+    						<label for="type">Poste :</label>
+							<select name="type" id="type" class="form-control">
+								{% for type in types %}
+								    <option value="{{ type.id }}" {{ type.id == user.type ? 'selected' : '' }}>{{ type.value }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						{% if user.type == '1' %}
+							<div class="form-group">
+							  <label class="control-label">Mot de passe :</label>
+							  <div class="input-group">
+							    <input type="text" name="password" class="form-control">
+							    <span class="input-group-btn">
+							      <button class="btn btn-default" onClick="generatePassword();" type="button">Générer</button>
+							    </span>
+							  </div>
+							</div>
+						{% endif %}
+						<div class="form-group">
+    					  <div class="col-lg-5 col-md-offset-4 btn-group">
+    					    <button type="reset" class="btn btn-default">Annuler</button>
+    					    <button type="submit" name="job" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Sauvegarder </button>
+    					  </div>
+    					</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+
+	{{ parent() }}
+	<script src="{{component.url('/js/generate.js')|trim }}"></script>
 {% endblock %}

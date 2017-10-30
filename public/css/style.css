@@ -15,7 +15,20 @@
 	width: 100%;
 }
 
+.user .panel {
+	margin-bottom: 0;
+}
+
 .tile.tile-normal {
 	padding-top: 10px;
 	height: 0 !important;
+	margin-bottom: 0;
+}
+
+tr.danger, tr.danger > td > a {
+	color: white;
+}
+
+tr.info, tr.info > td > a {
+	color: white;
 }

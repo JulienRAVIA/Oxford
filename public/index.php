@@ -7,8 +7,22 @@ $router->setBasePath('/Oxford/public');
 
 $router->map('GET','/', 'App\\HomeController@index', 'index');
 $router->map('GET','/home', 'App\\HomeController@index', 'home');
+
+/** Page d'accueils des différentes sections */
 $router->map('GET','/users', 'App\\UsersController@index', 'users');
-$router->map('GET','/user/[i:id]', 'App\\HomeController@showUser', 'user');
+$router->map('GET','/users/', 'App\\UsersController@index', 'users.list');
+$router->map('GET','/events/', 'App\\EventsController@index', 'events');
+$router->map('GET','/events', 'App\\EventsController@index', 'events.list');
+
+// filtrage par type de catégorie, on accepte uniquement les types info ou erreur
+$router->map('GET','/events/category/[erreur|info:action]', 'App\\EventsController@filterByCategory', 'events.list.category');
+// filtrage par date (timestamp)
+$router->map('GET','/events/date/[i:date]', 'App\\EventsController@filterByDate', 'events.list.date');
+// filtrage par utilisateur
+$router->map('GET','/events/user/[i:user]', 'App\\EventsController@filterByUser', 'events.list.user');
+
+$router->map('GET','/user/[i:id]', 'App\\UsersController@showUser', 'user.show');
+$router->map('POST','/user/[i:id]', 'App\\UsersController@updateUser', 'user.update');
 
 $match = $router->match();
 

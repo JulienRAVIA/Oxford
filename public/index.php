@@ -21,8 +21,14 @@ $router->map('GET','/events/date/[i:date]', 'App\\EventsController@filterByDate'
 // filtrage par utilisateur
 $router->map('GET','/events/user/[i:user]', 'App\\EventsController@filterByUser', 'events.list.user');
 
+// affichage et modification d'un utilisateur
 $router->map('GET','/user/[i:id]', 'App\\UsersController@showUser', 'user.show');
 $router->map('POST','/user/[i:id]', 'App\\UsersController@updateUser', 'user.update');
+
+// ajout d'un utilisateur
+$router->map('GET','/users/new', 'App\\UsersController@showNewUserForm', 'users.add.show');
+$router->map('POST','/users/new', 'App\\UsersController@createUser', 'users.add.create');
+
 
 $match = $router->match();
 

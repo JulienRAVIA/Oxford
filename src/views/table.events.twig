@@ -1,3 +1,5 @@
+{% import 'component.twig' as component %}
+
 <table class="table">
   <tr>
   	<th>#</th>
@@ -21,9 +23,9 @@
   		<td>{{ event.date|date('d/m/Y') }} {{ event.date|date('H:i:s') }}</td>
   		<td><a href="events/category/{{ event.category|lower }}">{{ event.category }}</a></td>
   		<td>
-  			<a href="events/user/{{event.user}}" title="Voir tous les événements de l'utilisateur {{ event.nom }} {{ event.prenom }}"><i class="fa fa-user"></i></a>
-  			<a href="events/date/{{event.date}}" title="Voir tous les événements datant du {{ event.date|date('d/m/Y') }}"><i class="fa fa-calendar"></i></a>
-  			<a href="events/category/{{event.category|lower}}" title="Voir tous les événements de type {{event.category|capitalize}}"><i class="fa fa-folder-o"></i></a>
+  			<a href="{{ component.url('/events/user/') }}{{event.user}}" title="Voir tous les événements de l'utilisateur {{ event.nom }} {{ event.prenom }}"><i class="fa fa-user"></i></a>
+  			<a href="{{ component.url('/events/date/') }}{{event.date}}" title="Voir tous les événements datant du {{ event.date|date('d/m/Y') }}"><i class="fa fa-calendar"></i></a>
+  			<a href="{{ component.url('/events/category/') }}{{event.category|lower}}" title="Voir tous les événements de type {{event.category|capitalize}}"><i class="fa fa-folder-o"></i></a>
   		</td>
   	</tr>
   {% endfor %}

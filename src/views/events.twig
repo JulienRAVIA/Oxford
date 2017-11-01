@@ -15,6 +15,9 @@
 			</ul>
 		</div>
 		<div class="col-md-9">
+			{% if filtered %}
+				<h3>{{ filtered }}</h3>
+			{% endif %}
 			{% include 'table.events.twig' with events %}
 		</div>
 	</div>

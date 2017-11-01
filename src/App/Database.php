@@ -32,6 +32,7 @@ class Database
         Database::$dbh = new PDO($dsn, $user, $password, $options);
         Database::$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
+    
     // Singleton
     public static function getInstance()
     {
@@ -45,13 +46,23 @@ class Database
 
     // REQUETES
 
+    /**
+     * Récupération des utilisateurs, classés par id (desc)
+     * @return [type] [description]
+     */
     public function getUsers()
     {
-        $req = Database::$dbh->query('SELECT * FROM users ORDER BY id');
+        $req = Database::$dbh->query('SELECT * FROM users ORDER BY id DESC');
         $result = $req->fetchAll();
         return $result;
     }
 
+    /**
+     * Récupération des infos d'un utilisateur
+     * S'il n'existe pas on lance une exception
+     * @param  int $user Utilisateur dont on va récupérer les infos
+     * @return array     Résultat de la requête (infos utilisateur)
+     */
     public function getUser($user)
     {
         $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email 
@@ -65,10 +76,15 @@ class Database
         }
     }
 
+    /**
+     * Récupération de tous les événements, classés par date (desc)
+     * @return array     Résultat de la requête (événements)
+     */
     public function getEvents()
     {
-        $req = Database::$dbh->query('SELECT events.id as id, date, events.value as value, categories.value as category, 
-                                      users.id as user, nom, prenom, users.status
+        $req = Database::$dbh->query('SELECT events.id as id, categories.value as category, 
+                                      users.id as user, nom, prenom, date, users.status,
+                                      events.value as value
                                       FROM events 
                                       INNER JOIN users ON events.user = users.id 
                                       INNER JOIN categories ON events.category = categories.id
@@ -77,9 +93,39 @@ class Database
         return $result;
     }
 
+    /**
+     * Récupération des types d'employés dans la table 'types'
+     * @return array Résultat de la requête (types d'employés)
+     */
     public function getTypes()
     {
         $req = Database::$dbh->query('SELECT id, value FROM types');
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Récupération des événements, classés par date (desc), 
+     * entre minuit et 23h 59 de la date passée en paramètre
+     * @param  int $date Timestamp de la date à filtrer
+     * @return array   Résultat de la requête (événements)
+     */
+    public function getEventsByDate($date)
+    {
+        $date = date('m/d/Y', $date);
+        $date = explode('/', $date);
+        $dateb = mktime(0, 0, 0, $date[0], $date[1], $date[2]);
+        $datee = mktime(23, 59, 59, $date[0], $date[1], $date[2]);
+
+        $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
+                                        users.id as user, nom, prenom, date, users.status,
+                                        events.value as value
+                                        FROM events 
+                                        INNER JOIN users ON events.user = users.id 
+                                        INNER JOIN categories ON events.category = categories.id
+                                        WHERE date BETWEEN :dateb AND :datee
+                                        ORDER BY date DESC');
+        $req->execute(array('dateb' => $dateb, 'datee' => $datee));
         $result = $req->fetchAll();
         return $result;
     }

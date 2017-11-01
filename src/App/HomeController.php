@@ -6,13 +6,10 @@ use App\Database as Database;
 
 class HomeController
 {
-    private $_db;
-
-    public function __construct()
-    {
-        $this->_db = Database::getInstance();
-    }
-
+    /**
+     * Affichage de la page d'accueil
+     * @return twigView Vue de la page d'accueil
+     */
     public function index()
     {
         View::make('index.twig');

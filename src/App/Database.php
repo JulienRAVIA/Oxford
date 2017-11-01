@@ -48,7 +48,7 @@ class Database
 
     /**
      * Récupération des utilisateurs, classés par id (desc)
-     * @return [type] [description]
+     * @return array Résultat de la requête (utilisateurs)
      */
     public function getUsers()
     {

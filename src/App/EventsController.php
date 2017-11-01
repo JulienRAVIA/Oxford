@@ -24,6 +24,7 @@ class EventsController
     public function index() {
         $events = $this->_db->getEvents();
         View::make('events.twig', array('events' => $events, 
+                                        'filtered' => 'Tous les événements',
                                         'error_message' => 'Il n\'y a aucun événement enregistré dans la base de données'));
     }
 
@@ -39,6 +40,11 @@ class EventsController
                                         'error_message' => 'Il n\'y a aucun événements pour ce jour-ci'));
     }
 
+    /**
+     * Filtrage des événements pour un utilisateur
+     * @param  id $request Identifiant de l'utilisateur à filtrer
+     * @return twigView Vue des événements
+     */
     public function filterByUser($request)
     {
         $events = $this->_db->getEventsByUser($request['user']);
@@ -47,6 +53,11 @@ class EventsController
                                         'error_message' => 'Il n\'y a pas d\'événements pour cet utilisateur'));
     }
 
+    /**
+     * Filtrage des événements d'une catégorie
+     * @param  string $request Type de catégorie à filtrer
+     * @return twigView Vue des événements
+     */
     public function filterByCategory($request)
     {
         $events = $this->_db->getEventsByCategory($request['category']);

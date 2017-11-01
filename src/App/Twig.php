@@ -10,6 +10,9 @@ class Twig
     private $_twig;
     private $_loader;
 
+    /**
+     * Instanciation de l'objet Twig
+     */
     public function __construct()
     {
         $this->_loader = new Twig_Loader_Filesystem('..\src\views');
@@ -21,6 +24,12 @@ class Twig
 		return $this->_twig;
     }
 
+    /**
+     * Fonction de rendu d'une vue
+     * @param  string $view  Vue à afficher
+     * @param  array  $array Paramètres à passer à la vue
+     * @return twigView      Vue twig
+     */
     public function render($view, $array = array())
     {
     	if(empty($array)) {

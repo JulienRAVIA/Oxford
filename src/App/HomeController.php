@@ -4,6 +4,11 @@ namespace App;
 use App\View as View;
 use App\Database as Database;
 
+/**
+ * Controlleur de la page d'accueil
+ * Auteur : Julien RAVIA <julien.ravia@gmail.com>
+ * Utilisation ou modification interdite sauf autorisation
+ */
 class HomeController
 {
     /**

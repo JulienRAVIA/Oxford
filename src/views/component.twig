@@ -39,15 +39,15 @@
     	{% endif %}
     	<select name="{{ name }}" id="{{ id }}" class="form-control" {{ required ? 'required' : '' }}>
     	    {% for key, value in options %}
-    	        <option value="{{ key }}" {{ key == selected ? 'selected' : '' }}>{{ value }}</option>
+    	        <option value="{{ key }}" {{ key == selected ? 'disabled' : '' }}>{{ value }}</option>
     	    {% endfor %}
     	</select>
 	</div>
 {% endmacro %}
 
 {# Macro de panneau d'alerte #}
-{% macro alert(type, message, size) %}
-	<div class="{{ size|default('col-md-12') }}">
+{% macro alert(type, message, size, id) %}
+	<div class="{{ size|default('col-md-12') }}" id="{{ id }}">
 		<div class="alert alert-{{ type }}" role="alert">{{ message }}</div>
 	</div>
 {% endmacro %}

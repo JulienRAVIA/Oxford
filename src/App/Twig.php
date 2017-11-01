@@ -2,9 +2,11 @@
 
 namespace App;
 
-use \Twig_Loader_Filesystem as Twig_Loader_Filesystem;
-use \Twig_Environment as Twig_Environment;
-
+/**
+ * Renderer Twig pour le fonctionnement de la classe View (Facade)
+ * Auteur : Julien RAVIA <julien.ravia@gmail.com>
+ * Utilisation ou modification interdite sauf autorisation
+ */
 class Twig
 {
     private $_twig;
@@ -15,8 +17,8 @@ class Twig
      */
     public function __construct()
     {
-        $this->_loader = new Twig_Loader_Filesystem('..\src\views');
-		$this->_twig = new Twig_Environment($this->_loader, array(
+        $this->_loader = new \Twig_Loader_Filesystem('..\src\views');
+		$this->_twig = new \Twig_Environment($this->_loader, array(
     		'cache' => false,
             'debug' => true
 		));

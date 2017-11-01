@@ -47,6 +47,7 @@
 
 						<div class="form-group">
     					  <div class="col-lg-6 col-md-offset-3 btn-group">
+    					  	<input type="hidden" name="type" value="infos">
     					    <button type="reset" class="btn btn-default">Annuler</button>
     					    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Sauvegarder les informations</button>
     					  </div>
@@ -57,31 +58,54 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form method="post" name="jobForm">
-						<div class="col-md-5 form-group">
-    						<label for="type">Poste :</label>
-							<select name="type" id="type" class="form-control">
+						<div class="col-md-4 form-group">
+    						<label for="poste">Poste :</label>
+							<select name="poste" id="poste" class="form-control" onchange="createPassword(this);">
 								{% for type in types %}
 								    <option value="{{ type.id }}" {{ type.id == user.type ? 'selected' : '' }}>{{ type.value }}</option>
 								{% endfor %}
 							</select>
 						</div>
-						{% if user.type == '1' %}
-							<div class="form-group">
-							  <label class="control-label">Mot de passe :</label>
-							  <div class="input-group">
-							    <input type="text" name="password" class="form-control">
-							    <span class="input-group-btn">
-							      <button class="btn btn-default" onClick="generatePassword();" type="button">Générer</button>
-							    </span>
-							  </div>
-							</div>
+						{% if user.type != 1 %}
+							{% set class = 'hidden' %}
+						{% endif %}
+						<div class="col-md-4 form-group {{ class }}" id="passwordInput">
+						  <label class="control-label">Mot de passe :</label>
+						  <div class="input-group">
+						    <input type="text" name="password" class="form-control">
+						    <span class="input-group-btn">
+						      <button class="btn btn-default" onClick="generatePassword();" type="button">Générer</button>
+						    </span>
+						  </div>
+						</div>
+						{% if user.type != 1 %}
+							{{ component.alert('info', "Le nouveau mot de passe sera envoyé par mail à l'utilisateur.", 'hidden col-md-12', 'passwordAlert') }}
 						{% endif %}
 						<div class="form-group">
     					  <div class="col-lg-5 col-md-offset-4 btn-group">
+    					  	<input type="hidden" name="type" value="job">
     					    <button type="reset" class="btn btn-default">Annuler</button>
-    					    <button type="submit" name="job" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Sauvegarder </button>
+    					    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Sauvegarder </button>
     					  </div>
     					</div>
+					</form>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					 {{ component.alert('info', "Le nouveau code d'accès sera envoyé par mail à l'utilisateur.") }}
+					<form method="post" name="codeForm">
+						<div class="col-md-5 form-group" id="accessCodeInput">
+						  <label class="control-label">Code d'accès:</label>
+						  <div class="input-group">
+						    <input type="text" name="code" class="form-control">
+						    <input type="hidden" name="type" value="code">
+						    <span class="input-group-btn">
+						      <button class="btn btn-default" onClick="generateAccessCode();" type="button">Générer</button>
+						      <button type="submit" class="btn btn-primary" type="button">Mettre à jour</button>
+						    </span>
+						  </div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -93,4 +117,17 @@
 
 	{{ parent() }}
 	<script src="{{component.url('/js/generate.js')|trim }}"></script>
+	<script type="text/javascript">
+    	generatePassword();
+		function createPassword(that) {
+    	    if (that.value == 1) {
+    	    	generatePassword();
+    	        $('#passwordAlert').removeClass('hidden');
+    	        $('#passwordInput').removeClass('hidden');
+    	    } else {
+    	        $('#passwordInput').addClass('hidden');
+    	        $('#passwordAlert').addClass('hidden');
+    	    }
+    	}
+	</script>
 {% endblock %}

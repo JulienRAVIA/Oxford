@@ -1,8 +1,12 @@
 <?php 
 
 namespace App;
-use App\Twig as Twig;
 
+/**
+ * Classe View (Facade) pour le rendu des vues et la redirection
+ * Auteur : Julien RAVIA <julien.ravia@gmail.com>
+ * Utilisation ou modification interdite sauf autorisation
+ */
 class View
 {
 	private static $twig = null;
@@ -19,6 +23,16 @@ class View
     	}
     	echo self::$twig->render($view, $datas);
     }
+
+    /**
+     * Fonction de redirection vers la route choisie
+     * @param  string $route Route ou rediriger l'utilisateur
+     */
+    static function redirect($route) {
+    	$url = 'http://localhost/Oxford/public';
+    	$url = $url.$route;
+    	header('Location: '.$url);
+    } 
 }
 
 ?>

@@ -132,8 +132,8 @@ class Database
 
     /**
      * Récupération des événements, classés par date (desc), 
-     * entre minuit et 23h 59 de la date passée en paramètre
-     * @param  int $date Timestamp de la date à filtrer
+     * de l'utilisateur passé en paramètre
+     * @param  int $user Id de l'utilisateur à filtrer
      * @return array   Résultat de la requête (événements)
      */
     public function getEventsByUser($user)
@@ -148,6 +148,27 @@ class Database
                                         WHERE user = :user
                                         ORDER BY date DESC');
         $req->execute(array('user' => $user));
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Récupération des événements, classés par date (desc), 
+     * de l'utilisateur passé en paramètre
+     * @param  int $user Id de l'utilisateur à filtrer
+     * @return array   Résultat de la requête (événements)
+     */
+    public function getEventsByCategory($category)
+    {
+        $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
+                                        users.id as user, nom, prenom, date, users.status,
+                                        events.value as value
+                                        FROM events 
+                                        INNER JOIN users ON events.user = users.id 
+                                        INNER JOIN categories ON events.category = categories.id
+                                        WHERE categories.value = :category
+                                        ORDER BY date DESC');
+        $req->execute(array('category' => strtolower($category)));
         $result = $req->fetchAll();
         return $result;
     }

@@ -46,4 +46,12 @@ class EventsController
                                         'filtered' => 'Evénements de l\'utilisateur', 
                                         'error_message' => 'Il n\'y a pas d\'événements pour cet utilisateur'));
     }
+
+    public function filterByCategory($request)
+    {
+        $events = $this->_db->getEventsByCategory($request['category']);
+        View::make('events.twig', array('events' => $events, 
+                                        'filtered' => 'Evénements de type '.ucfirst($request['category']), 
+                                        'error_message' => 'Il n\'y a aucun événement de ce type'));
+    }
 }

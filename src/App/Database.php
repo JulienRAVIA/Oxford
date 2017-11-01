@@ -32,7 +32,7 @@ class Database
         Database::$dbh = new PDO($dsn, $user, $password, $options);
         Database::$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
-    
+
     // Singleton
     public static function getInstance()
     {
@@ -63,7 +63,7 @@ class Database
      * @param  int $user Utilisateur dont on va récupérer les infos
      * @return array     Résultat de la requête (infos utilisateur)
      */
-    public function getUser($user)
+    public function getUser($user, $exception = 'Cet utilisateur n\'existe pas')
     {
         $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email 
                                         FROM users INNER JOIN types ON users.type = types.id WHERE users.id = :user');
@@ -72,7 +72,7 @@ class Database
         if($result) {
             return $result;
         } else {
-            throw new \Exception('Cet utilisateur n\'existe pas');
+            throw new \Exception($exception);
         }
     }
 
@@ -130,4 +130,25 @@ class Database
         return $result;
     }
 
+    /**
+     * Récupération des événements, classés par date (desc), 
+     * entre minuit et 23h 59 de la date passée en paramètre
+     * @param  int $date Timestamp de la date à filtrer
+     * @return array   Résultat de la requête (événements)
+     */
+    public function getEventsByUser($user)
+    {
+        $checkUserExist = $this->getUser($user, 'L\'utilisateur dont vous souhaitez filtrer les événements n\'existe pas');
+        $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
+                                        users.id as user, nom, prenom, date, users.status,
+                                        events.value as value
+                                        FROM events 
+                                        INNER JOIN users ON events.user = users.id 
+                                        INNER JOIN categories ON events.category = categories.id
+                                        WHERE user = :user
+                                        ORDER BY date DESC');
+        $req->execute(array('user' => $user));
+        $result = $req->fetchAll();
+        return $result;
+    }
 }

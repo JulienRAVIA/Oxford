@@ -28,5 +28,7 @@
   			<a href="{{ component.url('/events/category/') }}{{event.category|lower}}" title="Voir tous les événements de type {{event.category|capitalize}}"><i class="fa fa-folder-o"></i></a>
   		</td>
   	</tr>
+  {% else %}
+    {{ component.well(error_message, 'sm', 'col-md-12') }}
   {% endfor %}
 </table>

@@ -23,7 +23,8 @@ class EventsController
      */
     public function index() {
         $events = $this->_db->getEvents();
-        View::make('events.twig', array('events' => $events));
+        View::make('events.twig', array('events' => $events, 
+                                        'error_message' => 'Il n\'y a aucun événement enregistré dans la base de données'));
     }
 
     /**
@@ -33,6 +34,16 @@ class EventsController
      */
     public function filterByDate($request) {
     	$events = $this->_db->getEventsByDate($request['date']);
-        View::make('events.twig', array('events' => $events, 'filtered' => 'Evénements du '.date('d/m/Y', $request['date'])));
+        View::make('events.twig', array('events' => $events, 
+                                        'filtered' => 'Evénements du '.date('d/m/Y', $request['date']), 
+                                        'error_message' => 'Il n\'y a aucun événements pour ce jour-ci'));
+    }
+
+    public function filterByUser($request)
+    {
+        $events = $this->_db->getEventsByUser($request['user']);
+        View::make('events.twig', array('events' => $events, 
+                                        'filtered' => 'Evénements de l\'utilisateur', 
+                                        'error_message' => 'Il n\'y a pas d\'événements pour cet utilisateur'));
     }
 }

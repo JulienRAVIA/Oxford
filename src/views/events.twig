@@ -18,7 +18,7 @@
 			{% if filtered %}
 				<h3>{{ filtered }}</h3>
 			{% endif %}
-			{% include 'table.events.twig' with events %}
+			{% include 'table.events.twig' ignore missing %}
 		</div>
 	</div>
 {% endblock %}

@@ -30,10 +30,6 @@ class UsersController
 
     /**
      * Affichage des infos de l'utilisateur passé en paramètre
-     * @return twigView Vue d'un utilisateur
-     */
-    /**
-     * Affichage des infos de l'utilisateur passé en paramètre
      * @param  int $request 	Numéro de l'utilisateur
      * @return twigView         Vue twig d'un utilisateur
      */
@@ -103,18 +99,30 @@ class UsersController
     	}
     }
 
+    /**
+     * Affichage du formulaire de création d'utilisateurs
+     * @return twigView	 Vue de création d'utilisateur
+     */
     public function showNewUserForm()
     {
     	$types = $this->_db->getTypes();
     	View::make('new_user.twig', array('types' => $types));
     }
 
+    /**
+     * Création d'un utilisateur
+     * @return twigView Vue de l'utilisateur créé
+     * @todo Ajout aux admins si RSSI + correction de la fonction de génération de pwd/code
+     */
     public function createUser()
     {
-    	$fields = array('nom', 'prenom', 'email', 'birth', 'sexe', 'code');
-    	$name = time();
+    	$fields = array('nom', 'prenom', 'email', 'birth', 'sexe', 'code', 'type', 'photo'); // Champs obligatoires
+    	// Nom d'une photo, les photos seront enregistré avec pour le nom le timestamp de création
+    	$name = time(); 
+    	// Si le champ type est 1 (RSSI), on ajoute aux champs obligatoires le champ password
     	if($_POST['type'] == 1) { $fields[] = 'password'; }
-    	if(Form::isNotEmpty($_POST, $fields)) {
+    	// On vérifie que les champs obligatoires soient remplis
+    	if(Form::isNotEmpty($_POST, $fields)) { 
     		$datas['nom'] = Form::isString($_POST['nom'], 3);
     		$datas['prenom'] = Form::isString($_POST['prenom'], 3);
     		$datas['birth'] = Form::isDate($_POST['birth']);
@@ -129,8 +137,11 @@ class UsersController
     		$datas['code'] = $_POST['code'];
     		$datas['photo'] = Form::upload('photo', $name, 'photos/');
     	}
-    	$datas['photo'] = $this->_db->insertPhoto($datas['photo'], $name);
-    	$user = $this->_db->insertUser($datas);
-    	View::redirect('/user/'.$user);
+    	// on enregistre l'identifiant de la photo enregistrée dans la DB
+    	$datas['photo'] = $this->_db->insertPhoto($datas['photo'], $name); 
+    	// on enregistre l'identifiant de l'user créé dans la DB pour la redirection
+    	$user = $this->_db->insertUser($datas); 
+    	// On redirige vers la page d'édition
+    	View::redirect('/user/'.$user); 
     }
 }

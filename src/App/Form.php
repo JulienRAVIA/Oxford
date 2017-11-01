@@ -128,4 +128,44 @@ class Form
 			}
 		}
 	}
+
+	static function upload($file, $name, $folder = 'photos')
+	{	
+		$extension = explode('.', basename($_FILES[$file]["name"]));
+		$fileName = $name.'.'.$extension[1];
+		$target_file = $folder . $fileName;
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// On vérifie si le fichier est une image
+		$check = getimagesize($_FILES[$file]["tmp_name"]);
+
+		if($check !== false) {
+		    $uploadOk = 1;
+		} else {
+		    throw new \Exception('Le fichier n\'est pas une image');
+		}
+		// Check if file already exists
+		if (file_exists($target_file)) {
+		    throw new \Exception('Le fichier existe déjà');
+		}
+
+		// On autorise les images
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+		    throw new \Exception('Le fichier n\'est pas une image');
+		} else {
+			$uploadOk = 1;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+		    throw new \Exception('Le fichier n\'a pas été uploadé');
+		// if everything is ok, try to upload file
+		} else {
+		    if (move_uploaded_file($_FILES[$file]["tmp_name"], $target_file)) {
+		        return $fileName;
+		    } else {
+		        return false;
+		    }
+		}
+	}
 }

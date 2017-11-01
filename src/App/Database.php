@@ -68,7 +68,7 @@ class Database
      * @param  int $user Utilisateur dont on va récupérer les infos
      * @return array     Résultat de la requête (infos utilisateur)
      */
-    public function getUser($user, $exception = 'Cet utilisateur n\'existe pas')
+    public function getUser(int $user, string $exception = 'Cet utilisateur n\'existe pas')
     {
         $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email 
                                         FROM users INNER JOIN types ON users.type = types.id WHERE users.id = :user');
@@ -112,10 +112,11 @@ class Database
     /**
      * Récupération des événements, classés par date (desc), 
      * entre minuit et 23h 59 de la date passée en paramètre
-     * @param  int $date Timestamp de la date à filtrer
+     * @param  int $dateB Début de la journée du jour choisi (00h)
+     * @param  int $dateE Fin de la journée du jour choisi (23h59m59s)
      * @return array   Résultat de la requête (événements)
      */
-    public function getEventsByDate($date, $dateB, $dateE)
+    public function getEventsByDate(int $dateB, int $dateE)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
                                         users.id as user, nom, prenom, date, users.status,
@@ -136,7 +137,7 @@ class Database
      * @param  int $user Id de l'utilisateur à filtrer
      * @return array   Résultat de la requête (événements)
      */
-    public function getEventsByUser($user)
+    public function getEventsByUser(int $user)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
                                         users.id as user, nom, prenom, date, users.status,
@@ -157,7 +158,7 @@ class Database
      * @param  int $user Id de l'utilisateur à filtrer
      * @return array   Résultat de la requête (événements)
      */
-    public function getEventsByCategory($category)
+    public function getEventsByCategory(int $category)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
                                         users.id as user, nom, prenom, date, users.status,
@@ -179,12 +180,7 @@ class Database
      */
     public function updateUserInfos(array $user) {
         $req = Database::$dbh->prepare('UPDATE users SET nom = :nom, prenom = :prenom, birth = :birth, sexe = :sexe, email = :email WHERE id = :id');
-        $req = $req->execute(array('id' => $user['id'],
-                            'nom' => $user['nom'], 
-                            'prenom' => $user['prenom'], 
-                            'birth' => $user['birth'], 
-                            'sexe' => $user['sexe'], 
-                            'email' => $user['email']));
+        $req = $req->execute($user);
         if($req) {
             return $req;
         } else {
@@ -260,11 +256,55 @@ class Database
      * @param  string $user Identifiant de l'utilisateur
      * @return string       Poste de l'utilisateur
      */
-    public function userType($user)
+    public function userType(int $user)
     {
         $req = Database::$dbh->prepare('SELECT type FROM users WHERE id = :id');
         $req->execute(array('id' => $user));
         $result = $req->fetch()['type'];
         return $result;
+    }
+
+    /**
+     * Ajout d'une photo à la table photos avec pour info les paramètres passés
+     * @param  string $name Nom de la photo uploadée
+     * @param  int $date    Date (format timestamp) de la photo
+     * @return int          Identifiant de la photo inséré
+     */
+    public function insertPhoto(string $name, int $date) {
+        $req = Database::$dbh->prepare('INSERT INTO photos(date, value) VALUES(:date, :value)');
+        $req->execute(array('date' => $date, 'value' => $name));
+        return Database::$dbh->lastInsertId();
+    }
+
+    /**
+     * Récupération de l'id de la photo à partir du nom de fichier
+     * @param  string $name Nom du fichier à rechercher
+     * @return int          Identifiant de la photo recherchée
+     * @return Exception    Exception
+     */
+    public function getPhotoId($name) {
+        $req = Database::$dbh->prepare('SELECT id FROM photos WHERE value = :value');
+        $req->execute(array('value' => $name));
+        if($result = $req->fetch()) {
+            return $result['id'];
+        } else {
+            throw new \Exception('Cette photo n\'existe pas');
+        }
+    }
+
+    /**
+     * Ajout d'un utilisateur dans la table users avec les infos qui sont dans le tableau
+     * @param  array  $infos Données de l'utilisateur à insérer
+     * @return int           Identifiant de l'utilisateur inséré
+     */
+    public function insertUser(array $infos)
+    {
+        $req = Database::$dbh->prepare('INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES(:nom, :prenom, :birth, :sexe, :email, :photo, :code, :type, 1)');
+        $array = ArrayUtils::copyAndExclude($infos, array('password')); // on copie le tableau en enlevant la clé photo
+        if($req->execute($array)) {
+            return Database::$dbh->lastInsertId();        
+        } else {
+            throw new \Exception('Impossible de créer l\'utilisateur');
+        }
     }
 }

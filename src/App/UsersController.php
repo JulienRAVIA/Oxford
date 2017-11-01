@@ -103,4 +103,34 @@ class UsersController
     	}
     }
 
+    public function showNewUserForm()
+    {
+    	$types = $this->_db->getTypes();
+    	View::make('new_user.twig', array('types' => $types));
+    }
+
+    public function createUser()
+    {
+    	$fields = array('nom', 'prenom', 'email', 'birth', 'sexe', 'code');
+    	$name = time();
+    	if($_POST['type'] == 1) { $fields[] = 'password'; }
+    	if(Form::isNotEmpty($_POST, $fields)) {
+    		$datas['nom'] = Form::isString($_POST['nom'], 3);
+    		$datas['prenom'] = Form::isString($_POST['prenom'], 3);
+    		$datas['birth'] = Form::isDate($_POST['birth']);
+    		$datas['email'] = Form::isMail($_POST['email']);
+    		$datas['sexe'] = Form::isSex($_POST['sexe']);
+    		if($this->_db->typeExist($_POST['type'])) {
+    			$datas['type'] = $_POST['type'];
+    		}
+    		if($_POST['type'] == 1) {
+    			$datas['password'] = Form::isPassword($_POST['password']);
+    		}
+    		$datas['code'] = $_POST['code'];
+    		$datas['photo'] = Form::upload('photo', $name, 'photos/');
+    	}
+    	$datas['photo'] = $this->_db->insertPhoto($datas['photo'], $name);
+    	$user = $this->_db->insertUser($datas);
+    	View::redirect('/user/'.$user);
+    }
 }

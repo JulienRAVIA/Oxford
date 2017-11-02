@@ -41,7 +41,7 @@ class EventsController
         $dateb = mktime(0, 0, 0, $date[0], $date[1], $date[2]);
         $datee = mktime(23, 59, 59, $date[0], $date[1], $date[2]);
 
-    	$events = $this->_db->getEventsByDate($request['date'], $dateb, $datee);
+    	$events = $this->_db->getEventsByDate($dateb, $datee);
         View::make('events.twig', array('events' => $events, 
                                         'filtered' => 'Evénements du '.date('d/m/Y', $request['date']), 
                                         'error_message' => 'Il n\'y a aucun événements pour ce jour-ci'));

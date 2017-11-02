@@ -125,7 +125,7 @@ class Database
                                         INNER JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE date BETWEEN :dateb AND :datee
-                                        ORDER BY date DESC');
+                                        ORDER BY id, date DESC');
         $req->execute(array('dateb' => $dateB, 'datee' => $dateE));
         $result = $req->fetchAll();
         return $result;
@@ -146,7 +146,7 @@ class Database
                                         INNER JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE user = :user
-                                        ORDER BY date DESC');
+                                        ORDER BY id, date DESC');
         $req->execute(array('user' => $user));
         $result = $req->fetchAll();
         return $result;
@@ -158,7 +158,7 @@ class Database
      * @param  int $user Id de l'utilisateur à filtrer
      * @return array   Résultat de la requête (événements)
      */
-    public function getEventsByCategory(int $category)
+    public function getEventsByCategory(string $category)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
                                         users.id as user, nom, prenom, date, users.status,
@@ -167,7 +167,7 @@ class Database
                                         INNER JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE categories.value = :category
-                                        ORDER BY date DESC');
+                                        ORDER BY id, date DESC');
         $req->execute(array('category' => strtolower($category)));
         $result = $req->fetchAll();
         return $result;

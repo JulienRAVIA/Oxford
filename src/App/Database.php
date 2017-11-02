@@ -337,4 +337,19 @@ class Database
             throw new \Exception('Impossible de révoquer l\'utilisateur');
         }
     }
+
+    /**
+     * Autorisation (attribution d'accès) d'un utilisateur à partir de son id
+     * @param  int    $user Utilisateur à autoriser
+     * @return boolean      Résultat de la requête
+     * @return Exception    Exception
+     */
+    public function autorizeUser(int $user) {
+        $req = Database::$dbh->prepare('UPDATE users SET status = 1 WHERE id = :id');
+        if($req->execute(array('id' => $user))) {
+            return true;      
+        } else {
+            throw new \Exception('Impossible d\'autoriser l\'utilisateur');
+        }
+    }
 }

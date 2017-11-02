@@ -158,4 +158,11 @@ class UsersController
         $this->_db->revokeUser($request['id']);
         View::redirect('/user/'.$request['id']);
     }
+
+    public function autorizeUser($request)
+    {
+        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');
+        $this->_db->autorizeUser($request['id']);
+        View::redirect('/user/'.$request['id']);
+    }
 }

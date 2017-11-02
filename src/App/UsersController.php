@@ -145,6 +145,11 @@ class UsersController
     	View::redirect('/user/'.$user); 
     }
 
+    /**
+     * Suppression d'un utilisateur
+     * @param  int $request    ID de l'utilisateur à supprimer
+     * @return twigView        Redirection vers la page des utilisateurs
+     */
     public function deleteUser($request)
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
@@ -152,6 +157,11 @@ class UsersController
         View::redirect('/users');
     }
 
+    /**
+     * Révocation (suppression d'accès) d'un utilisateur
+     * @param  int $request    ID de l'utilisateur à révoquer
+     * @return twigView        Redirection vers la page de l'utilisateur
+     */
     public function revokeUser($request)
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez révoquer n\'existe pas');
@@ -159,6 +169,11 @@ class UsersController
         View::redirect('/user/'.$request['id']);
     }
 
+    /**
+     * Autorisation (réatribution d'accès) d'un utilisateur
+     * @param  int $request    ID de l'utilisateur à autoriser
+     * @return twigView        Redirection vers la page de l'utilisateur
+     */
     public function autorizeUser($request)
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');

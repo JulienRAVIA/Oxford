@@ -11,6 +11,7 @@ $router->map('GET','/home', 'App\\HomeController@index', 'home');
 /** Page d'accueils des différentes sections */
 $router->map('GET','/users', 'App\\UsersController@index', 'users');
 $router->map('GET','/users/', 'App\\UsersController@index', 'users.list');
+
 $router->map('GET','/events/', 'App\\EventsController@index', 'events');
 $router->map('GET','/events', 'App\\EventsController@index', 'events.list');
 
@@ -27,6 +28,8 @@ $router->map('POST','/user/[i:id]', 'App\\UsersController@updateUser', 'user.upd
 
 // suppression d'un utilisateur
 $router->map('GET','/user/[i:id]/delete', 'App\\UsersController@deleteUser', 'user.delete');
+// restauration d'un utilisateur
+$router->map('GET','/user/[i:id]/restore', 'App\\UsersController@restoreUser', 'user.restore');
 // révocation d'un utilisateur
 $router->map('GET','/user/[i:id]/revoke', 'App\\UsersController@revokeUser', 'user.revoke');
 // autorisation d'un utilisateur
@@ -36,7 +39,8 @@ $router->map('GET','/user/[i:id]/autorize', 'App\\UsersController@autorizeUser',
 $router->map('GET','/users/new', 'App\\UsersController@showNewUserForm', 'users.add.show');
 $router->map('POST','/users/new', 'App\\UsersController@createUser', 'users.add.create');
 
-
+//filtrage des utilisateurs par catégorie
+$router->map('GET','/users/[a:type]', 'App\\UsersController@filterByType', 'users.filter');
 
 $match = $router->match();
 

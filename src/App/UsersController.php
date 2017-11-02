@@ -19,13 +19,33 @@ class UsersController
         $this->_db = Database::getInstance();
     }
 
-	/**
+    /**
      * Affichage de tous les utilisateurs (classés par id)
      * @return twigView Vue des utilisateurs
      */
     public function index() {
-    	$users = $this->_db->getUsers();
-        View::make('users.twig', array('users' => $users));
+        $users = $this->_db->getUsers();
+        $types = $this->_db->getTypes();
+        View::make('users.twig', array('users' => $users, 'types' => $types, 'filtered' => 'Tous les utilisateurs actifs'));
+    }
+
+	/**
+     * Affichage de tous les utilisateurs (classés par id)
+     * @return twigView Vue des utilisateurs
+     */
+    public function filterByType($request) {
+        if($request['type'] == 'deleted') { 
+            $filter = 'Utilisateurs supprimés'; 
+        } else {
+           $types = $this->_db->typeExistWithFilter($request['type']);
+           $filter = 'Utilisateurs étant '.$types;
+        }
+        $users = $this->_db->getUsersByType($request['type']);
+        $types = $this->_db->getTypes();
+        View::make('users.twig', array('users' => $users, 
+                                       'types' => $types,
+                                       'search' => $request['type'],
+                                       'filtered' => $filter));
     }
 
     /**
@@ -157,7 +177,7 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
         $this->_db->deleteUser($request['id']);
-        View::redirect('/users');
+        View::redirect('/user/'.$request['id']);
     }
 
     /**
@@ -181,6 +201,18 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');
         $this->_db->autorizeUser($request['id']);
+        View::redirect('/user/'.$request['id']);
+    }
+
+    /**
+     * Autorisation (réatribution d'accès) d'un utilisateur
+     * @param  int $request    ID de l'utilisateur à autoriser
+     * @return twigView        Redirection vers la page de l'utilisateur
+     */
+    public function restoreUser($request)
+    {
+        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez restaurer n\'existe pas');
+        $this->_db->restoreUser($request['id']);
         View::redirect('/user/'.$request['id']);
     }
 }

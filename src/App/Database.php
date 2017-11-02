@@ -66,6 +66,29 @@ class Database
     }
 
     /**
+     * Récupération des utilisateurs par type classés par id (desc)
+     * @return array Résultat de la requête (utilisateurs)
+     */
+    public function getUsersByType($type)
+    {
+        if($type == 'deleted') {
+            $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+                                          INNER JOIN photos ON users.photo = photos.id
+                                          WHERE status IS NULL
+                                          ORDER BY users.id DESC');
+        } else {
+            $req = Database::$dbh->prepare('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+                                            INNER JOIN photos ON users.photo = photos.id
+                                            INNER JOIN types ON users.type = types.id
+                                            WHERE types.filter = :type AND status IS NOT NULL
+                                            ORDER BY users.id DESC');
+            $req->execute(array('type' => strtolower($type)));
+        }
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    /**
      * Récupération des infos d'un utilisateur
      * S'il n'existe pas on lance une exception
      * @param  int $user Utilisateur dont on va récupérer les infos
@@ -109,6 +132,17 @@ class Database
      * @return array Résultat de la requête (types d'employés)
      */
     public function getTypes()
+    {
+        $req = Database::$dbh->query('SELECT id, value, filter, icon FROM types');
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Récupération des types d'employés dans la table 'types'
+     * @return array Résultat de la requête (types d'employés)
+     */
+    public function getTypesWithValue()
     {
         $req = Database::$dbh->query('SELECT id, value FROM types');
         $result = $req->fetchAll();
@@ -257,6 +291,23 @@ class Database
     }
 
     /**
+     * On vériie que le type passé en paramètre existe
+     * @param  int    $type Type d'emploi (table types)
+     * @return bool         Exception si 0 types, true si il y a un type avec cet id 
+     */
+    public function typeExistWithFilter(string $type)
+    {
+        $req = Database::$dbh->prepare('SELECT COUNT(*) as count, value FROM types WHERE filter = :filter GROUP BY value');
+        $req->execute(array('filter' => $type));
+        $result = $req->fetch();
+        if($result['count'] == 0) {
+            throw new \Exception('Le type d\'emploi selectionné n\'existe pas');
+        } else {
+            return $result['value'];
+        }
+    }
+
+    /**
      * Récupération du poste de l'utilisateur (visiteur, RSSI, etc)
      * @param  string $user Identifiant de l'utilisateur
      * @return string       Poste de l'utilisateur
@@ -355,6 +406,21 @@ class Database
             return true;      
         } else {
             throw new \Exception('Impossible d\'autoriser l\'utilisateur');
+        }
+    }
+
+    /**
+     * Autorisation (attribution d'accès) d'un utilisateur à partir de son id
+     * @param  int    $user Utilisateur à autoriser
+     * @return boolean      Résultat de la requête
+     * @return Exception    Exception
+     */
+    public function restoreUser(int $user) {
+        $req = Database::$dbh->prepare('UPDATE users SET status = 1 WHERE id = :id');
+        if($req->execute(array('id' => $user))) {
+            return true;      
+        } else {
+            throw new \Exception('Impossible de restaurer l\'utilisateur');
         }
     }
 

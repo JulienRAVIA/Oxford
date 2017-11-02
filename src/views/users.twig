@@ -15,28 +15,38 @@
 			</ul>
 		</div>
 		<div class="col-md-9">
+		{% if filtered %}
+			<h3>{{ filtered }}</h3>
+		{% endif %}
 		{% for user in users %}
 			<div class="col-md-3 user">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<a href="user/{{user.id}}"><img src="{{ component.url('/photos/'~ user.photo) }}" alt="" width="160"></a>
+						<a href="{{ component.url('/user/'~ user.id) }}"><img src="{{ component.url('/photos/'~ user.photo) }}" alt="" width="160"></a>
 					</div>
 					<div class="panel-footer">
 						{{ user.nom }} {{ user.prenom }} <span class="badge pull-right"><i class="fa fa-user-secret"></i></span>
 					</div>
 				</div>
 				<div class="btn-group">
-				  	<a href="user/{{user.id}}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-				  	<a href="user/{{user.id}}/delete" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
-				  	{% if user.status == 1 %}
-				  		<a href="user/{{user.id}}/revoke" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
-					{% else %}
-				  		<a href="user/{{user.id}}/autorize" title="Réattribuer l'accès" class="btn btn-default"><i class="fa fa-key"></i></a>
+				  	<a href="{{ component.url('/user/'~ user.id) }}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+				  	{% if user.status is null %}
+				  		<a href="{{ component.url('/user/'~ user.id ~'/restore') }}" title="Restaurer l'utilisateur" class="btn btn-default"><i class="fa fa-plus"></i></a>
+				  	{% else %}
+				  		<a href="{{ component.url('/user/'~ user.id ~'/delete') }}" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
 				  	{% endif %}
+				  	
+				  	{% if user.status == 1 %}
+				  		<a href="{{ component.url('/user/'~ user.id ~'/revoke') }}" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
+					{% elseif user.status == 0 %}
+				  		<a href="{{ component.url('/user/'~ user.id ~'/autorize') }}" title="Réattribuer l'accès" class="btn btn-default"><i class="fa fa-key"></i></a>
+				  	{% endif %}
+					
+				  		
 				</div>
 		   </div>
 		{% else %}
-			{{ component.well("Il n'y a pas d'utilisateurs enregistrés", 'sm', 'col-md-10 col-md-offset-1') }}
+			{{ component.well("Il n'y a pas d'" ~ filtered|lower|default('utilisateurs enregistrés dans la base de données.'), 'sm', 'col-md-10 col-md-offset-1') }}
 		{% endfor %}
 		</div>
 		{# <div class="col-md-1 col-tile">
@@ -46,7 +56,26 @@
 		</div> #}
 
 		<div class="btn-group pull-right">
-		  <a href="users/new" title="Nouvel utilisateur" class="btn btn-default"><i class="fa fa-plus"></i> Nouveau</a>
+			<div class="btn-group" role="group">
+  			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  			    <i class="fa fa-filter"></i> Filtrer 
+  			    <span class="caret"></span>
+  			  </button>
+  			  <ul class="dropdown-menu">
+  			    {% if search is defined %}
+  			    	<li><a href="{{component.url('/users/') }}"><i class="fa fa-users"></i> Tous</a></li>
+  			    {% endif %}
+  			  	{% for type in types %}
+  			    	{% if type.filter != search %}
+  			    	<li><a href="{{component.url('/users/'~ type.filter) }}"><i class="fa fa-{{ type.icon }}"></i> {{ type.value }}</a></li>
+  			    	{% endif %}
+  			  	{% endfor %}
+  			    {% if search != 'deleted' %}
+  			    	<li><a href="{{component.url('/users/deleted') }}"><i class="fa fa-trash-o"></i> Supprimés</a></li>
+  			    {% endif %}
+  			  </ul>
+  			</div>
+		  	<a href="users/new" title="Nouvel utilisateur" class="btn btn-default"><i class="fa fa-plus"></i> Nouveau</a>
 		</div>
 	</div>
 {% endblock %}

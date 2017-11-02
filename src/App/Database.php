@@ -202,8 +202,7 @@ class Database
         $reqType = $reqType->execute(array('id' => $infos['id'], 'type' => $infos['poste']));
         
         if($infos['poste'] == 1 AND $poste != 1) { // Si on à choisi de le mettre RSSI on l'ajoute aux admins avec le mdp choisi
-            $req = Database::$dbh->prepare('INSERT INTO admins(id, password, date) VALUES(:id, :password, :date)');
-            $req->execute(array('id' => $infos['id'], 'password' => hash('sha256', $infos['password']), 'date' => time()));
+            $this->addAdmin($infos['id'], $infos['password']);
         } elseif($infos['poste'] == 1 AND $poste == 1) { // Si il est déjà RSSI, on modifie son mdp admin
             $req = Database::$dbh->prepare('UPDATE admins SET password = :password WHERE id = :id');
             $req->execute(array('id' => $infos['id'], 'password' => hash('sha256', $infos['password'])));
@@ -350,6 +349,21 @@ class Database
             return true;      
         } else {
             throw new \Exception('Impossible d\'autoriser l\'utilisateur');
+        }
+    }
+
+    /**
+     * Ajout d'un administrateur
+     * @param int $user        Identifiant de l'utilisateur à ajouter aux administrateurs
+     * @param string $password Mot de passe de l'utilisateur pour accéder à l'administration
+     */
+    public function addAdmin($user, $password)
+    {
+        $req = Database::$dbh->prepare('INSERT INTO admins(id, password, date) VALUES(:id, :password, :date)');
+        if($req->execute(array('id' => $user, 'password' => hash('sha256', $password), 'date' => time()))) {
+            return true;
+        } else {
+            throw new \Exception('L\'administrateur n\'à pas pu être ajouté');
         }
     }
 }

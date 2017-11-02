@@ -112,11 +112,10 @@ class UsersController
     /**
      * Création d'un utilisateur
      * @return twigView Vue de l'utilisateur créé
-     * @todo Ajout aux admins si RSSI + correction de la fonction de génération de pwd/code
      */
     public function createUser()
     {
-    	$fields = array('nom', 'prenom', 'email', 'birth', 'sexe', 'code', 'type', 'photo'); // Champs obligatoires
+    	$fields = array('nom', 'prenom', 'email', 'birth', 'sexe', 'code', 'type'); // Champs obligatoires
     	// Nom d'une photo, les photos seront enregistré avec pour le nom le timestamp de création
     	$name = time(); 
     	// Si le champ type est 1 (RSSI), on ajoute aux champs obligatoires le champ password
@@ -141,6 +140,10 @@ class UsersController
     	$datas['photo'] = $this->_db->insertPhoto($datas['photo'], $name); 
     	// on enregistre l'identifiant de l'user créé dans la DB pour la redirection
     	$user = $this->_db->insertUser($datas); 
+        // Si on à choisi qu'il soit RSSI on l'ajoute aux admins
+        if($datas['type'] == 1) {
+            $this->_db->addAdmin($user, $datas['password']);
+        }
     	// On redirige vers la page d'édition
     	View::redirect('/user/'.$user); 
     }

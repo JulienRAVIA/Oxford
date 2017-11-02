@@ -39,7 +39,7 @@
     	{% endif %}
     	<select name="{{ name }}" id="{{ id }}" class="form-control" {{ required ? 'required' : '' }}>
     	    {% for key, value in options %}
-    	        <option value="{{ key }}" {{ key == selected ? 'disabled' : '' }}>{{ value }}</option>
+    	        <option value="{{ key }}" {{ key == selected ? 'selected' : '' }}>{{ value }}</option>
     	    {% endfor %}
     	</select>
 	</div>

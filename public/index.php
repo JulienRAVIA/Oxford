@@ -15,7 +15,7 @@ $router->map('GET','/events/', 'App\\EventsController@index', 'events');
 $router->map('GET','/events', 'App\\EventsController@index', 'events.list');
 
 // filtrage par type de catégorie, on accepte uniquement les types info ou erreur
-$router->map('GET','/events/category/[erreur|info:category]', 'App\\EventsController@filterByCategory', 'events.list.category');
+$router->map('GET','/events/category/[erreur|info|admin:category]', 'App\\EventsController@filterByCategory', 'events.list.category');
 // filtrage par date (timestamp)
 $router->map('GET','/events/date/[i:date]', 'App\\EventsController@filterByDate', 'events.list.date');
 // filtrage par utilisateur

@@ -45,3 +45,11 @@ function generatePassword() {
 function generateAccessCode() {
     codeForm.code.value = randomCode(4, '0123456789');
 }
+
+function generatePwd() {
+    createUser.password.value = randomPassword(8);
+}
+
+function generateCode() {
+    createUser.code.value = randomCode(4, '0123456789');
+}

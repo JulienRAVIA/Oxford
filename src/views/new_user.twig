@@ -22,7 +22,7 @@
 			</ul>
 		</div>
 	</div>
-	<form method="post" enctype="multipart/form-data">
+	<form method="post" name="createUser" enctype="multipart/form-data">
 	<div class="row">
 		<div class="col-md-3">
 			<div class="panel panel-default">
@@ -63,7 +63,7 @@
 					  <div class="input-group">
 					    <input type="text" name="password" class="form-control">
 					    <span class="input-group-btn">
-					      <button class="btn btn-default" onClick="generatePassword();" type="button">Générer</button>
+					      <button class="btn btn-default" onClick="generatePwd();" type="button">Générer</button>
 					    </span>
 					  </div>
 					</div>
@@ -80,7 +80,7 @@
 					  <div class="input-group">
 					    <input type="text" name="code" class="form-control">
 					    <span class="input-group-btn">
-					      <button class="btn btn-default" onClick="generateAccessCode();" type="button">Générer</button>
+					      <button class="btn btn-default" onClick="generateCode();" type="button">Générer</button>
 					    </span>
 					  </div>
 					</div>
@@ -102,10 +102,10 @@
 	{{ parent() }}
 	<script src="{{component.url('/js/generate.js')|trim }}"></script>
 	<script type="text/javascript">
-    	generatePassword();
+    	generatePwd();
 		function createPassword(that) {
     	    if (that.value == 1) {
-    	    	generatePassword();
+    	    	generatePwd();
     	        $('#passwordAlert').removeClass('hidden');
     	        $('#passwordInput').removeClass('hidden');
     	    } else {

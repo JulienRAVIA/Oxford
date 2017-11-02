@@ -59,6 +59,7 @@ class Database
     {
         $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
                                       INNER JOIN photos ON users.photo = photos.id
+                                      WHERE status IS NOT NULL
                                       ORDER BY users.id DESC');
         $result = $req->fetchAll();
         return $result;
@@ -93,10 +94,10 @@ class Database
     public function getEvents()
     {
         $req = Database::$dbh->query('SELECT events.id as id, categories.value as category, 
-                                      users.id as user, nom, prenom, date, users.status,
+                                      events.user as user, nom, prenom, date, users.status,
                                       events.value as value
                                       FROM events 
-                                      INNER JOIN users ON events.user = users.id 
+                                      LEFT JOIN users ON events.user = users.id 
                                       INNER JOIN categories ON events.category = categories.id
                                       ORDER BY date DESC');
         $result = $req->fetchAll();
@@ -124,13 +125,13 @@ class Database
     public function getEventsByDate(int $dateB, int $dateE)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
-                                        users.id as user, nom, prenom, date, users.status,
+                                        events.user as user, nom, prenom, date, users.status,
                                         events.value as value
                                         FROM events 
-                                        INNER JOIN users ON events.user = users.id 
+                                        LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE date BETWEEN :dateb AND :datee
-                                        ORDER BY id, date DESC');
+                                        ORDER BY id DESC');
         $req->execute(array('dateb' => $dateB, 'datee' => $dateE));
         $result = $req->fetchAll();
         return $result;
@@ -145,10 +146,10 @@ class Database
     public function getEventsByUser(int $user)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
-                                        users.id as user, nom, prenom, date, users.status,
+                                        events.user as user, nom, prenom, date, users.status,
                                         events.value as value
                                         FROM events 
-                                        INNER JOIN users ON events.user = users.id 
+                                        LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE user = :user
                                         ORDER BY id, date DESC');
@@ -166,10 +167,10 @@ class Database
     public function getEventsByCategory(string $category)
     {
         $req = Database::$dbh->prepare('SELECT events.id as id, categories.value as category, 
-                                        users.id as user, nom, prenom, date, users.status,
+                                        events.user as user, nom, prenom, date, users.status,
                                         events.value as value
                                         FROM events 
-                                        INNER JOIN users ON events.user = users.id 
+                                        LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE categories.value = :category
                                         ORDER BY id, date DESC');
@@ -319,7 +320,7 @@ class Database
      * @return Exception    Exception
      */
     public function deleteUser(int $user) {
-        $req = Database::$dbh->prepare('DELETE FROM users WHERE id = :id');
+        $req = Database::$dbh->prepare('UPDATE users SET status = NULL WHERE id = :id');
         if($req->execute(array('id' => $user))) {
             return true;      
         } else {

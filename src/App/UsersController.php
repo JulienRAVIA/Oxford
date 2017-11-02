@@ -144,4 +144,11 @@ class UsersController
     	// On redirige vers la page d'édition
     	View::redirect('/user/'.$user); 
     }
+
+    public function deleteUser($request)
+    {
+        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
+        $this->_db->deleteUser($request['id']);
+        View::redirect('/users');
+    }
 }

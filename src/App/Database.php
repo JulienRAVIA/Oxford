@@ -196,7 +196,7 @@ class Database
      */
     public function updateUserJob(array $infos) {
         $poste = $this->userType($infos['id']); // on récupère le type actuel de l'employé
-        $this->typeExist($infos['poste']); // on vérifie que les types d'emploi
+        $this->typeExist($infos['poste']); // on vérifie que les types d'emploi existent
         // On change son type
         $reqType = Database::$dbh->prepare('UPDATE users SET type = :type WHERE id = :id');
         $reqType = $reqType->execute(array('id' => $infos['id'], 'type' => $infos['poste']));
@@ -305,6 +305,15 @@ class Database
             return Database::$dbh->lastInsertId();        
         } else {
             throw new \Exception('Impossible de créer l\'utilisateur');
+        }
+    }
+
+    public function deleteUser(int $user) {
+        $req = Database::$dbh->prepare('DELETE FROM users WHERE id = :id');
+        if($req->execute(array('id' => $user))) {
+            return true;      
+        } else {
+            throw new \Exception('Impossible de supprimer l\'utilisateur');
         }
     }
 }

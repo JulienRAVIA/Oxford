@@ -308,12 +308,33 @@ class Database
         }
     }
 
+    /**
+     * Suppression d'un utilisateur à partir de son id
+     * @param  int    $user Utilisateur à supprimer
+     * @return boolean      Résultat de la requête
+     * @return Exception    Exception
+     */
     public function deleteUser(int $user) {
         $req = Database::$dbh->prepare('DELETE FROM users WHERE id = :id');
         if($req->execute(array('id' => $user))) {
             return true;      
         } else {
             throw new \Exception('Impossible de supprimer l\'utilisateur');
+        }
+    }
+
+    /**
+     * Révocation (suppression d'accès) d'un utilisateur à partir de son id
+     * @param  int    $user Utilisateur à révoquer
+     * @return boolean      Résultat de la requête
+     * @return Exception    Exception
+     */
+    public function revokeUser(int $user) {
+        $req = Database::$dbh->prepare('UPDATE users SET status = 0 WHERE id = :id');
+        if($req->execute(array('id' => $user))) {
+            return true;      
+        } else {
+            throw new \Exception('Impossible de révoquer l\'utilisateur');
         }
     }
 }

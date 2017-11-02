@@ -27,6 +27,8 @@ $router->map('POST','/user/[i:id]', 'App\\UsersController@updateUser', 'user.upd
 
 // suppression d'un utilisateur
 $router->map('GET','/user/[i:id]/delete', 'App\\UsersController@deleteUser', 'user.delete');
+// révocation d'un utilisateur
+$router->map('GET','/user/[i:id]/revoke', 'App\\UsersController@revokeUser', 'user.revoke');
 
 // ajout d'un utilisateur
 $router->map('GET','/users/new', 'App\\UsersController@showNewUserForm', 'users.add.show');

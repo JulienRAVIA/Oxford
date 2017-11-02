@@ -151,4 +151,11 @@ class UsersController
         $this->_db->deleteUser($request['id']);
         View::redirect('/users');
     }
+
+    public function revokeUser($request)
+    {
+        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez révoquer n\'existe pas');
+        $this->_db->revokeUser($request['id']);
+        View::redirect('/user/'.$request['id']);
+    }
 }

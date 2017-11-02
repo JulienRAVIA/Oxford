@@ -26,7 +26,7 @@
 		<div class="col-md-3">
 			<div class="panel panel-default">
 			  <div class="panel-body">
-			    <img src="http://julienravia.fr/photo.jpg" alt=""><br>
+			    <img src="{{ component.url('/photos/'~ user.photo) }}" alt="" width="230"><br>
 			    <center><h3>{{ user.nom }} {{ user.prenom }}</h3></center>
 			  </div>
 			</div>

@@ -57,7 +57,9 @@ class Database
      */
     public function getUsers()
     {
-        $req = Database::$dbh->query('SELECT * FROM users ORDER BY id DESC');
+        $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+                                      INNER JOIN photos ON users.photo = photos.id
+                                      ORDER BY users.id DESC');
         $result = $req->fetchAll();
         return $result;
     }
@@ -70,8 +72,11 @@ class Database
      */
     public function getUser(int $user, string $exception = 'Cet utilisateur n\'existe pas')
     {
-        $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email 
-                                        FROM users INNER JOIN types ON users.type = types.id WHERE users.id = :user');
+        $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email, photos.value as photo 
+                                        FROM users 
+                                        INNER JOIN types ON users.type = types.id 
+                                        INNER JOIN photos ON users.photo = photos.id
+                                        WHERE users.id = :user');
         $req->execute(array('user' => $user));
         $result = $req->fetch();
         if($result) {

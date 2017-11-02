@@ -19,16 +19,20 @@
 			<div class="col-md-3 user">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<a href="user/{{user.id}}"><img src="http://julienravia.fr/photo.jpg" alt="" width="160"></a>
+						<a href="user/{{user.id}}"><img src="{{ component.url('/photos/'~ user.photo) }}" alt="" width="160"></a>
 					</div>
 					<div class="panel-footer">
 						{{ user.nom }} {{ user.prenom }} <span class="badge pull-right"><i class="fa fa-user-secret"></i></span>
 					</div>
 				</div>
 				<div class="btn-group">
-				  <a href="user/{{user.id}}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-				  <a href="user/{{user.id}}/delete" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
-				  <a href="user/{{user.id}}/revoke" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
+				  	<a href="user/{{user.id}}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+				  	<a href="user/{{user.id}}/delete" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
+				  	{% if user.status == 1 %}
+				  		<a href="user/{{user.id}}/revoke" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
+					{% else %}
+				  		<a href="user/{{user.id}}/autorize" title="Réattribuer l'accès" class="btn btn-default"><i class="fa fa-key"></i></a>
+				  	{% endif %}
 				</div>
 		   </div>
 		{% else %}

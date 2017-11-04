@@ -114,11 +114,16 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="btn-group pull-right" role="group">
-			  	<a href="{{component.url('/user/'~ user.id ~'/delete')}}" class="btn btn-default"><i class="fa fa-trash"></i> Supprimer</a>
-			  	{% if user.status == 1 %}
-			  	<a href="{{component.url('/user/'~ user.id ~'/revoke')}}" class="btn btn-default"><i class="fa fa-ban"></i> Révoquer l'accès</a>
+			  	{% if user.status is null %}
+			  		<a href="{{component.url('/user/'~ user.id ~'/restore')}}" class="btn btn-default"><i class="fa fa-plus"></i> Restaurer</a>
 				{% else %}
-			  	<a href="{{component.url('/user/'~ user.id ~'/autorize')}}" class="btn btn-default"><i class="fa fa-key"></i> Réattribuer l'accès</a>
+			  		<a href="{{component.url('/user/'~ user.id ~'/delete')}}" class="btn btn-default"><i class="fa fa-trash"></i> Supprimer</a>
+
+			  		{% if user.status == 1 %}
+			  			<a href="{{component.url('/user/'~ user.id ~'/revoke')}}" class="btn btn-default"><i class="fa fa-ban"></i> Révoquer l'accès</a>
+					{% else %}
+			  			<a href="{{component.url('/user/'~ user.id ~'/autorize')}}" class="btn btn-default"><i class="fa fa-key"></i> Réattribuer l'accès</a>
+			  		{% endif %}
 			  	{% endif %}
 			</div>
 		</div>

@@ -45,7 +45,7 @@ $router->map('GET','/users/[a:type]', 'App\\UsersController@filterByType', 'user
 $match = $router->match();
 
 if (!$match) {
-    echo "404 not found";
+    App\View::make('404.twig');
 } else {
     list($controller, $action) = explode('@', $match['target']);
     $controller = new $controller;

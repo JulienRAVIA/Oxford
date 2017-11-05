@@ -20,3 +20,9 @@ Il faut placer le projet dans un serveur local
 * [date](https://github.com/jenssegers/date) - Librairie pour la gestion des dates
 * [AltoRouter](http://altorouter.com) - Système de routeur pour PHP
 * [ApiGen](https://github.com/ApiGen/ApiGen) - Génération de la documentation (PHP 7.1)
+
+## Tests unitaires
+
+_Lancer la commande suivante : ``phpunit --bootstrap src/Class.php tests/ClassTest`` pour lancer un test sur une classe en particulier (sans détails)
+
+__Lancer la commande suivante : ``phpunit --bootstrap src/Class.php --testdox tests/ClassTest`` pour lancer un test sur une classe en particulier (avec détails)

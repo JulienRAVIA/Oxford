@@ -8,7 +8,9 @@
         "altorouter/altorouter": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^6.4",
+        "apigen/apigen": "dev-master",
+         "roave/better-reflection": "dev-master#c87d856"
     },
     "autoload": {
         "psr-4": {

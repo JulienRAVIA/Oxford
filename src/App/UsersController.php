@@ -62,8 +62,8 @@ class UsersController
 
     /**
      * Modification des infos de l'utilisateur
-     * @param  [type] $request [description]
-     * @return [type]          [description]
+     * @param  int $request Identifiant de l'utilisateur à modifier
+     * @return twigView     Redirection
      */
     public function updateUser($request)
     {

@@ -94,7 +94,7 @@ class Form
 	 * au données attendues, à partir d'un tableau définissant
 	 * les champs attendus
 	 * @param  array  $array  Données envoyées
-	 * @param  [type]  $fields Champs/clés du tableau attendues
+	 * @param  array  $fields Champs/clés du tableau attendues
 	 * @return boolean         On renvoie true, ou une exception
 	 */
 	static function isNotEmpty($array, $fields) {

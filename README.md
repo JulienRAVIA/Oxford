@@ -2,15 +2,26 @@
 
 Interface d'administration du projet Oxford
 
-### Installation
+## Installation
 
-_Installer les composants_: Executez la commande ``composer install`` dans l'invite de commande à la racine du dossier
+Installer les composants: Executez la commande ``composer install`` dans l'invite de commande à la racine du dossier
 
-_Changer les identifiants de base de données_: Dans le fichier ``src\App\Database.php`` changer les valeurs des variables de la classe
+Changer les identifiants de base de données: Dans le fichier ``src\App\Database.php`` changer les valeurs des variables de la classe
 
 ## Démarrage
 
 Il faut placer le projet dans un serveur local
+
+## Tests unitaires
+
+Lancer la commande suivante : ``phpunit --bootstrap src/Class.php tests/ClassTest`` pour lancer un test sur une classe en particulier (sans détails)
+
+Lancer la commande suivante : ``phpunit --bootstrap src/Class.php --testdox tests/ClassTest`` pour lancer un test sur une classe en particulier (avec détails)
+
+## Documentation
+
+Lancer la mise à jour/regénération de la documentation avec la commande suivante (à la racine du projet) : 
+``vendor\bin\apigen generate src --destination docs``
 
 ## Composants
 
@@ -20,9 +31,3 @@ Il faut placer le projet dans un serveur local
 * [date](https://github.com/jenssegers/date) - Librairie pour la gestion des dates
 * [AltoRouter](http://altorouter.com) - Système de routeur pour PHP
 * [ApiGen](https://github.com/ApiGen/ApiGen) - Génération de la documentation (PHP 7.1)
-
-## Tests unitaires
-
-_Lancer la commande suivante : ``phpunit --bootstrap src/Class.php tests/ClassTest`` pour lancer un test sur une classe en particulier (sans détails)
-
-__Lancer la commande suivante : ``phpunit --bootstrap src/Class.php --testdox tests/ClassTest`` pour lancer un test sur une classe en particulier (avec détails)

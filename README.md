@@ -19,3 +19,4 @@ Il faut placer le projet dans un serveur local
 * [PHPUnit](https://phpunit.de) - Système de tests unitaires pour PHP
 * [date](https://github.com/jenssegers/date) - Librairie pour la gestion des dates
 * [AltoRouter](http://altorouter.com) - Système de routeur pour PHP
+* [ApiGen](https://github.com/ApiGen/ApiGen) - Génération de la documentation (PHP 7.1)

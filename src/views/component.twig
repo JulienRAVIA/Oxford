@@ -58,5 +58,19 @@
 {% endmacro %}
 
 {% macro url(path) %}
-	http://localhost/Oxford/public{{path}}
+	http://oxfo.rd{{path}}
+{% endmacro %}
+
+{% macro status(statut) %}
+	{% if statut == 1 %}
+	    <span class="label label-success">Ouvert</span>
+	{% elseif statut == 2 %}
+	    <span class="label label-warning">Nouvelle réponse</span>
+	{% elseif statut == 3 %}
+	    <span class="label label-primary">Répondu</span>
+	{% elseif statut == 4 %}
+	    <span class="label label-danger">Fermé</span>
+	{% else %}
+	    <span class="label label-primary">Fermé</span>
+	{% endif %}
 {% endmacro %}

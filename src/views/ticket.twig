@@ -1,0 +1,55 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}{{ ticket.subject }}{% endblock %}
+
+{% block content %}
+    
+	<div class="row">
+		<div class="col-md-3">
+			<ul class="nav nav-pills nav-stacked">
+  			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  			  	<li class="active"><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+			  	<li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+			  	<li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+			</ul>
+		</div>
+		<div class="col-md-9">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				{{ 'Ticket #' ~ ticket.id }} : <strong>{{ ticket.subject }}</strong> par <i>{{ ticket.nom ~ ' ' ~ ticket.prenom }}</i>
+					<span class="pull-right">Dernière réponse le {{ ticket.date|date('d/m/Y à H:i:s') }}</span>
+    			</div>
+    		</div>
+			{% for replie in replies %}
+    			<div class="panel panel-default">
+					<div class="panel-body">
+						{{ replie.value|nl2br }}
+					</div>
+					<div class="panel-footer">
+						Posté par {{ replie.nom }} le {{ replie.date|date('d/m/Y') }} à {{ replie.date|date('H:i:s') }}
+					</div>   	
+    			</div>
+			{% else %}
+    			    Il n'y à aucunes réponses pour ce ticket
+			{% endfor %}
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form action="">
+						<textarea name="" class="form-control" id="" cols="100" rows="5"></textarea><br>
+						<div class="btn-group col-md-5 col-md-offset-4" role="group" aria-label="...">
+						  <button type="reset" class="btn btn-default">Réinitialiser</button>
+						  <button type="submit" class="btn btn-primary">Poster</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="pull-right">
+				<div class="btn-group" role="group" aria-label="...">
+					<button type="reset" class="btn btn-danger">Cloturer</button>
+				</div>
+			</div>
+		</div>
+    
+{% endblock %}

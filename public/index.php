@@ -3,7 +3,9 @@
 include_once '../bootstrap.php';
 
 $router = new AltoRouter();
-$router->setBasePath('/Oxford/public');
+// si pas de Virtual HOST
+// $router->setBasePath('/Oxford/public');
+$router->setBasePath('');
 
 $router->map('GET','/', 'App\\HomeController@index', 'index');
 $router->map('GET','/home', 'App\\HomeController@index', 'home');
@@ -41,6 +43,12 @@ $router->map('POST','/users/new', 'App\\UsersController@createUser', 'users.add.
 
 //filtrage des utilisateurs par catégorie
 $router->map('GET','/users/[a:type]', 'App\\UsersController@filterByType', 'users.filter');
+
+//affichage des tickets
+$router->map('GET','/tickets', 'App\\TicketsController@index', 'tickets');
+// affichage d'un ticket
+$router->map('GET','/ticket/[i:id]', 'App\\TicketsController@showTicket', 'ticket.show');
+
 
 $match = $router->match();
 

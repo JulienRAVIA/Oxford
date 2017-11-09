@@ -438,4 +438,45 @@ class Database
             throw new \Exception('L\'administrateur n\'à pas pu être ajouté');
         }
     }
+
+    public function getTickets()
+    {
+        $req = Database::$dbh->query('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      INNER JOIN users ON tickets.user = users.id
+                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN events ON tickets.event = events.id
+                                      ORDER BY date DESC');
+        $req->execute();
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    public function getTicket($id) {
+        $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      INNER JOIN users ON tickets.user = users.id
+                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN events ON tickets.event = events.id
+                                      WHERE tickets.id = :id
+                                      ORDER BY date DESC');
+        $req->execute(array('id' => $id));
+        $result = $req->fetch();
+        if($result) {
+            return $result;
+        } else {
+            throw new \Exception('Le ticket auquel vous essayez d\'accéder n\'existe pas');
+        }
+    }
+
+    public function getTicketReplies($id) {
+        $req = Database::$dbh->prepare('SELECT r.date, r.id, r.value, COALESCE(users.nom, "Utilisateur supprimé") as nom, 
+                                        users.prenom, r.user FROM tickets_replies AS r 
+                                        LEFT JOIN users on r.user = users.id
+                                        WHERE ticket = :id
+                                        ORDER BY date');
+        $req->execute(array('id' => $id));
+        $result = $req->fetchAll();
+        return $result;
+    }
 }

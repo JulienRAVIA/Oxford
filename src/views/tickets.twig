@@ -1,0 +1,34 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Gestion des tickets{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-3">
+			<ul class="nav nav-pills nav-stacked">
+  			  <li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  			  <li><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+			  <li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+			  <li class="active"><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+			  <li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+			</ul>
+		</div>
+		<div class="col-md-9">
+			{% if filtered %}
+				<h3>{{ filtered }}</h3>
+			{% endif %}
+			{% include 'table.tickets.twig' ignore missing %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+    	$(function () {
+		  $('[data-toggle="tooltip"]').tooltip()
+		})
+    </script>
+{% endblock %}

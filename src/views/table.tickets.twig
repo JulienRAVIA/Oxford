@@ -1,0 +1,38 @@
+{% import 'component.twig' as component %}
+
+<table class="table">
+  <tr>
+  	<th>#</th>
+    <th></th>
+  	<th>Evénement</th>
+  	<th><i class="fa fa-user"></i> Utilisateur</th>
+  	<th><i class="fa fa-calendar-o"></i> Date</th>
+  	<th>Statut</th>
+    <th>Filtrage</th>
+  	<th>Actions</th>
+  </tr>
+  {% for ticket in tickets %}
+  	<tr class="{{class}}">
+      <td>{{ ticket.id }}</td>
+  		<td><a href="{{ component.url('/ticket/'~ ticket.id) }}">{{ ticket.subject }}</a></td>
+      {% if ticket.event is not empty %}
+  		  <td><a href="{{ component.url('/events/'~ ticket.event) }}" data-toggle="tooltip" data-placement="bottom" title="{{ ticket.eventvalue }}">#{{ ticket.event }}</a></td>
+      {% else %}
+        <td></td>
+      {% endif %}
+  		<td><a href="{{ component.url('/tickets/user/') }}{{ticket.user}}">{{ ticket.nom}} {{ticket.prenom}}</a></td>
+  		<td>{{ ticket.date|date('d/m/Y') }} {{ ticket.date|date('H:i:s') }}</td>
+  		<td><a href="{{ component.url('/tickets/category/') }}{{ ticket.category|lower }}">{{ component.status(1) }}</a></td>
+  		<td>
+  			<a href="{{ component.url('/tickets/user/') }}{{ticket.user}}" title="Voir tous les événements de l'utilisateur {{ ticket.nom }} {{ ticket.prenom }}"><i class="fa fa-user"></i></a>
+  			<a href="{{ component.url('/tickets/date/') }}{{ ticket.date}}" title="Voir tous les événements datant du {{ ticket.date|date('d/m/Y') }}"><i class="fa fa-calendar"></i></a>
+  			<a href="{{ component.url('/tickets/status/') }}{{ticket.category|lower}}" title="Voir tous les événements {{ticket.category|capitalize}}"><i class="fa fa-folder-o"></i></a>
+  		</td>
+      <td>
+        <a href=""><i class="fa fa-times"></i></a>
+      </td>
+  	</tr>
+  {% else %}
+    {{ component.well(error_message, 'sm', 'col-md-12') }}
+  {% endfor %}
+</table>

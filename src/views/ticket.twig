@@ -9,17 +9,17 @@
 		<div class="col-md-3">
 			<ul class="nav nav-pills nav-stacked">
   			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
-  			  	<li class="active"><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+  			  	<li><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
 			  	<li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
-			  	<li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+			  	<li class="active"><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
 			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
 			</ul>
 		</div>
 		<div class="col-md-9">
     		<div class="panel panel-default">
     			<div class="panel-heading">
-    				{{ 'Ticket #' ~ ticket.id }} : <strong>{{ ticket.subject }}</strong> par <i>{{ ticket.nom ~ ' ' ~ ticket.prenom }}</i>
-					<span class="pull-right">Dernière réponse le {{ ticket.date|date('d/m/Y à H:i:s') }}</span>
+    				{{ component.status(ticket.statut) }} {{ 'Ticket #' ~ ticket.id }} : <strong>{{ ticket.subject }}</strong> par <i>{{ ticket.nom ~ ' ' ~ ticket.prenom }}</i>
+					<span class="pull-right"><small>Dernière réponse le {{ ticket.date|date('d/m/Y à H:i:s') }}</small></span>
     			</div>
     		</div>
 			{% for replie in replies %}
@@ -28,16 +28,17 @@
 						{{ replie.value|nl2br }}
 					</div>
 					<div class="panel-footer">
-						Posté par {{ replie.nom }} le {{ replie.date|date('d/m/Y') }} à {{ replie.date|date('H:i:s') }}
+						<small>Posté par {{ replie.nom }} le {{ replie.date|date('d/m/Y') }} à {{ replie.date|date('H:i:s') }}</small>
 					</div>   	
     			</div>
 			{% else %}
     			    Il n'y à aucunes réponses pour ce ticket
 			{% endfor %}
+			{% if ticket.statut != 4 %}
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<form action="">
-						<textarea name="" class="form-control" id="" cols="100" rows="5"></textarea><br>
+					<form action="" method="post">
+						<textarea name="reply_message" class="form-control" id="" cols="100" rows="5"></textarea><br>
 						<div class="btn-group col-md-5 col-md-offset-4" role="group" aria-label="...">
 						  <button type="reset" class="btn btn-default">Réinitialiser</button>
 						  <button type="submit" class="btn btn-primary">Poster</button>
@@ -45,9 +46,16 @@
 					</form>
 				</div>
 			</div>
+			{% else %}
+			    <div class="well">Le ticket est fermé, impossible de répondre</div>
+			{% endif %}
 			<div class="pull-right">
 				<div class="btn-group" role="group" aria-label="...">
-					<button type="reset" class="btn btn-danger">Cloturer</button>
+					{% if ticket.statut != 4 %}
+						<a href="{{ component.url('/ticket/'~ ticket.id ~ '/cloturer') }}" class="btn btn-danger">Cloturer</a>
+					{% else %}
+						<a href="{{ component.url('/ticket/'~ ticket.id ~ '/ouvrir') }}" class="btn btn-success">Ouvrir</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

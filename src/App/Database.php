@@ -479,4 +479,62 @@ class Database
         $result = $req->fetchAll();
         return $result;
     }
+
+    public function addTicketReply($array) {
+        $req = Database::$dbh->prepare('INSERT INTO tickets_replies(user, value, date, ticket) VALUES(:user, :value, :date, :ticket)');
+        $req->execute($array);
+    }
+
+    public function updateTicketStatus($ticket, $statut, $date = '') {
+        if (empty($date)) {
+            $req = Database::$dbh->prepare('UPDATE tickets SET statut = :statut WHERE id = :ticket');
+            $req->execute(array('statut' => $statut, 'ticket' => $ticket));
+        } else {
+            $req = Database::$dbh->prepare('UPDATE tickets SET statut = :statut, date = :date WHERE id = :ticket');
+            $req->execute(array('statut' => $statut, 'ticket' => $ticket, 'date' => $date));
+        }
+    }
+
+    public function getTicketsByStatut($statut)
+    {
+        $statusList = array('opens' => 1, 'closed' => 4, 'replied' => 3, 'newreply' => 2);
+        $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      INNER JOIN users ON tickets.user = users.id
+                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN events ON tickets.event = events.id
+                                      WHERE statut = :statut
+                                      ORDER BY date DESC');
+        $req->execute(array('statut' => $statusList[$statut]));
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    public function getTicketsByUser($user)
+    {
+        $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      INNER JOIN users ON tickets.user = users.id
+                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN events ON tickets.event = events.id
+                                      WHERE tickets.user = :user
+                                      ORDER BY date DESC');
+        $req->execute(array('user' => $user));
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    public function getTicketsByDate($dateB, $dateE)
+    {
+        $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      INNER JOIN users ON tickets.user = users.id
+                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN events ON tickets.event = events.id
+                                      WHERE tickets.date BETWEEN :dateB AND :dateE
+                                      ORDER BY date DESC');
+        $req->execute(array('dateE' => $dateE, 'dateB' => $dateB));
+        $result = $req->fetchAll();
+        return $result;
+    }
 }

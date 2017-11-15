@@ -48,6 +48,13 @@ $router->map('GET','/users/[a:type]', 'App\\UsersController@filterByType', 'user
 $router->map('GET','/tickets', 'App\\TicketsController@index', 'tickets');
 // affichage d'un ticket
 $router->map('GET','/ticket/[i:id]', 'App\\TicketsController@showTicket', 'ticket.show');
+// cloture d'un ticket
+$router->map('GET','/ticket/[i:id]/[cloturer|ouvrir:action]', 'App\\TicketsController@changeTicketStatus', 'ticket.change');
+// ahout d'une réponse au ticket
+$router->map('POST','/ticket/[i:id]', 'App\\TicketsController@newReply', 'ticket.reply');
+$router->map('GET','/tickets/user/[i:id]', 'App\\TicketsController@filterByUser', 'ticket.filter.user');
+$router->map('GET','/tickets/date/[i:date]', 'App\\TicketsController@filterByDate', 'ticket.filter.date');
+$router->map('GET','/tickets/statut/[replied|newreply|closed|opens:statut]', 'App\\TicketsController@filterByStatut', 'tickets.filter.statut');
 
 
 $match = $router->match();

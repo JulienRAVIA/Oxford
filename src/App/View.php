@@ -28,10 +28,12 @@ class View
      * Fonction de redirection vers la route choisie
      * @param  string $route Route ou rediriger l'utilisateur
      */
-    static function redirect($route) {
-    	$url = 'http://localhost/Oxford/public';
-    	$url = $url.$route;
-    	header('Location: '.$url);
+    static function redirect($route, $timeout = 0) {
+        if (empty($timeout)) {
+            header('Location: '.$route);
+        } else {
+            header("Refresh: $timeout;URL=$route");
+        }
     } 
 }
 

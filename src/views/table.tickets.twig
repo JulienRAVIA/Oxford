@@ -22,7 +22,7 @@
       {% endif %}
   		<td><a href="{{ component.url('/tickets/user/') }}{{ticket.user}}">{{ ticket.nom}} {{ticket.prenom}}</a></td>
   		<td>{{ ticket.date|date('d/m/Y') }} {{ ticket.date|date('H:i:s') }}</td>
-  		<td><a href="{{ component.url('/tickets/category/') }}{{ ticket.category|lower }}">{{ component.status(1) }}</a></td>
+  		<td><a href="{{ component.url('/tickets/statut/' ~ component.statusfilter(ticket.statut) ) }}">{{ component.status(ticket.statut) }}</a></td>
   		<td>
   			<a href="{{ component.url('/tickets/user/') }}{{ticket.user}}" title="Voir tous les événements de l'utilisateur {{ ticket.nom }} {{ ticket.prenom }}"><i class="fa fa-user"></i></a>
   			<a href="{{ component.url('/tickets/date/') }}{{ ticket.date}}" title="Voir tous les événements datant du {{ ticket.date|date('d/m/Y') }}"><i class="fa fa-calendar"></i></a>

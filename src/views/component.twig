@@ -70,7 +70,13 @@
 	    <span class="label label-primary">Répondu</span>
 	{% elseif statut == 4 %}
 	    <span class="label label-danger">Fermé</span>
-	{% else %}
-	    <span class="label label-primary">Fermé</span>
+	{% endif %}
+{% endmacro %}
+
+{% macro statusfilter(statut) %}
+	{% if statut == 1 %}opens
+	{% elseif statut == 2 %}newreply
+	{% elseif statut == 3 %}replied
+	{% elseif statut == 4 %}closed
 	{% endif %}
 {% endmacro %}

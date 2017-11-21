@@ -3,7 +3,6 @@
 .phpintel
 /nbproject/
 /testzone/
-database.sql
 /public/photos/*.jpg
 /public/photos/*.jpeg
 /public/photos/*.png

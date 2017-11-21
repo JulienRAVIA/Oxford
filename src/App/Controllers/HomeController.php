@@ -1,8 +1,8 @@
 <?php 
 
-namespace App;
-use App\View as View;
-use App\Database as Database;
+namespace App\Controllers;
+use App\View;
+use App\Database;
 
 /**
  * Controlleur de la page d'accueil
@@ -17,8 +17,10 @@ class HomeController
      */
     public function index()
     {
-        View::make('index.twig');
+        if(\App\Utils\Session::get('id')) {
+        	View::make('index.twig');
+        } else {
+        	View::redirect('/connexion');
+        }
     }
 }
-
-?>

@@ -23,6 +23,7 @@ class Twig
             'debug' => true
 		));
         $this->_twig->addExtension(new \Twig_Extension_Debug());
+        $this->_twig->addGlobal('session', $_SESSION);
 		return $this->_twig;
     }
 

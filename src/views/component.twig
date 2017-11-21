@@ -65,9 +65,17 @@
 	{% if statut == 1 %}
 	    <span class="label label-success">Ouvert</span>
 	{% elseif statut == 2 %}
-	    <span class="label label-warning">Nouvelle réponse</span>
+		{% if session.id %}
+	    	<span class="label label-warning">Nouvelle réponse</span>
+	    {% else %}
+	    	<span class="label label-primary">Répondu</span>
+		{% endif %}
 	{% elseif statut == 3 %}
-	    <span class="label label-primary">Répondu</span>
+		{% if session.id %}
+	    	<span class="label label-primary">Répondu</span>
+	    {% else %}
+	    	<span class="label label-warning">Nouvelle réponse</span>
+		{% endif %}
 	{% elseif statut == 4 %}
 	    <span class="label label-danger">Fermé</span>
 	{% endif %}
@@ -79,4 +87,12 @@
 	{% elseif statut == 3 %}replied
 	{% elseif statut == 4 %}closed
 	{% endif %}
+{% endmacro %}
+
+{% macro alert(messages, type) %}
+	<div class="alert alert-{{ type|default('danger') }}" role="alert">
+		{% for message in messages %}
+		    <p>{{ message }}</p>
+		{% endfor %}
+	</div>
 {% endmacro %}

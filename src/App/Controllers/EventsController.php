@@ -1,8 +1,9 @@
 <?php 
 
-namespace App;
+namespace App\Controllers;
 use App\View as View;
 use App\Database as Database;
+use App\Utils\Session;
 
 /**
  * Controlleur des événements
@@ -17,6 +18,7 @@ class EventsController
     public function __construct()
     {
         $this->_db = Database::getInstance();
+        Session::check('type', 'rssi', '/connexion');
     }
 
     /**

@@ -6,6 +6,7 @@
 {% block content %}
     
 	<div class="row">
+		{% if session.id %}
 		<div class="col-md-3">
 			<ul class="nav nav-pills nav-stacked">
   			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
@@ -15,15 +16,24 @@
 			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
 			</ul>
 		</div>
-		<div class="col-md-9">
+		{% set size = 'col-md-9' %}
+		{% else %}
+			{% set size = 'col-md-10 col-md-offset-1' %}
+		{% endif %}
+		<div class="{{ size }}">
     		<div class="panel panel-default">
     			<div class="panel-heading">
     				{{ component.status(ticket.statut) }} {{ 'Ticket #' ~ ticket.id }} : <strong>{{ ticket.subject }}</strong> par <i>{{ ticket.nom ~ ' ' ~ ticket.prenom }}</i>
 					<span class="pull-right"><small>Dernière réponse le {{ ticket.date|date('d/m/Y à H:i:s') }}</small></span>
     			</div>
+    			{% if session.id %}
+    				<div class="panel-footer">
+    					<a href="{{ component.url('/ticket/'~ ticket.id ~ '/token_' ~ ticket.token) }}">Lien d'accès au ticket</a>
+    				</div>
+    			{% endif %}
     		</div>
 			{% for replie in replies %}
-    			<div class="panel panel-default">
+    			<div class="panel panel-default" id="replie_{{ replie.id }}">
 					<div class="panel-body">
 						{{ replie.value|nl2br }}
 					</div>
@@ -34,6 +44,7 @@
 			{% else %}
     			    Il n'y à aucunes réponses pour ce ticket
 			{% endfor %}
+
 			{% if ticket.statut != 4 %}
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -49,12 +60,15 @@
 			{% else %}
 			    <div class="well">Le ticket est fermé, impossible de répondre</div>
 			{% endif %}
+			
 			<div class="pull-right">
 				<div class="btn-group" role="group" aria-label="...">
 					{% if ticket.statut != 4 %}
 						<a href="{{ component.url('/ticket/'~ ticket.id ~ '/cloturer') }}" class="btn btn-danger">Cloturer</a>
 					{% else %}
-						<a href="{{ component.url('/ticket/'~ ticket.id ~ '/ouvrir') }}" class="btn btn-success">Ouvrir</a>
+						{% if session.type == 'rssi' %}
+							<a href="{{ component.url('/ticket/'~ ticket.id ~ '/ouvrir') }}" class="btn btn-success">Ouvrir</a>
+						{% endif %}
 					{% endif %}
 				</div>
 			</div>

@@ -1,8 +1,11 @@
 <?php 
 
-namespace App;
-use App\View as View;
-use App\Database as Database;
+namespace App\Controllers;
+
+use App\Utils\Form;
+use App\Utils\Session;
+use App\View;
+use App\Database;
 
 /**
  * Controlleur des/d'un utilisateur
@@ -17,6 +20,7 @@ class UsersController
     public function __construct()
     {
         $this->_db = Database::getInstance();
+        Session::check('type', 'rssi', '/connexion');
     }
 
     /**
@@ -26,7 +30,9 @@ class UsersController
     public function index() {
         $users = $this->_db->getUsers();
         $types = $this->_db->getTypes();
-        View::make('users.twig', array('users' => $users, 'types' => $types, 'filtered' => 'Tous les utilisateurs actifs'));
+        View::make('users.twig', array('users' => $users, 
+                                       'types' => $types, 
+                                       'filtered' => 'Tous les utilisateurs actifs'));
     }
 
 	/**

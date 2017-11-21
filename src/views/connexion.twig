@@ -1,0 +1,25 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+	{% if erreurs %}
+        {{ component.alert(erreurs, danger) }}
+    {% endif %}
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form action="/connexion" method="post">
+				{{ component.input('login', 'text', '', user.nom, 'Adresse email :', 'col-md-9 col-md-offset-2') }}
+				{{ component.input('password', 'password', '', user.nom, 'Mot de passe :', 'col-md-9 col-md-offset-2') }}
+				<div class="col-md-5 col-md-offset-5">
+					<div class="btn-group" role="group" aria-label="...">
+					  <button type="submit" class="btn btn-primary">Connexion</button>
+					  <button type="reset" class="btn btn-default">Réinitialiser</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

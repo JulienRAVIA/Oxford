@@ -30,11 +30,9 @@ class View
      */
     static function redirect($route, $timeout = 0) {
         if (empty($timeout)) {
-            header('Location: '.$route);
+            header("Refresh: 0;URL=$route");
         } else {
             header("Refresh: $timeout;URL=$route");
         }
     } 
 }
-
-?>

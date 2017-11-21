@@ -2,6 +2,7 @@
 
 namespace App;
 use \PDO as PDO;
+use App\Utils\ArrayUtils;
 
 /**
  * Classe de modification, lecture, insertion des données
@@ -47,6 +48,11 @@ class Database
             self::$instance = new $object;
         }
         return self::$instance;
+    }
+
+    public function lastInsertId()
+    {
+        return Database::$dbh->lastInsertId();
     }
 
     // REQUETES
@@ -454,7 +460,7 @@ class Database
 
     public function getTicket($id) {
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
-                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
+                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut, token FROM tickets 
                                       INNER JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
@@ -483,6 +489,7 @@ class Database
     public function addTicketReply($array) {
         $req = Database::$dbh->prepare('INSERT INTO tickets_replies(user, value, date, ticket) VALUES(:user, :value, :date, :ticket)');
         $req->execute($array);
+        return Database::$dbh->lastInsertId();
     }
 
     public function updateTicketStatus($ticket, $statut, $date = '') {
@@ -524,6 +531,12 @@ class Database
         return $result;
     }
 
+    /**
+     * Affichage des tickets par date
+     * @param  int $dateB Date de début
+     * @param  int $dateE Date de fin
+     * @return array        Résultats
+     */
     public function getTicketsByDate($dateB, $dateE)
     {
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
@@ -536,5 +549,34 @@ class Database
         $req->execute(array('dateE' => $dateE, 'dateB' => $dateB));
         $result = $req->fetchAll();
         return $result;
+    }
+
+    /**
+     * Récupération des infos d'un utilisateur à partir d'un login et d'un mdp      
+     * @param  string $login    Adresse mail
+     * @param  string $password Mot de passe (hashé en sha256)
+     * @return array            Résultat de la requête (administrateur)
+     */
+    public function getAdmin($login, $password) {
+        $req = Database::$dbh->prepare('SELECT users.id, users.nom, users.prenom, types.filter as type FROM `admins` 
+                                        INNER JOIN users ON admins.id = users.id 
+                                        INNER JOIN types ON users.type = types.id
+                                        WHERE users.email = :login AND admins.password = :password');
+        $req->execute(array('login' => $login, 'password' => $password));
+        $result = $req->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Suppression d'un ticket
+     * @param  int $id Identifiant du ticket à supprimer
+     * @return boolean     True or false
+     */
+    public function deleteTicket($id)
+    {
+        $req = Database::$dbh->prepare('DELETE FROM tickets WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $req = Database::$dbh->prepare('DELETE FROM tickets_replies WHERE ticket = :ticket');
+        $req->execute(array('ticket' => $id));
     }
 }

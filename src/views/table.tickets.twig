@@ -27,7 +27,15 @@
             <td> </td>
         {% endif %}
         {% if session.id %}
-            <td><a href="{{ component.url('/user/') }}{{ticket.user}}">{{ ticket.nom}} {{ticket.prenom}}</a></td>
+                <td>
+                {% if ticket.nom is not null %}
+                    <a href="{{ component.url('/user/' ~ ticket.user) }}">
+                        {{ ticket.nom}} {{ticket.prenom}}
+                    </a>
+                {% else %}
+                    Utilisateur supprimé
+                {% endif %}
+            </td>
             <td><a href="{{ component.url('/tickets/statut/' ~ component.statusfilter(ticket.statut) ) }}">{{ component.status(ticket.statut) }}</a></td>
             <td>{{ ticket.date|date('d/m/Y') }} {{ ticket.date|date('H:i:s') }}</td>
             <td>

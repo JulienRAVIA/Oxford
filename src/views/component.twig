@@ -89,7 +89,7 @@
 	{% endif %}
 {% endmacro %}
 
-{% macro alert(messages, type) %}
+{% macro alerts(messages, type) %}
 	<div class="alert alert-{{ type|default('danger') }}" role="alert">
 		{% for message in messages %}
 		    <p>{{ message }}</p>

@@ -13,10 +13,16 @@ class Database
 {
     private static $dbh; // Objet dbh
 
-    private $_host = 'localhost';
-    private $_database = 'oxford';
-    private $_user = 'root';
-    private $_password = '';
+    // private $_host = 'localhost';
+    // private $_database = 'oxford';
+    // private $_user = 'root';
+    // private $_password = '';
+    // private $_port = 3306;
+
+    private $_host = 'mysql-simubac.alwaysdata.net';
+    private $_database = 'simubac_oxford';
+    private $_user = 'simubac';
+    private $_password = 'aDemantA';
     private $_port = 3306;
 
     private static $instance;
@@ -64,7 +70,7 @@ class Database
     public function getUsers()
     {
         $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
-                                      INNER JOIN photos ON users.photo = photos.id
+                                      LEFT JOIN photos ON users.photo = photos.id
                                       WHERE status IS NOT NULL
                                       ORDER BY users.id DESC');
         $result = $req->fetchAll();
@@ -105,7 +111,7 @@ class Database
         $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email, photos.value as photo 
                                         FROM users 
                                         INNER JOIN types ON users.type = types.id 
-                                        INNER JOIN photos ON users.photo = photos.id
+                                        LEFT JOIN photos ON users.photo = photos.id
                                         WHERE users.id = :user');
         $req->execute(array('user' => $user));
         $result = $req->fetch();
@@ -449,8 +455,8 @@ class Database
     {
         $req = Database::$dbh->query('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN users ON tickets.user = users.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       ORDER BY date DESC');
         $req->execute();
@@ -460,8 +466,8 @@ class Database
 
     public function getTicket($id) {
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
-                                      users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut, token FROM tickets 
-                                      INNER JOIN users ON tickets.user = users.id
+                                      users.id as user, COALESCE(users.nom, "Utilisateur supprimé") as nom, users.prenom as prenom, tickets.date, statut, token FROM tickets 
+                                      LEFT JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.id = :id
@@ -507,8 +513,8 @@ class Database
         $statusList = array('opens' => 1, 'closed' => 4, 'replied' => 3, 'newreply' => 2);
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN users ON tickets.user = users.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE statut = :statut
                                       ORDER BY date DESC');
@@ -521,7 +527,7 @@ class Database
     {
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN users ON tickets.user = users.id
+                                      LEFT JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.user = :user
@@ -541,7 +547,7 @@ class Database
     {
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN users ON tickets.user = users.id
+                                      LEFT JOIN users ON tickets.user = users.id
                                       INNER JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.date BETWEEN :dateB AND :dateE

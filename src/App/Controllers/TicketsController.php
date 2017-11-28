@@ -32,7 +32,7 @@ class TicketsController
 			View::make('tickets.twig', array('tickets' => $tickets, 'filtered' => 'Tous les tickets'));
 		} else {
 			// sinon on recupère les tickets de l'utilisateur correspondant à notre cookie
-			Cookie::set('user_tickets', 4);
+			Session::set('user_tickets', 4);
 			$this->filterByUser(array('id' => Cookie::get('user_tickets')), 'Mes tickets');
 		}
 	}
@@ -41,7 +41,7 @@ class TicketsController
 		$ticket = $this->_db->getTicket($request['id']);
 		$replies = $this->_db->getTicketReplies($request['id']);
 		if(Session::get('type') != 'rssi') {
-			Cookie::check('user_tickets', $ticket['user'], '/tickets');
+			Session::check('user_tickets', $ticket['user'], '/tickets');
 		}
 		View::make('ticket.twig', array('ticket' => $ticket, 'replies' => $replies));
 	}
@@ -50,8 +50,7 @@ class TicketsController
 		$ticket = $this->_db->getTicket($request['id']);
 		$replies = $this->_db->getTicketReplies($request['id']);
 		if($request['token'] == $ticket['token']) {
-			Cookie::set('ticket_'.$ticket['id'], $ticket['token']);
-			Cookie::set('ticket_user_'.$ticket['id'], $ticket['user']);
+			Session::set('user_tickets', $ticket['user']);
 		}
 		View::redirect('/ticket/'.$request['id']);
 	}
@@ -60,7 +59,7 @@ class TicketsController
 		if(Session::get('type') == 'rssi') {
 			$user = Session::get('id');
 		} else {
-			$user = Cookie::get('ticket_user_'.$request['id']);
+			$user = Session::get('user_tickets');
 		}
 		$array = array('user' => $user, 
 					   'value' => \App\Utils\Form::isString($_POST['reply_message'], 3), 
@@ -109,8 +108,9 @@ class TicketsController
 	public function filterByUser($request, $filtered = '')
 	{
 		$tickets = $this->_db->getTicketsByUser($request['id']);
+		$user = $this->_db->getUser($request['id']);
 		if (empty($filtered)) {
-        	$filtered = 'Tickets de l\'utilisateur';
+        	$filtered = 'Tickets de l\'utilisateur '.$user['nom'].' '.$user['prenom'];
         }
 		View::make('tickets.twig', array('tickets' => $tickets, 'filtered' => $filtered));
 	}

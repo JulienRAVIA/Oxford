@@ -78,7 +78,7 @@
 						    </span>
 						  </div>
 						</div>
-						{% if user.type != 1 %}
+						{% if user.type == 1 %}
 							{{ component.alert('info', "Le nouveau mot de passe sera envoyé par mail à l'utilisateur.", 'hidden col-md-12', 'passwordAlert') }}
 						{% endif %}
 						<div class="form-group">
@@ -93,7 +93,6 @@
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-body">
-					 {{ component.alert('info', "Le nouveau code d'accès sera envoyé par mail à l'utilisateur.") }}
 					<form method="post" name="codeForm">
 						<div class="col-md-5 form-group" id="accessCodeInput">
 						  <label class="control-label">Code d'accès:</label>
@@ -107,6 +106,7 @@
 						  </div>
 						</div>
 					</form>
+					{{ component.alert('info', "Le nouveau mot de passe sera envoyé par mail à l'utilisateur.") }}
 				</div>
 			</div>
 		</div>

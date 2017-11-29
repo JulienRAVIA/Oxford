@@ -1,0 +1,68 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Evénements{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% if session.id %}
+            <div class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+                    <li class="active"><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+                    <li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+                    <li><a href="{{ component.url('/tickets/new') }}"><i class="fa fa-ticket"></i> Nouveau Tickets</a></li>
+                </ul>
+            </div>
+        {% endif %}
+        <div class="col-md-9">
+
+            <br>
+            <div class="form-group">
+                <div><label for="exampleFormControlInput1" >Merci de bien vouloir vous connectez !</label></div>
+                <br>
+                <label for="exampleFormControlInput1">Adresse Email:</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <br>
+                <label for="exampleFormControlInput1">Code d'accès:</label>
+                <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="0666">
+                <br>
+
+                <div class="form-group">
+                    <label for="sel1">Votre Problème</label>
+                    <select class="form-control" id="sel1">
+                        <option>Connexion impossible</option>
+                        <option>Ma photo n'est pas reconnue</option>
+                        <option>Mon code d'accès ne marche pas</option>
+                        <option id="autre">Autre...</option>
+                    </select>
+                </div>
+                <span id='AfficheTicket' style="visibility:hidden;">
+                    <label for="exampleFormControlInput1">Titre du Ticket</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Comment on utilise le support Ticket?">
+                    <br>
+                    <label for="exampleFormControlTextarea1">Quel est votre problème?</label>
+                    <textarea style="resize: vertical;" class="form-control" id="FormControlTextarea1" placeholder="J'ai raté mon bus..." rows="3"></textarea>
+            </div>
+            <span>
+                <button type="button" class="btn btn-success">Envoyer</button>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    {{ parent() }}
+    <script type="text/javascript">
+        var activities = document.getElementById("autre");
+
+        activities.addEventListener("click", function () {
+            log("HEY");
+        }
+    </script>
+{% endblock %}

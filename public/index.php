@@ -93,6 +93,13 @@ $router->addRoutes(array(
     array('GET','/ticket/[i:id]/delete', 'App\\Controllers\\TicketsController@deleteTicket', 'ticket.delete')
 ));
 
+// Ajout d'un ticket
+$router->addRoutes(array(
+    // affichage d'un ticket
+    array('GET','/tickets/new', 'App\\Controllers\\NewTicketController@index', 'ticket.new'),
+    // accès à un ticket par un utilisateur
+));
+
 
 $match = $router->match();
 

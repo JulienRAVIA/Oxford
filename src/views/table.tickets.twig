@@ -45,7 +45,7 @@
                 <a href="{{ component.url('/tickets/date/') }}{{ ticket.date}}" title="Voir tous les événements datant du {{ ticket.date|date('d/m/Y') }}">
                     <i class="fa fa-calendar"></i>
                 </a>
-                <a href="{{ component.url('/tickets/status/') }}{{ticket.category|lower}}" title="Voir tous les événements {{ticket.category|capitalize}}">
+                <a href="{{ component.url('/tickets/status/' ~ component.statusfilter(ticket.statut)) }}{{ticket.category|lower}}" title="Voir tous les événements {{ticket.category|capitalize}}">
                     <i class="fa fa-folder-o"></i>
                 </a>
             </td>

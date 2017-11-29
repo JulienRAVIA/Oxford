@@ -32,8 +32,8 @@ class TicketsController
 			View::make('tickets.twig', array('tickets' => $tickets, 'filtered' => 'Tous les tickets'));
 		} else {
 			// sinon on recupère les tickets de l'utilisateur correspondant à notre cookie
-			Session::set('user_tickets', 4);
-			$this->filterByUser(array('id' => Cookie::get('user_tickets')), 'Mes tickets');
+			Session::set('user_tickets', 5);
+			$this->filterByUser(array('id' => Session::get('user_tickets')), 'Mes tickets');
 		}
 	}
 

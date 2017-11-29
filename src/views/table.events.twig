@@ -13,8 +13,12 @@
   {% for event in events %}
   	{% if event.category|lower == 'erreur' %}
   	    {% set class = 'danger' %}
-  	{% elseif event.category|lower == 'info' %}
-  	    {% set class = 'info' %}
+    {% elseif event.category|lower == 'info' %}
+        {% set class = 'info' %}
+    {% elseif event.category|lower == 'admin' %}
+        {% set class = 'default' %}
+  	{% elseif event.category|lower == 'succès' %}
+  	    {% set class = 'success' %}
   	{% endif %}
   	<tr class="{{class}}">
   		<td>{{ event.id }}</td>

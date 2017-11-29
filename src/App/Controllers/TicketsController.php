@@ -6,6 +6,7 @@ use App\Database;
 use App\View;
 use App\Utils\Session;
 use App\Utils\Cookie;
+use App\Utils\EventLogger;
 
 /**
  * summary
@@ -58,8 +59,10 @@ class TicketsController
 	public function newReply($request) {
 		if(Session::get('type') == 'rssi') {
 			$user = Session::get('id');
+			EventLogger::admin(Session::get('id'), 'Nouvelle réponse au ticket #'.$request['id']);
 		} else {
 			$user = Session::get('user_tickets');
+			EventLogger::info($user, 'Nouvelle réponse au ticket #'.$request['id']. ' par l\'utilisateur '.$user);
 		}
 		$array = array('user' => $user, 
 					   'value' => \App\Utils\Form::isString($_POST['reply_message'], 3), 
@@ -80,8 +83,10 @@ class TicketsController
 
 	public function changeTicketStatus($request) {
 		if ($request['action'] == 'cloturer') {
+			EventLogger::admin(Session::get('id'), 'Cloture du ticket #'.$request['id']);
 			$statut = 4;
 		} elseif($request['action'] == 'ouvrir') {
+			EventLogger::admin(Session::get('id'), 'Ouverture du ticket #'.$request['id']);
 			$statut = 1;
 		}
 		$this->_db->updateTicketStatus($request['id'], $statut);
@@ -146,9 +151,11 @@ class TicketsController
 		if (Session::get('type') == 'rssi') {
 			// on supprime le ticket
 			$this->_db->deleteTicket($request['id']);
+			EventLogger::admin(Session::get('id'), 'Suppression du ticket #'.$request['id']);
 			// on redirige l'utilisateur vers la page des tickets
 			View::redirect('/tickets');
 		} else {
+			EventLogger::error(Session::get('user_tickets'), 'Tentative de suppression du ticket par #'.$request['id']);
 			throw new \Exception('Vous n\avez pas les droits nécessaires pour effectuer cette action');
 		}
 	}

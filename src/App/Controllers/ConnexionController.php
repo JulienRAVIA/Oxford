@@ -7,6 +7,7 @@ use App\View;
 use App\Utils\Session;
 use App\Utils\Cookie;
 use App\Utils\ErrorLogger;
+use App\Utils\EventLogger;
 
 /**
  * summary
@@ -41,10 +42,13 @@ class ConnexionController {
 
 		if(count($results)) {
 			$infos = $results[0];
+			EventLogger::info($infos['id'], 'Connexion à l\'administration');
 			Session::connect($infos['id'], $infos['nom'], $infos['prenom'], $infos['type']);
+			EventLogger::success($infos['id'], 'Connexion à l\'administration avec succès');
 			View::redirect('/');
 		} else {
 			ErrorLogger::add('Les identifiants saisis sont incorrects');
+			EventLogger::error(1, 'Tentative de connexion à l\'administration avec l\'adresse '.$_POST['login']);
 			View::make('connexion.twig', array('erreurs' => ErrorLogger::get()));
 		}
 	}

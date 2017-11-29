@@ -585,4 +585,18 @@ class Database
         $req = Database::$dbh->prepare('DELETE FROM tickets_replies WHERE ticket = :ticket');
         $req->execute(array('ticket' => $id));
     }
+
+    /**
+     * Création d'un évent
+     * @param  int $id Type d'événement
+     * @return boolean     True or false
+     */
+    public function newEvent($user, $type, $value)
+    {
+        $req = Database::$dbh->prepare('INSERT INTO events(user, category, date, value) VALUES(:user, :category, :date, :value)');
+        $result = $req->execute(array('user' => $user,
+                                      'category' => $type,
+                                      'date' => time(),
+                                      'value' => $value));
+    }
 }

@@ -29,6 +29,8 @@ tr.danger, tr.danger > td > a {
 	color: white;
 }
 
-tr.info, tr.info > td > a {
+tr.info, tr.success, 
+tr.success > td > a,
+tr.info > td > a {
 	color: white;
 }

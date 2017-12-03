@@ -55,13 +55,46 @@ class Database
         }
         return self::$instance;
     }
-
+    
     public function lastInsertId()
     {
         return Database::$dbh->lastInsertId();
     }
-
     // REQUETES
+    /**
+     * Récupération de l'ID utilisateurs, en utilisant l'email et le code de ce dernier,
+     * si l'ID est incorrecte on retournera une exception qu'on aura passé dans le prototype
+     * comme avec getUser.
+     * @return array Résultat de la requête (Id utilisateur)
+     */
+    public function getUserId(string $email,string $code){ 
+        $req = Database::$dbh->prepare('SELECT users.id 
+                                        FROM users 
+                                        WHERE code=:code AND email=:email');
+        $req->execute(array('email' => $email,'code'=>$code));
+        $result = $req->fetchAll();
+        
+        if(!empty($result)){
+            return $result[0]['id'];
+        }
+        else{
+           throw new \Exception('Email ou mot de passe incorrect !'); 
+        }
+    }
+    /**
+     * Ajoute un nouveau ticket
+     * 
+     */
+    public function addTicket(int $subject, int $user, string $value){
+        $req = Database::$dbh->prepare("INSERT INTO `tickets`(`event`, `subject`, `user`, `date`, `statut`, `token`) 
+                                         VALUES (:event,:subject,:user,:date,:statut,:token)");
+        $req->execute(array('event' => 0,'subject' => $subject,'user' => $user,'date' => time(),'statut' => 1,'token' => uniqid(rand(), false)));
+        $ticket = Database::$dbh->lastInsertId();
+        $req = Database::$dbh->prepare("INSERT INTO `tickets_replies`(`user`, `value`, `date`, `ticket`) VALUES (:user,:value,:time,:ticket)");
+        $req->execute(array('user' => $user,'value' => $value,'time' => time(),'ticket' => $ticket));
+        return $ticket;
+    }
+    
 
     /**
      * Récupération des utilisateurs, classés par id (desc)
@@ -584,5 +617,14 @@ class Database
         $req->execute(array('id' => $id));
         $req = Database::$dbh->prepare('DELETE FROM tickets_replies WHERE ticket = :ticket');
         $req->execute(array('ticket' => $id));
+    }
+    /**
+     * Récupération des sujets tickets par défaut
+     * @return array   Sujets de tickets
+     */
+    public function getDefaultSubjects()
+    {
+        $req = Database::$dbh->query('SELECT id, value FROM subjects WHERE created = 0');
+        return $req->fetchAll();
     }
 }

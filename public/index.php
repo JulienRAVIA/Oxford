@@ -97,7 +97,8 @@ $router->addRoutes(array(
 $router->addRoutes(array(
     // affichage d'un ticket
     array('GET','/tickets/new', 'App\\Controllers\\NewTicketController@index', 'ticket.new'),
-    // accès à un ticket par un utilisateur
+    //envoie du ticket
+    array('POST','/tickets/new', 'App\\Controllers\\NewTicketController@create', 'ticket.new.envoie')
 ));
 
 

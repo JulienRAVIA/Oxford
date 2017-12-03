@@ -1,10 +1,12 @@
 {% extends 'template.twig' %}
 {% import 'component.twig' as component %}
 
-{% block title %}Evénements{% endblock %}
+{% block title %}Nouveau Ticket{% endblock %}
 
 {% block content %}
+    
     <div class="row">
+        
         {% if session.id %}
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
@@ -17,52 +19,28 @@
                 </ul>
             </div>
         {% endif %}
-        <div class="col-md-9">
-
-            <br>
-            <div class="form-group">
-                <div><label for="exampleFormControlInput1" >Merci de bien vouloir vous connectez !</label></div>
-                <br>
-                <label for="exampleFormControlInput1">Adresse Email:</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                <br>
-                <label for="exampleFormControlInput1">Code d'accès:</label>
-                <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="0666">
-                <br>
-
-                <div class="form-group">
-                    <label for="sel1">Votre Problème</label>
-                    <select class="form-control" id="sel1">
-                        <option>Connexion impossible</option>
-                        <option>Ma photo n'est pas reconnue</option>
-                        <option>Mon code d'accès ne marche pas</option>
-                        <option id="autre">Autre...</option>
+        <form  method="post">
+            <h3 class="col-md-9">Crée un nouveau Ticket</h3>
+            <div class="col-md-9">
+                
+                {{ component.input('email', 'email', '', null, "Adresse email :", 'col-md-9') }}
+                {{ component.input('codeacces', 'password', '', null, "Code d'accès :", 'col-md-9') }}
+                <div class="form-group col-md-9">
+                    <select class="form-control" name="selectprob">
+                        {%for subject in subjects  %}
+                            <option value="{{subject.id}}">{{subject.value}}</option>
+                        {%endfor%}
+                        <option value="666">Autre</option>
                     </select>
                 </div>
-                <span id='AfficheTicket' style="visibility:hidden;">
-                    <label for="exampleFormControlInput1">Titre du Ticket</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Comment on utilise le support Ticket?">
-                    <br>
-                    <label for="exampleFormControlTextarea1">Quel est votre problème?</label>
-                    <textarea style="resize: vertical;" class="form-control" id="FormControlTextarea1" placeholder="J'ai raté mon bus..." rows="3"></textarea>
+                <div class="form-group col-md-9" id="AfficheTicket">
+                    <textarea required name="prob" style="resize: vertical;" class="form-control" id="FormControlTextarea1" placeholder="Expliquez votre problème..." rows="3"></textarea>
+                </div>
+                <div class="form-group col-md-9">
+                    <button type="submit" class="btn btn-success">Envoyer</button>
+                </div>
             </div>
-            <span>
-                <button type="button" class="btn btn-success">Envoyer</button>
-
-        </div>
     </div>
+</form>
 
-
-{% endblock %}
-
-{% block scripts %}
-
-    {{ parent() }}
-    <script type="text/javascript">
-        var activities = document.getElementById("autre");
-
-        activities.addEventListener("click", function () {
-            log("HEY");
-        }
-    </script>
 {% endblock %}

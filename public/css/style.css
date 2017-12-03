@@ -34,3 +34,7 @@ tr.success > td > a,
 tr.info > td > a {
 	color: white;
 }
+
+tr.success > td {
+	color: white;
+}

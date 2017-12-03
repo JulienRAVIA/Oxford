@@ -9,7 +9,9 @@ use App\Utils\Cookie;
 use App\Utils\EventLogger;
 
 /**
- * summary
+ * Controlleur des tickets
+ * Auteur : Julien RAVIA <julien.ravia@gmail.com>
+ * Utilisation ou modification interdite sauf autorisation
  */
 class TicketsController
 {
@@ -38,6 +40,10 @@ class TicketsController
 		}
 	}
 
+	/**
+	 * Affichage d'un ticket avec ses réponses et ses informations
+	 * @param  array $request Tableau comportant l'identifiant du ticket
+	 */
 	public function showTicket($request) {
 		$ticket = $this->_db->getTicket($request['id']);
 		$replies = $this->_db->getTicketReplies($request['id']);
@@ -47,6 +53,10 @@ class TicketsController
 		View::make('ticket.twig', array('ticket' => $ticket, 'replies' => $replies));
 	}
 
+	/**
+	 * Génération d'un identifiant de session pour accéder au ticket de l'extérieur
+	 * @param  array $request Tableau comportant l'identifiant du ticket
+	 */
 	public function accessTicket($request) {
 		$ticket = $this->_db->getTicket($request['id']);
 		$replies = $this->_db->getTicketReplies($request['id']);
@@ -56,13 +66,17 @@ class TicketsController
 		View::redirect('/ticket/'.$request['id']);
 	}
 
+	/**
+	 * Ajout d'une réponse au ticket
+	 * @param  array $request Tableau comportant l'id du ticket
+	 */
 	public function newReply($request) {
 		if(Session::get('type') == 'rssi') {
 			$user = Session::get('id');
 			EventLogger::admin(Session::get('id'), 'Nouvelle réponse au ticket #'.$request['id']);
 		} else {
 			$user = Session::get('user_tickets');
-			EventLogger::info($user, 'Nouvelle réponse au ticket #'.$request['id']. ' par l\'utilisateur '.$user);
+			EventLogger::info($user, 'Nouvelle réponse au ticket #'.$request['id']. ' par l\'utilisateur @'.$user);
 		}
 		$array = array('user' => $user, 
 					   'value' => \App\Utils\Form::isString($_POST['reply_message'], 3), 
@@ -73,6 +87,11 @@ class TicketsController
 		View::redirect('/ticket/'.$request['id'].'#replie_'.$id);
 	}
 
+	/**
+	 * Fonction pour déterminer le statut à partir du type d'employé
+	 * @param  string $type Type de l'employé
+	 * @return int       Statut par rapport au type
+	 */
 	public function determineStatut($type) {
 		if($type == 'rssi') {
 			return 3;
@@ -81,6 +100,10 @@ class TicketsController
 		}
 	}
 
+	/**
+	 * Changement du statut du ticket
+	 * @param  array $request Tableau comportant l'id du ticket
+	 */
 	public function changeTicketStatus($request) {
 		if ($request['action'] == 'cloturer') {
 			EventLogger::admin(Session::get('id'), 'Cloture du ticket #'.$request['id']);
@@ -155,7 +178,7 @@ class TicketsController
 			// on redirige l'utilisateur vers la page des tickets
 			View::redirect('/tickets');
 		} else {
-			EventLogger::error(Session::get('user_tickets'), 'Tentative de suppression du ticket par #'.$request['id']);
+			EventLogger::error(Session::get('user_tickets'), 'Tentative de suppression du ticket par @'.$request['id']);
 			throw new \Exception('Vous n\avez pas les droits nécessaires pour effectuer cette action');
 		}
 	}

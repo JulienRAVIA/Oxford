@@ -88,7 +88,7 @@ class UsersController
     			$datas['sexe'] = Form::isSex($_POST['sexe']);
     		}
     		if($this->_db->updateUserInfos($datas)) {
-                EventLogger::admin(Session::get('id'), 'Modification des infos utilisateur de l\'utilisateur #'.$datas['id']);
+                EventLogger::admin(Session::get('id'), 'Modification des infos utilisateur de l\'utilisateur @'.$datas['id']);
                 View::redirect('/user/'.$request['id']);
             }
         }
@@ -101,7 +101,7 @@ class UsersController
             $fields = array('poste');
             if($_POST['poste'] == 1) {
                 $fields[] = 'password';
-                EventLogger::admin(Session::get('id'), 'Ajout aux administrateurs l\'utilisateur #'.$request['id']);
+                EventLogger::admin(Session::get('id'), 'Ajout aux administrateurs l\'utilisateur @'.$request['id']);
             }
             if(Form::isNotEmpty($_POST, $fields)) {
                 $datas['id'] = $request['id'];  
@@ -109,7 +109,7 @@ class UsersController
                 $datas['password'] = Form::isPassword($_POST['password']);
             }
             if($this->_db->updateUserJob($datas)) {
-                EventLogger::admin(Session::get('id'), 'Modification des infos entreprise de l\'utilisateur #'.$datas['id']);
+                EventLogger::admin(Session::get('id'), 'Modification des infos entreprise de l\'utilisateur @'.$datas['id']);
                 View::redirect('/user/'.$request['id']);
             }
         }
@@ -124,7 +124,7 @@ class UsersController
                 $datas['code'] = $_POST['code'];  
             }
             if($this->_db->updateUserCode($datas)) {
-                EventLogger::admin(Session::get('id'), 'Modification du code d\'accès de l\'utilisateur #'.$datas['id']);
+                EventLogger::admin(Session::get('id'), 'Modification du code d\'accès de l\'utilisateur @'.$datas['id']);
                 View::redirect('/user/'.$request['id']);
             }
         }
@@ -175,7 +175,7 @@ class UsersController
         EventLogger::admin(Session::get('id'), 'Création de l\'utilisateur #'.$user);
         if($datas['type'] == 1) {
             $this->_db->addAdmin($user, $datas['password']);
-            EventLogger::admin(Session::get('id'), 'Ajout de l\'utilisateur #'.$user.' aux administrateurs');
+            EventLogger::admin(Session::get('id'), 'Ajout de l\'utilisateur @'.$user.' aux administrateurs');
         }
         // On redirige vers la page d'édition
         View::redirect('/user/'.$user); 
@@ -190,7 +190,7 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
         $this->_db->deleteUser($request['id']);
-        EventLogger::admin(Session::get('id'), 'Suppression de l\'utilisateur #'.$request['id']);
+        EventLogger::admin(Session::get('id'), 'Suppression de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
 
@@ -203,7 +203,7 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez révoquer n\'existe pas');
         $this->_db->revokeUser($request['id']);
-        EventLogger::admin(Session::get('id'), 'Révocation des accès de l\'utilisateur #'.$request['id']);
+        EventLogger::admin(Session::get('id'), 'Révocation des accès de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
 
@@ -216,7 +216,7 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');
         $this->_db->autorizeUser($request['id']);
-        EventLogger::admin(Session::get('id'), 'Réattribution des accès de l\'utilisateur #'.$request['id']);
+        EventLogger::admin(Session::get('id'), 'Réattribution des accès de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
 
@@ -229,7 +229,7 @@ class UsersController
     {
         $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez restaurer n\'existe pas');
         $this->_db->restoreUser($request['id']);
-        EventLogger::admin(Session::get('id'), 'Restauration des accès de l\'utilisateur #'.$request['id'].' supprimé');
+        EventLogger::admin(Session::get('id'), 'Restauration des accès de l\'utilisateur @'.$request['id'].' supprimé');
         View::redirect('/user/'.$request['id']);
     }
 }

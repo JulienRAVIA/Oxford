@@ -10,7 +10,9 @@ use App\Utils\ErrorLogger;
 use App\Utils\EventLogger;
 
 /**
- * summary
+ * Controlleur de la connexion
+ * Auteur : Julien RAVIA <julien.ravia@gmail.com>
+ * Utilisation ou modification interdite sauf autorisation
  */
 class ConnexionController {
 
@@ -35,6 +37,9 @@ class ConnexionController {
 		}
 	}
 
+	/**
+	 * Connexion à partir des identifiants rentrés
+	 */
 	public function connect()
 	{
 		$password = hash('sha256', $_POST['password']);
@@ -53,6 +58,9 @@ class ConnexionController {
 		}
 	}
 
+	/**
+	 * Déconnexion de l'utilisateur
+	 */
 	public function logout() {
 		Session::destroy();
 		View::redirect('/');

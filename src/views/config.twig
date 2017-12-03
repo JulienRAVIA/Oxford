@@ -1,0 +1,149 @@
+{% extends 'template.twig' %}
+{% import 'component.twig' as component %}
+
+{% block title %}Configuration{% endblock %}
+
+{% block content %}
+	<div class="col-md-3">
+		<ul class="nav nav-pills nav-stacked">
+  		  <li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  		  <li><a href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+		  <li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+		  <li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+		  <li class="active"><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+		</ul>
+	</div>
+	<div class="col-md-9">
+		{% if errors %}
+			{{ component.alerts(errors, 'danger') }}
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">Types
+				<a href="" class="pull-right" data-toggle="modal" data-target="#addType"><i class="fa fa-plus"></i></a>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+				<thead>
+					<th>#</th>
+					<th>Statut</th>
+					<th>Filtre</th>
+					<th>Action</th>
+				</thead>
+				{% for type in types %}
+					<tr>
+						<td>{{ type.id }}</td>
+						<td><i class="fa fa-{{ type.icon }} fa-fw"></i> {{ type.value }}</td>
+						<td>{{ type.filter }}</td>
+						<td>{% if type.id != 1 %}<a href="{{ component.url('/config/delete/type/' ~ type.id) }}" title="Supprimer ce type d'employé"><i class="fa fa-times"></i></a>{% endif %}</td>
+					</tr>  
+				{% else %}
+				      <p>Aucun types d'employés enregistrés</p>  
+				{% endfor %}
+				</table>
+				{{ component.alert("danger", "La suppression d'un type révoquera automatiquement l'accès des membres y étant attribués") }}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Accès administrateur
+			</div>
+			<div class="panel-body">
+				<table class="table">
+				<thead>
+					<th>#</th>
+					<th></th>
+					<th>Action</th>
+				</thead>
+				{% for admin in admins if admin.id != session.id %}
+					<tr>
+						<td>{{ admin.id }}</td>
+						{% if admin.user is null %}
+						<td>Utilisateur non existant</td>
+						{% else %}
+						<td>{% if admin.status is null %}<i class="fa fa-trash"></i> {% endif %}{{ admin.nom|upper ~ ' ' ~ admin.prenom|capitalize }}</td>
+						{% endif %}
+						<td><a href="{{ component.url('/config/delete/admin/' ~ admin.id) }}" title="Supprimer cet accès"><i class="fa fa-times"></i></a></td>
+					</tr>  
+				{% else %}
+				      <p>Aucun accès administrateurs créés (votre accès n'apparait pas)</p>   
+				{% endfor %}
+				</table>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Sujets de tickets par défaut
+				<a href="" class="pull-right" data-toggle="modal" data-target="#addSubject"><i class="fa fa-plus"></i></a>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+				<thead>
+					<th>#</th>
+					<th></th>
+					<th>Action</th>
+				</thead>
+				{% for subject in subjects %}
+					<tr>
+						<td>{{ subject.id }}</td>
+						<td>{{ subject.value }}</td>
+						<td><a href="{{ component.url('/config/delete/subject/' ~ subject.id) }}" title="Supprimer ce sujet"><i class="fa fa-times"></i></a></td>
+					</tr>    
+				{% else %}
+				      <p>Aucun sujets de tickets par défaut</p>   
+				{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="addType" tabindex="-1" role="dialog" aria-labelledby="addTypeModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter un type d'employé</h4>
+      </div>
+      <form action="/config/addtype" method="post">
+      <div class="modal-body">
+        <div class="row">
+        	{{ component.input('type', 'text', 'Type :', null, "Type d'employé :") }}
+        	<div class="form-group col-md-3">
+				<label for="icon">Icône : <a href="http://fontawesome.io/icons/" target="_blank">(liste)</a></label>
+        		<div class="input-group">
+				  	<span class="input-group-addon" id="icon-group"><i class="fa fa-fa"></i></span>
+				  	<input type="text" class="form-control" placeholder="icon" aria-describedby="icon-group" name="icon" id="icon">
+				</div>
+        	</div>
+        	{{ component.input('filter', 'text', 'Filtre', null, "Filtre :", 'col-md-4') }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addSubject" tabindex="-1" role="dialog" aria-labelledby="addSubject">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter un sujet</h4>
+      </div>
+      <form action="/config/addsubject" method="post">
+      <div class="modal-body">
+        <div class="row">
+        	{{ component.input('sujet', 'text', 'Sujet :', null, "Sujet :", "col-md-10") }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

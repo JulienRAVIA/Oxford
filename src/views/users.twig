@@ -22,28 +22,54 @@
 			<div class="col-md-3 user">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<a href="{{ component.url('/user/'~ user.id) }}"><img src="{{ component.url('/photos/'~ user.photo) }}" alt="" width="160"></a>
+						<a href="{{ component.url('/user/'~ user.id) }}"><img src="{{ component.url('/photos/'~ user.photo) }}" class="img-responsive"></a>
 					</div>
 					<div class="panel-footer">
-						{{ user.nom }} {{ user.prenom }} <span class="badge pull-right"><i class="fa fa-user-secret"></i></span>
-					</div>
-				</div>
-				<div class="btn-group">
-				  	<a href="{{ component.url('/user/'~ user.id) }}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i> Editer</a>
-				  	{% if user.status is null %}
-				  		<a href="{{ component.url('/user/'~ user.id ~'/restore') }}" title="Restaurer l'utilisateur" class="btn btn-default"><i class="fa fa-plus"></i> Restaurer</a>
-				  	{% else %}
-				  		<a href="{{ component.url('/user/'~ user.id ~'/delete') }}" title="Supprimer l'utilisateur" class="btn btn-default"><i class="fa fa-trash"></i></a>
-				  		{% if user.status == 1 %}
-				  			<a href="{{ component.url('/user/'~ user.id ~'/revoke') }}" title="Révoquer l'accès" class="btn btn-default"><i class="fa fa-ban"></i></a>
+						{{ user.nom }} {{ user.prenom }} 
+						<span class="pull-right">
+						<a href="" class="dropdown-toggle" type="button" id="dropdownUser{{user.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+  						  <i class="fa fa-{{ user.icon }}" title="{{ user.filter }}"></i>
+  						</a>
+  						<ul class="dropdown-menu" aria-labelledby="dropdownUser{{user.id}}">
+  						  	<li>
+  						  		<a href="{{ component.url('/user/'~ user.id) }}" title="Editer l'utilisateur">
+  						  			<i class="fa fa-pencil"></i> Editer
+  						  		</a>
+  						  	</li>
+				  			{% if user.status is null %}
+				  				<li>
+				  					<a href="{{ component.url('/user/'~ user.id ~'/restore') }}" title="Restaurer l'utilisateur">
+				  						<i class="fa fa-plus"></i> Restaurer
+				  					</a>
+				  				</li>
+				  			{% else %}
+				  				<li>
+				  					<a href="{{ component.url('/user/'~ user.id ~'/delete') }}" title="Supprimer l'utilisateur">
+				  						<i class="fa fa-trash"></i> Supprimer l'utilisateur 
+				  					</a>
+				  				</li>
+				  				{% if user.status == 1 %}
+				  					<li>
+				  						<a href="{{ component.url('/user/'~ user.id ~'/revoke') }}" title="Révoquer l'accès">
+				  							<i class="fa fa-ban"></i> Révoquer l'accès
+				  						</a>
+				  					</li>
 						{% elseif user.status == 0 %}
-				  			<a href="{{ component.url('/user/'~ user.id ~'/autorize') }}" title="Réattribuer l'accès" class="btn btn-default"><i class="fa fa-key"></i></a>
+				  			<li>
+				  				<a href="{{ component.url('/user/'~ user.id ~'/autorize') }}" title="Réattribuer l'accès">
+				  					<i class="fa fa-key"></i> Réattribuer l'accès
+				  				</a>
+				  			</li>
 				  		{% endif %}
 				  	{% endif %}
-				  	
-				  	
-				  		
+  						</ul>
+						
+  						</span>
+					</div>
 				</div>
+				{# <div class="btn-group">
+				  	<a href="{{ component.url('/user/'~ user.id) }}" title="Editer l'utilisateur" class="btn btn-default"><i class="fa fa-pencil"></i> Editer</a>
+				</div> #}
 		   </div>
 		{% else %}
 			{% if search is defined or search == 'deleted' %}

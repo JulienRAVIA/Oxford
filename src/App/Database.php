@@ -69,8 +69,9 @@ class Database
      */
     public function getUsers()
     {
-        $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+        $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type, types.icon, types.filter FROM users 
                                       LEFT JOIN photos ON users.photo = photos.id
+                                      INNER JOIN types ON users.type = types.id
                                       WHERE status IS NOT NULL
                                       ORDER BY users.id DESC');
         $result = $req->fetchAll();
@@ -110,7 +111,7 @@ class Database
     {
         $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email, photos.value as photo 
                                         FROM users 
-                                        INNER JOIN types ON users.type = types.id 
+                                        LEFT JOIN types ON users.type = types.id 
                                         LEFT JOIN photos ON users.photo = photos.id
                                         WHERE users.id = :user');
         $req->execute(array('user' => $user));
@@ -134,7 +135,7 @@ class Database
                                       FROM events 
                                       LEFT JOIN users ON events.user = users.id 
                                       INNER JOIN categories ON events.category = categories.id
-                                      ORDER BY date DESC');
+                                      ORDER BY date DESC, id DESC');
         $result = $req->fetchAll();
         return $result;
     }
@@ -145,7 +146,7 @@ class Database
      */
     public function getTypes()
     {
-        $req = Database::$dbh->query('SELECT id, value, filter, icon FROM types');
+        $req = Database::$dbh->query('SELECT id, value, filter, icon FROM types ORDER BY id');
         $result = $req->fetchAll();
         return $result;
     }
@@ -156,7 +157,7 @@ class Database
      */
     public function getTypesWithValue()
     {
-        $req = Database::$dbh->query('SELECT id, value FROM types');
+        $req = Database::$dbh->query('SELECT id, value FROM types ORDER BY id');
         $result = $req->fetchAll();
         return $result;
     }
@@ -177,7 +178,7 @@ class Database
                                         LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE date BETWEEN :dateb AND :datee
-                                        ORDER BY id DESC');
+                                        ORDER BY date DESC, id DESC');
         $req->execute(array('dateb' => $dateB, 'datee' => $dateE));
         $result = $req->fetchAll();
         return $result;
@@ -198,7 +199,7 @@ class Database
                                         LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE user = :user
-                                        ORDER BY id, date DESC');
+                                        ORDER BY date DESC, id DESC');
         $req->execute(array('user' => $user));
         $result = $req->fetchAll();
         return $result;
@@ -219,7 +220,7 @@ class Database
                                         LEFT JOIN users ON events.user = users.id 
                                         INNER JOIN categories ON events.category = categories.id
                                         WHERE categories.value = :category
-                                        ORDER BY id, date DESC');
+                                        ORDER BY date DESC, id ASC');
         $req->execute(array('category' => strtolower($category)));
         $result = $req->fetchAll();
         return $result;
@@ -455,7 +456,7 @@ class Database
     {
         $req = Database::$dbh->query('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN users ON tickets.user = users.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       ORDER BY date DESC');
@@ -468,7 +469,7 @@ class Database
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, COALESCE(users.nom, "Utilisateur supprimé") as nom, users.prenom as prenom, tickets.date, statut, token FROM tickets 
                                       LEFT JOIN users ON tickets.user = users.id
-                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.id = :id
                                       ORDER BY date DESC');
@@ -513,7 +514,7 @@ class Database
         $statusList = array('opens' => 1, 'closed' => 4, 'replied' => 3, 'newreply' => 2);
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
-                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN users ON tickets.user = users.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE statut = :statut
@@ -528,7 +529,7 @@ class Database
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
                                       LEFT JOIN users ON tickets.user = users.id
-                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.user = :user
                                       ORDER BY date DESC');
@@ -548,7 +549,7 @@ class Database
         $req = Database::$dbh->prepare('SELECT tickets.id AS id, events.id as event, subjects.value as subject, events.value as eventvalue,
                                       users.id as user, users.nom as nom, users.prenom as prenom, tickets.date, statut FROM tickets 
                                       LEFT JOIN users ON tickets.user = users.id
-                                      INNER JOIN subjects ON tickets.subject = subjects.id
+                                      LEFT JOIN subjects ON tickets.subject = subjects.id
                                       LEFT JOIN events ON tickets.event = events.id
                                       WHERE tickets.date BETWEEN :dateB AND :dateE
                                       ORDER BY date DESC');
@@ -598,5 +599,83 @@ class Database
                                       'category' => $type,
                                       'date' => time(),
                                       'value' => $value));
+    }
+
+    /**
+     * Récupération des sujets tickets par défaut
+     * @return boolean     Sujets de tickets
+     */
+    public function getDefaultSubjects()
+    {
+        $req = Database::$dbh->query('SELECT * FROM subjects WHERE created = 0 ORDER BY id');
+        return $req->fetchAll();
+    }
+
+    /**
+     * Récupération des sujets tickets par défaut
+     * @return boolean     Sujets de tickets
+     */
+    public function getAdmins()
+    {
+        $req = Database::$dbh->query('SELECT admins.id, users.id as user, users.nom, users.prenom, users.status FROM admins LEFT JOIN users ON admins.id = users.id ORDER BY id');
+        return $req->fetchAll();
+    }
+
+    /**
+     * Suppression d'un type d'employés
+     * @return boolean     True ou false
+     */
+    public function deleteType($id)
+    {
+        $req = Database::$dbh->prepare('DELETE FROM types WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $req = Database::$dbh->prepare('UPDATE users SET status = NULL WHERE type = :id');
+        $req->execute(array('id' => $id));
+    }
+
+    /**
+     * Suppression d'un sujet de ticket
+     * @return boolean     True ou false
+     */
+    public function deleteSubject($id)
+    {
+        $req = Database::$dbh->prepare('DELETE FROM subjects WHERE id = :id');
+        $req->execute(array('id' => $id));
+        return $req;
+    }
+
+    /**
+     * Suppression d'un accès administrateur
+     * @return boolean     True ou false
+     */
+    public function deleteAccess($id)
+    {
+        $req = Database::$dbh->prepare('DELETE FROM admins WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $req = Database::$dbh->prepare('UPDATE users SET type = 6 WHERE id = :id');
+        $req->execute(array('id' => $id));
+        return $req;
+    }
+
+    /**
+     * Ajout d'un type d'employé
+     * @param array $array Données du type d'employé à ajouter à la table
+     */
+    public function addType($array)
+    {
+        $req = Database::$dbh->prepare('INSERT INTO types(value, filter, icon) VALUES(:type, :filter, :icon)');
+        $req->execute($array);
+        return Database::$dbh->lastInsertId();
+    }
+
+    /**
+     * Ajout d'un sujet par défaut
+     * @param array $array Sujet à ajouter aux sujets par défaut
+     */
+    public function addSubject($subject)
+    {
+        $req = Database::$dbh->prepare('INSERT INTO subjects(value, created) VALUES(:sujet, 0)');
+        $req->execute(array('sujet' => $subject));
+        return Database::$dbh->lastInsertId();
     }
 }

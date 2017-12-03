@@ -4,7 +4,7 @@
     <tr>
     	<th>#</th>
         <th></th>
-    	<th>Evénement</th>
+    	{# <th>Evénement</th> #}
     	<th><i class="fa fa-user"></i> Utilisateur</th>
     	<th>Statut</th>
         <th><i class="fa fa-calendar-o"></i> Date</th>
@@ -16,8 +16,12 @@
     {% for ticket in tickets %}
   	<tr class="{{class}}">
         <td>{{ ticket.id }}</td>
-  		<td><a href="{{ component.url('/ticket/'~ ticket.id) }}">{{ ticket.subject }}</a></td>
-        {% if ticket.event is not empty %}
+  		{% if not ticket.subject is null %}
+            <td><a href="{{ component.url('/ticket/'~ ticket.id) }}">{{ ticket.subject }}</a></td>
+        {% else %}
+            <td><a href="{{ component.url('/ticket/'~ ticket.id) }}">Sujet par défaut supprimé</a></td>
+        {% endif %}
+        {# {% if ticket.event is not empty %}
             {% if session.id %}
               <td><a href="{{ component.url('/events/'~ ticket.event) }}" data-toggle="tooltip" data-placement="bottom" title="{{ ticket.eventvalue }}">#{{ ticket.event }}</a></td>
             {% else %}
@@ -25,7 +29,7 @@
             {% endif %}
         {% else %}
             <td> </td>
-        {% endif %}
+        {% endif %} #}
         {% if session.id %}
                 <td>
                 {% if ticket.nom is not null %}

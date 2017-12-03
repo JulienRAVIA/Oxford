@@ -31,7 +31,7 @@ $router->addRoutes(array(
    array('GET','/events/', 'App\\Controllers\\EventsController@index', 'events'),
    array('GET','/events', 'App\\Controllers\\EventsController@index', 'events.list'),
     // filtrage par type de catégorie, on accepte uniquement les types info ou erreur
-   array('GET','/events/category/[erreur|info|admin:category]', 'App\\Controllers\\EventsController@filterByCategory', 'events.list.category'),
+   array('GET','/events/category/[erreur|info|admin|succes:category]', 'App\\Controllers\\EventsController@filterByCategory', 'events.list.category'),
     // filtrage par date (timestamp)
    array('GET','/events/date/[i:date]', 'App\\Controllers\\EventsController@filterByDate', 'events.list.date'),
     // filtrage par utilisateur
@@ -91,6 +91,17 @@ $router->addRoutes(array(
     array('POST','/ticket/[i:id]', 'App\\Controllers\\TicketsController@newReply', 'ticket.reply'),
     // ajout d'une réponse au ticket
     array('GET','/ticket/[i:id]/delete', 'App\\Controllers\\TicketsController@deleteTicket', 'ticket.delete')
+));
+
+// Configuration
+$router->addRoutes(array(
+    // Page d'accueil
+    array('GET','/config', 'App\\Controllers\\ConfigController@index', 'config'),
+    array('GET','/config/delete/subject/[i:id]', 'App\\Controllers\\ConfigController@deleteSubject', 'config.delete.subject'),
+    array('GET','/config/delete/type/[i:id]', 'App\\Controllers\\ConfigController@deleteType', 'config.delete.type'),
+    array('GET','/config/delete/admin/[i:id]', 'App\\Controllers\\ConfigController@deleteAdmin', 'config.delete.admin'),
+    array('POST','/config/addtype', 'App\\Controllers\\ConfigController@addType', 'config.add.type'),
+    array('POST','/config/addsubject', 'App\\Controllers\\ConfigController@addSubject', 'config.add.subject')
 ));
 
 

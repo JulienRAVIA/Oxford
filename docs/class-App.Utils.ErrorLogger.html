@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="resources/style.css">
 
         <title>
-            Class App\Twig
+            Class App\Utils\ErrorLogger
         </title>
     </head>
 
@@ -59,9 +59,13 @@
         <li>
             <a href="namespace-App.html">App</a>
         </li>
+            <li class="backslash">\</li>
+        <li>
+            <a href="namespace-App.Utils.html">Utils</a>
+        </li>
 
         <li class="backslash">\</li>
-        <li class="active">Twig</li>
+        <li class="active">ErrorLogger</li>
 </ol>
                         </div>
                     </div>
@@ -71,13 +75,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-    <h1>Twig</h1>
+    <h1>ErrorLogger</h1>
 
         <div class="panel panel-default">
             <div class="panel-body">
-                Renderer Twig pour le fonctionnement de la classe View (Facade)
-Auteur : Julien RAVIA &lt;julien.ravia@gmail.com&gt;
-Utilisation ou modification interdite sauf autorisation
+                Classe d'enregistrement et de récupération d'erreurs
             </div>
         </div>
 
@@ -87,7 +89,7 @@ Utilisation ou modification interdite sauf autorisation
     <div class="info">
         
 
-            <a href="source-class-App.Twig.html" class="open-source-code">Open source code</a>
+            <a href="source-class-App.Utils.ErrorLogger.html" class="open-source-code">Open source code</a>
         <br>
     </div>
 
@@ -96,11 +98,11 @@ Utilisation ou modification interdite sauf autorisation
 
 
 
-<tr id="___construct">
+<tr id="_add">
 
     <td class="attributes col-md-1">
         <code class="keyword">
-                 public 
+                 public static
                 
                 
         </code>
@@ -108,11 +110,11 @@ Utilisation ou modification interdite sauf autorisation
 
     <td class="name">
         <div>
-            <a class="anchor pull-right" href="#___construct">#</a>
-            <code><a href="source-class-App.Twig.html#18-28">__construct</a>( )</code>
+            <a class="anchor pull-right" href="#_add">#</a>
+            <code><a href="source-class-App.Utils.ErrorLogger.html#14-20">add</a>( <span> string <span class="property-name">$message</span> </span> )</code>
 
             <div class="description">
-                Instanciation de l'objet Twig
+                Ajoute une erreur au tableau d'erreurs
 
 
 
@@ -128,11 +130,11 @@ Utilisation ou modification interdite sauf autorisation
 
 
 
-<tr id="_render">
+<tr id="_get">
 
     <td class="attributes col-md-1">
         <code class="keyword">
-                 public 
+                 public static
                 
                 
         </code>
@@ -140,11 +142,43 @@ Utilisation ou modification interdite sauf autorisation
 
     <td class="name">
         <div>
-            <a class="anchor pull-right" href="#_render">#</a>
-            <code><a href="source-class-App.Twig.html#36-43">render</a>( <span> string <span class="property-name">$view</span> </span>, <span> array <span class="property-name">$array</span> = <span class="php-keyword1">array</span> ( )</span> )</code>
+            <a class="anchor pull-right" href="#_get">#</a>
+            <code><a href="source-class-App.Utils.ErrorLogger.html#26-32">get</a>( )</code>
 
             <div class="description">
-                Fonction de rendu d'une vue
+                Récupère le tableau d'erreurs
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_count">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public static
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_count">#</a>
+            <code><a href="source-class-App.Utils.ErrorLogger.html#38-45">count</a>( )</code>
+
+            <div class="description">
+                Retourne le nombre d'erreurs enregistrées
 
 
 

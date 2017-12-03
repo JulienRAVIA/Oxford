@@ -109,7 +109,39 @@ Utilisation ou modification interdite sauf autorisation
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getInstance">#</a>
-            <code><a href="source-class-App.Database.html#42-50">getInstance</a>( )</code>
+            <code><a href="source-class-App.Database.html#49-57">getInstance</a>( )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_lastInsertId">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_lastInsertId">#</a>
+            <code><a href="source-class-App.Database.html#59-62">lastInsertId</a>( )</code>
 
             <div class="description">
                 
@@ -141,7 +173,7 @@ Utilisation ou modification interdite sauf autorisation
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getUsers">#</a>
-            <code><a href="source-class-App.Database.html#58-66">getUsers</a>( )</code>
+            <code><a href="source-class-App.Database.html#70-79">getUsers</a>( )</code>
 
             <div class="description">
                 Récupération des utilisateurs, classés par id (desc)
@@ -173,7 +205,7 @@ Utilisation ou modification interdite sauf autorisation
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getUsersByType">#</a>
-            <code><a href="source-class-App.Database.html#72-89">getUsersByType</a>( <span> <span class="property-name">$type</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#85-102">getUsersByType</a>( <span> <span class="property-name">$type</span> </span> )</code>
 
             <div class="description">
                 Récupération des utilisateurs par type classés par id (desc)
@@ -205,7 +237,7 @@ Utilisation ou modification interdite sauf autorisation
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getUser">#</a>
-            <code><a href="source-class-App.Database.html#97-111">getUser</a>( <span> int <span class="property-name">$user</span> </span>, <span> string <span class="property-name">$exception</span> = <span class="php-quote">'Cet utilisateur n\'existe pas'</span></span> )</code>
+            <code><a href="source-class-App.Database.html#110-124">getUser</a>( <span> int <span class="property-name">$user</span> </span>, <span> string <span class="property-name">$exception</span> = <span class="php-quote">'Cet utilisateur n\'existe pas'</span></span> )</code>
 
             <div class="description">
                 Récupération des infos d'un utilisateur
@@ -238,7 +270,7 @@ S'il n'existe pas on lance une exception
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getEvents">#</a>
-            <code><a href="source-class-App.Database.html#117-128">getEvents</a>( )</code>
+            <code><a href="source-class-App.Database.html#130-141">getEvents</a>( )</code>
 
             <div class="description">
                 Récupération de tous les événements, classés par date (desc)
@@ -270,7 +302,7 @@ S'il n'existe pas on lance une exception
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getTypes">#</a>
-            <code><a href="source-class-App.Database.html#134-139">getTypes</a>( )</code>
+            <code><a href="source-class-App.Database.html#147-152">getTypes</a>( )</code>
 
             <div class="description">
                 Récupération des types d'employés dans la table 'types'
@@ -302,7 +334,7 @@ S'il n'existe pas on lance une exception
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getTypesWithValue">#</a>
-            <code><a href="source-class-App.Database.html#145-150">getTypesWithValue</a>( )</code>
+            <code><a href="source-class-App.Database.html#158-163">getTypesWithValue</a>( )</code>
 
             <div class="description">
                 Récupération des types d'employés dans la table 'types'
@@ -334,7 +366,7 @@ S'il n'existe pas on lance une exception
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getEventsByDate">#</a>
-            <code><a href="source-class-App.Database.html#159-172">getEventsByDate</a>( <span> int <span class="property-name">$dateB</span> </span>, <span> int <span class="property-name">$dateE</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#172-185">getEventsByDate</a>( <span> int <span class="property-name">$dateB</span> </span>, <span> int <span class="property-name">$dateE</span> </span> )</code>
 
             <div class="description">
                 Récupération des événements, classés par date (desc),
@@ -367,7 +399,7 @@ entre minuit et 23h 59 de la date passée en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getEventsByUser">#</a>
-            <code><a href="source-class-App.Database.html#180-193">getEventsByUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#193-206">getEventsByUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Récupération des événements, classés par date (desc),
@@ -400,7 +432,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getEventsByCategory">#</a>
-            <code><a href="source-class-App.Database.html#201-214">getEventsByCategory</a>( <span> string <span class="property-name">$category</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#214-227">getEventsByCategory</a>( <span> string <span class="property-name">$category</span> </span> )</code>
 
             <div class="description">
                 Récupération des événements, classés par date (desc),
@@ -433,7 +465,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_updateUserInfos">#</a>
-            <code><a href="source-class-App.Database.html#221-229">updateUserInfos</a>( <span> array <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#234-242">updateUserInfos</a>( <span> array <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Mise à jour des infos de l'utilisateur à partir d'un tableau de données
@@ -465,7 +497,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_updateUserJob">#</a>
-            <code><a href="source-class-App.Database.html#237-258">updateUserJob</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#250-271">updateUserJob</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
 
             <div class="description">
                 Mise à jour du type d'employé pour un utilisateur
@@ -498,7 +530,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_updateUserCode">#</a>
-            <code><a href="source-class-App.Database.html#265-274">updateUserCode</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#278-287">updateUserCode</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
 
             <div class="description">
                 Mise à jour du code d'accès d'un utilisateur
@@ -530,7 +562,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_typeExist">#</a>
-            <code><a href="source-class-App.Database.html#281-291">typeExist</a>( <span> int <span class="property-name">$type</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#294-304">typeExist</a>( <span> int <span class="property-name">$type</span> </span> )</code>
 
             <div class="description">
                 On vériie que le type passé en paramètre existe
@@ -562,7 +594,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_typeExistWithFilter">#</a>
-            <code><a href="source-class-App.Database.html#298-308">typeExistWithFilter</a>( <span> string <span class="property-name">$type</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#311-321">typeExistWithFilter</a>( <span> string <span class="property-name">$type</span> </span> )</code>
 
             <div class="description">
                 On vériie que le type passé en paramètre existe
@@ -594,7 +626,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_userType">#</a>
-            <code><a href="source-class-App.Database.html#315-321">userType</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#328-334">userType</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Récupération du poste de l'utilisateur (visiteur, RSSI, etc)
@@ -626,7 +658,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_insertPhoto">#</a>
-            <code><a href="source-class-App.Database.html#329-333">insertPhoto</a>( <span> string <span class="property-name">$name</span> </span>, <span> int <span class="property-name">$date</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#342-346">insertPhoto</a>( <span> string <span class="property-name">$name</span> </span>, <span> int <span class="property-name">$date</span> </span> )</code>
 
             <div class="description">
                 Ajout d'une photo à la table photos avec pour info les paramètres passés
@@ -658,7 +690,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getPhotoId">#</a>
-            <code><a href="source-class-App.Database.html#341-349">getPhotoId</a>( <span> string <span class="property-name">$name</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#354-362">getPhotoId</a>( <span> string <span class="property-name">$name</span> </span> )</code>
 
             <div class="description">
                 Récupération de l'id de la photo à partir du nom de fichier
@@ -690,7 +722,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_insertUser">#</a>
-            <code><a href="source-class-App.Database.html#356-365">insertUser</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#369-378">insertUser</a>( <span> array <span class="property-name">$infos</span> </span> )</code>
 
             <div class="description">
                 Ajout d'un utilisateur dans la table users avec les infos qui sont dans le tableau
@@ -722,7 +754,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_deleteUser">#</a>
-            <code><a href="source-class-App.Database.html#373-380">deleteUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#386-393">deleteUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Suppression d'un utilisateur à partir de son id
@@ -754,7 +786,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_revokeUser">#</a>
-            <code><a href="source-class-App.Database.html#388-395">revokeUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#401-408">revokeUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Révocation (suppression d'accès) d'un utilisateur à partir de son id
@@ -786,7 +818,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_autorizeUser">#</a>
-            <code><a href="source-class-App.Database.html#403-410">autorizeUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#416-423">autorizeUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Autorisation (attribution d'accès) d'un utilisateur à partir de son id
@@ -818,7 +850,7 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_restoreUser">#</a>
-            <code><a href="source-class-App.Database.html#418-425">restoreUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#431-438">restoreUser</a>( <span> int <span class="property-name">$user</span> </span> )</code>
 
             <div class="description">
                 Autorisation (attribution d'accès) d'un utilisateur à partir de son id
@@ -850,10 +882,586 @@ de l'utilisateur passé en paramètre
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_addAdmin">#</a>
-            <code><a href="source-class-App.Database.html#432-440">addAdmin</a>( <span> int <span class="property-name">$user</span> </span>, <span> string <span class="property-name">$password</span> </span> )</code>
+            <code><a href="source-class-App.Database.html#445-453">addAdmin</a>( <span> int <span class="property-name">$user</span> </span>, <span> string <span class="property-name">$password</span> </span> )</code>
 
             <div class="description">
                 Ajout d'un administrateur
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTickets">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTickets">#</a>
+            <code><a href="source-class-App.Database.html#455-466">getTickets</a>( )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTicket">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTicket">#</a>
+            <code><a href="source-class-App.Database.html#468-483">getTicket</a>( <span> <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTicketReplies">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTicketReplies">#</a>
+            <code><a href="source-class-App.Database.html#485-494">getTicketReplies</a>( <span> <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_addTicketReply">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_addTicketReply">#</a>
+            <code><a href="source-class-App.Database.html#496-500">addTicketReply</a>( <span> <span class="property-name">$array</span> </span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_updateTicketStatus">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_updateTicketStatus">#</a>
+            <code><a href="source-class-App.Database.html#502-510">updateTicketStatus</a>( <span> <span class="property-name">$ticket</span> </span>, <span> <span class="property-name">$statut</span> </span>, <span> <span class="property-name">$date</span> = <span class="php-quote">''</span></span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTicketsByStatut">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTicketsByStatut">#</a>
+            <code><a href="source-class-App.Database.html#512-525">getTicketsByStatut</a>( <span> <span class="property-name">$statut</span> </span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTicketsByUser">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTicketsByUser">#</a>
+            <code><a href="source-class-App.Database.html#527-539">getTicketsByUser</a>( <span> <span class="property-name">$user</span> </span> )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getTicketsByDate">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getTicketsByDate">#</a>
+            <code><a href="source-class-App.Database.html#547-559">getTicketsByDate</a>( <span> int <span class="property-name">$dateB</span> </span>, <span> int <span class="property-name">$dateE</span> </span> )</code>
+
+            <div class="description">
+                Affichage des tickets par date
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getAdmin">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getAdmin">#</a>
+            <code><a href="source-class-App.Database.html#567-575">getAdmin</a>( <span> string <span class="property-name">$login</span> </span>, <span> string <span class="property-name">$password</span> </span> )</code>
+
+            <div class="description">
+                Récupération des infos d'un utilisateur à partir d'un login et d'un mdp
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_deleteTicket">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_deleteTicket">#</a>
+            <code><a href="source-class-App.Database.html#582-588">deleteTicket</a>( <span> int <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                Suppression d'un ticket
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_newEvent">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_newEvent">#</a>
+            <code><a href="source-class-App.Database.html#595-602">newEvent</a>( <span> int <span class="property-name">$user</span> </span>, <span> <span class="property-name">$type</span> </span>, <span> <span class="property-name">$value</span> </span> )</code>
+
+            <div class="description">
+                Création d'un évent
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getDefaultSubjects">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getDefaultSubjects">#</a>
+            <code><a href="source-class-App.Database.html#608-612">getDefaultSubjects</a>( )</code>
+
+            <div class="description">
+                Récupération des sujets tickets par défaut
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getAdmins">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getAdmins">#</a>
+            <code><a href="source-class-App.Database.html#618-622">getAdmins</a>( )</code>
+
+            <div class="description">
+                Récupération des sujets tickets par défaut
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_deleteType">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_deleteType">#</a>
+            <code><a href="source-class-App.Database.html#628-634">deleteType</a>( <span> <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                Suppression d'un type d'employés
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_deleteSubject">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_deleteSubject">#</a>
+            <code><a href="source-class-App.Database.html#640-645">deleteSubject</a>( <span> <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                Suppression d'un sujet de ticket
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_deleteAccess">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_deleteAccess">#</a>
+            <code><a href="source-class-App.Database.html#651-658">deleteAccess</a>( <span> <span class="property-name">$id</span> </span> )</code>
+
+            <div class="description">
+                Suppression d'un accès administrateur
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_addType">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_addType">#</a>
+            <code><a href="source-class-App.Database.html#664-669">addType</a>( <span> array <span class="property-name">$array</span> </span> )</code>
+
+            <div class="description">
+                Ajout d'un type d'employé
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_addSubject">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_addSubject">#</a>
+            <code><a href="source-class-App.Database.html#675-680">addSubject</a>( <span> array <span class="property-name">$subject</span> </span> )</code>
+
+            <div class="description">
+                Ajout d'un sujet par défaut
 
 
 

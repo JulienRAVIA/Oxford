@@ -26,7 +26,6 @@ class ConnexionController {
 
     /**
      * Page d'accueil du formulaire de connexion
-     * @return [type] [description]
      */
 	public function index()
 	{

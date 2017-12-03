@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="resources/style.css">
 
         <title>
-            Class App\Twig
+            Class App\Utils\Cookie
         </title>
     </head>
 
@@ -59,9 +59,13 @@
         <li>
             <a href="namespace-App.html">App</a>
         </li>
+            <li class="backslash">\</li>
+        <li>
+            <a href="namespace-App.Utils.html">Utils</a>
+        </li>
 
         <li class="backslash">\</li>
-        <li class="active">Twig</li>
+        <li class="active">Cookie</li>
 </ol>
                         </div>
                     </div>
@@ -71,13 +75,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-    <h1>Twig</h1>
+    <h1>Cookie</h1>
 
         <div class="panel panel-default">
             <div class="panel-body">
-                Renderer Twig pour le fonctionnement de la classe View (Facade)
-Auteur : Julien RAVIA &lt;julien.ravia@gmail.com&gt;
-Utilisation ou modification interdite sauf autorisation
+                Utilitaire pour les cookies
             </div>
         </div>
 
@@ -87,7 +89,7 @@ Utilisation ou modification interdite sauf autorisation
     <div class="info">
         
 
-            <a href="source-class-App.Twig.html" class="open-source-code">Open source code</a>
+            <a href="source-class-App.Utils.Cookie.html" class="open-source-code">Open source code</a>
         <br>
     </div>
 
@@ -96,11 +98,11 @@ Utilisation ou modification interdite sauf autorisation
 
 
 
-<tr id="___construct">
+<tr id="_set">
 
     <td class="attributes col-md-1">
         <code class="keyword">
-                 public 
+                 public static
                 
                 
         </code>
@@ -108,11 +110,11 @@ Utilisation ou modification interdite sauf autorisation
 
     <td class="name">
         <div>
-            <a class="anchor pull-right" href="#___construct">#</a>
-            <code><a href="source-class-App.Twig.html#18-28">__construct</a>( )</code>
+            <a class="anchor pull-right" href="#_set">#</a>
+            <code><a href="source-class-App.Utils.Cookie.html#15-20">set</a>( <span> string <span class="property-name">$key</span> </span>, <span> string <span class="property-name">$value</span> </span>, <span> <span class="property-name">$time</span> = <span class="php-quote">''</span></span> )</code>
 
             <div class="description">
-                Instanciation de l'objet Twig
+                Création d'une variable de session
 
 
 
@@ -128,11 +130,11 @@ Utilisation ou modification interdite sauf autorisation
 
 
 
-<tr id="_render">
+<tr id="_get">
 
     <td class="attributes col-md-1">
         <code class="keyword">
-                 public 
+                 public static
                 
                 
         </code>
@@ -140,11 +142,77 @@ Utilisation ou modification interdite sauf autorisation
 
     <td class="name">
         <div>
-            <a class="anchor pull-right" href="#_render">#</a>
-            <code><a href="source-class-App.Twig.html#36-43">render</a>( <span> string <span class="property-name">$view</span> </span>, <span> array <span class="property-name">$array</span> = <span class="php-keyword1">array</span> ( )</span> )</code>
+            <a class="anchor pull-right" href="#_get">#</a>
+            <code><a href="source-class-App.Utils.Cookie.html#27-33">get</a>( <span> string <span class="property-name">$key</span> </span> )</code>
 
             <div class="description">
-                Fonction de rendu d'une vue
+                Récupération d'une variable de cookie à partir de sa clé
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_destroy">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public static
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_destroy">#</a>
+            <code><a href="source-class-App.Utils.Cookie.html#39-46">destroy</a>( <span> string <span class="property-name">$key</span> </span> )</code>
+
+            <div class="description">
+                Destruction d'un cookie utilisateur
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_check">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public static
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_check">#</a>
+            <code><a href="source-class-App.Utils.Cookie.html#57-61">check</a>( <span> string <span class="property-name">$key</span> </span>, <span> string <span class="property-name">$value</span> </span>, <span> string <span class="property-name">$route</span> = <span class="php-quote">'/'</span></span> )</code>
+
+            <div class="description">
+                Fonction de vérification que la clé pâssée en paramètre ait pour valeur
+la valeur attendue, si ce n'est pas le cas on redirige vers la route
+passée en paramètre
 
 
 

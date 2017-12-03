@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="resources/style.css">
 
         <title>
-            Class App\Twig
+            Class App\Controllers\EventsController
         </title>
     </head>
 
@@ -59,9 +59,13 @@
         <li>
             <a href="namespace-App.html">App</a>
         </li>
+            <li class="backslash">\</li>
+        <li>
+            <a href="namespace-App.Controllers.html">Controllers</a>
+        </li>
 
         <li class="backslash">\</li>
-        <li class="active">Twig</li>
+        <li class="active">EventsController</li>
 </ol>
                         </div>
                     </div>
@@ -71,11 +75,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-    <h1>Twig</h1>
+    <h1>EventsController</h1>
 
         <div class="panel panel-default">
             <div class="panel-body">
-                Renderer Twig pour le fonctionnement de la classe View (Facade)
+                Controlleur des événements
 Auteur : Julien RAVIA &lt;julien.ravia@gmail.com&gt;
 Utilisation ou modification interdite sauf autorisation
             </div>
@@ -87,7 +91,7 @@ Utilisation ou modification interdite sauf autorisation
     <div class="info">
         
 
-            <a href="source-class-App.Twig.html" class="open-source-code">Open source code</a>
+            <a href="source-class-App.Controllers.EventsController.html" class="open-source-code">Open source code</a>
         <br>
     </div>
 
@@ -109,10 +113,10 @@ Utilisation ou modification interdite sauf autorisation
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#___construct">#</a>
-            <code><a href="source-class-App.Twig.html#18-28">__construct</a>( )</code>
+            <code><a href="source-class-App.Controllers.EventsController.html#18-22">__construct</a>( )</code>
 
             <div class="description">
-                Instanciation de l'objet Twig
+                On récupère le singleton de la base de données
 
 
 
@@ -128,7 +132,7 @@ Utilisation ou modification interdite sauf autorisation
 
 
 
-<tr id="_render">
+<tr id="_index">
 
     <td class="attributes col-md-1">
         <code class="keyword">
@@ -140,11 +144,107 @@ Utilisation ou modification interdite sauf autorisation
 
     <td class="name">
         <div>
-            <a class="anchor pull-right" href="#_render">#</a>
-            <code><a href="source-class-App.Twig.html#36-43">render</a>( <span> string <span class="property-name">$view</span> </span>, <span> array <span class="property-name">$array</span> = <span class="php-keyword1">array</span> ( )</span> )</code>
+            <a class="anchor pull-right" href="#_index">#</a>
+            <code><a href="source-class-App.Controllers.EventsController.html#28-33">index</a>( )</code>
 
             <div class="description">
-                Fonction de rendu d'une vue
+                Affichage de tous les événements, classés par date (descendant)
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_filterByDate">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_filterByDate">#</a>
+            <code><a href="source-class-App.Controllers.EventsController.html#40-50">filterByDate</a>( <span> \timestamp <span class="property-name">$request</span> </span> )</code>
+
+            <div class="description">
+                Filtrage des événements par une date, on affiche les événements entre 00h et 23h59
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_filterByUser">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_filterByUser">#</a>
+            <code><a href="source-class-App.Controllers.EventsController.html#57-64">filterByUser</a>( <span> \id <span class="property-name">$request</span> </span> )</code>
+
+            <div class="description">
+                Filtrage des événements pour un utilisateur
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_filterByCategory">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_filterByCategory">#</a>
+            <code><a href="source-class-App.Controllers.EventsController.html#71-77">filterByCategory</a>( <span> string <span class="property-name">$request</span> </span> )</code>
+
+            <div class="description">
+                Filtrage des événements d'une catégorie
 
 
 

@@ -13,17 +13,17 @@ class Database
 {
     private static $dbh; // Objet dbh
 
-    private $_host = 'localhost';
-    private $_database = 'oxford';
-    private $_user = 'root';
-    private $_password = '';
-    private $_port = 3306;
-
-    // private $_host = 'mysql-simubac.alwaysdata.net';
-    // private $_database = 'simubac_oxford';
-    // private $_user = 'simubac';
-    // private $_password = 'aDemantA';
+    // private $_host = 'localhost';
+    // private $_database = 'oxford';
+    // private $_user = 'root';
+    // private $_password = '';
     // private $_port = 3306;
+
+    private $_host = 'mysql-simubac.alwaysdata.net';
+    private $_database = 'simubac_oxford';
+    private $_user = 'simubac';
+    private $_password = 'aDemantA';
+    private $_port = 3306;
 
     private static $instance;
 
@@ -85,12 +85,13 @@ class Database
     public function getUsersByType($type)
     {
         if($type == 'deleted') {
-            $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+            $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type, types.icon, types.filter FROM users 
                                           INNER JOIN photos ON users.photo = photos.id
+                                          INNER JOIN types ON users.type = types.id
                                           WHERE status IS NULL
                                           ORDER BY users.id DESC');
         } else {
-            $req = Database::$dbh->prepare('SELECT users.id, nom, prenom, status, photos.value as photo, type FROM users 
+            $req = Database::$dbh->prepare('SELECT users.id, nom, prenom, status, photos.value as photo, type, types.icon, types.filter FROM users 
                                             INNER JOIN photos ON users.photo = photos.id
                                             INNER JOIN types ON users.type = types.id
                                             WHERE types.filter = :type AND status IS NOT NULL

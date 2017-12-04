@@ -32,3 +32,13 @@ tr.danger, tr.danger > td > a {
 tr.info, tr.info > td > a {
 	color: white;
 }
+
+.wrap-text {
+    word-wrap: break-word;
+    text-overflow: ellipsis; 
+    -webkit-hyphens: auto; 
+    -moz-hyphens: auto; 
+    -ms-hyphens: auto; 
+    -o-hyphens: auto; 
+    hyphens: auto;
+}

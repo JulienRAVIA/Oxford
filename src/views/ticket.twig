@@ -36,7 +36,7 @@
 			{% for replie in replies %}
     			<div class="panel panel-default" id="replie_{{ replie.id }}">
 					<div class="panel-body">
-						{{ replie.value|nl2br }}
+						<p class="wrap-text">{{ replie.value|nl2br }}</p>
 					</div>
 					<div class="panel-footer">
 						<small>Posté par {{ replie.nom|upper ~ ' ' ~ replie.prenom|title }} le {{ replie.date|date('d/m/Y') }} à {{ replie.date|date('H:i:s') }}</small>
@@ -50,7 +50,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form action="" method="post">
-						<textarea name="reply_message" maxlength="1000" class="form-control" id="text" style="resize: vertical;" cols="100" rows="5"></textarea><br>
+                                            <textarea name="reply_message" maxlength="1000" class="form-control" id="text" style="resize: vertical;" cols="100" rows="5"></textarea><br>
                                                 <span class="pull-right label label-default" id="count_message"></span>
 						<div class="btn-group col-md-5 col-md-offset-4" role="group" aria-label="...">
 						  <button type="reset" class="btn btn-default">Réinitialiser</button>

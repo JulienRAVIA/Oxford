@@ -35,4 +35,11 @@ class View
             header("Refresh: $timeout;URL=$route");
         }
     } 
+
+    static function get($view, $datas = null) {
+        if(self::$twig == null) {
+            self::$twig = new Twig();
+        }
+        return self::$twig->render($view, $datas);
+    }
 }

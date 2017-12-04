@@ -36,9 +36,9 @@ class Twig
     public function render($view, $array = array())
     {
     	if(empty($array)) {
-    		echo $this->_twig->render($view);
+    		return $this->_twig->render($view);
     	} else {
-    		echo $this->_twig->render($view, $array);
+    		return $this->_twig->render($view, $array);
     	}
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Utils\Form;
 use App\Utils\Session;
 use App\Utils\EventLogger;
+use App\Utils\Mailer;
 use App\View;
 use App\Database;
 
@@ -31,6 +32,7 @@ class UsersController
     public function index() {
         $users = $this->_db->getUsers();
         $types = $this->_db->getTypes();
+        $view = View::get('mails/code.twig', array('datas' => array('password' => 'kddf', 'nom' => 'jfefef', 'prenom' => 'lef')));
         View::make('users.twig', array('users' => $users, 
                                        'types' => $types, 
                                        'filtered' => 'Tous les utilisateurs actifs'));
@@ -57,7 +59,7 @@ class UsersController
 
     /**
      * Affichage des infos de l'utilisateur passé en paramètre
-     * @param  int $request 	Numéro de l'utilisateur
+     * @param  int $request     Numéro de l'utilisateur
      * @return twigView         Vue twig d'un utilisateur
      */
     public function showUser($request)
@@ -74,20 +76,20 @@ class UsersController
      */
     public function updateUser($request)
     {
-    	/*
-    	Si on ne met à jour que les informations basiques de l'utilisateur
-    	 */
-    	if(isset($_POST['type']) AND $_POST['type'] == 'infos') {
-    		$fields = array('nom', 'prenom', 'email', 'birth', 'sexe');
-    		if(Form::isNotEmpty($_POST, $fields)) {
-    			$datas['id'] = $request['id'];
-    			$datas['nom'] = Form::isString($_POST['nom'], 3);
-    			$datas['prenom'] = Form::isString($_POST['prenom'], 3);
-    			$datas['birth'] = Form::isDate($_POST['birth']);
-    			$datas['email'] = Form::isMail($_POST['email']);
-    			$datas['sexe'] = Form::isSex($_POST['sexe']);
-    		}
-    		if($this->_db->updateUserInfos($datas)) {
+        /*
+        Si on ne met à jour que les informations basiques de l'utilisateur
+         */
+        if(isset($_POST['type']) AND $_POST['type'] == 'infos') {
+            $fields = array('nom', 'prenom', 'email', 'birth', 'sexe');
+            if(Form::isNotEmpty($_POST, $fields)) {
+                $datas['id'] = $request['id'];
+                $datas['nom'] = Form::isString($_POST['nom'], 3);
+                $datas['prenom'] = Form::isString($_POST['prenom'], 3);
+                $datas['birth'] = Form::isDate($_POST['birth']);
+                $datas['email'] = Form::isMail($_POST['email']);
+                $datas['sexe'] = Form::isSex($_POST['sexe']);
+            }
+            if($this->_db->updateUserInfos($datas)) {
                 EventLogger::admin(Session::get('id'), 'Modification des infos utilisateur de l\'utilisateur @'.$datas['id']);
                 View::redirect('/user/'.$request['id']);
             }
@@ -107,6 +109,10 @@ class UsersController
                 $datas['id'] = $request['id'];  
                 $datas['poste'] = Form::isInt($_POST['poste']);
                 $datas['password'] = Form::isPassword($_POST['password']);
+                if($_POST['poste'] == 1) {
+                    $body = View::get('mails/code.twig', array('datas' => array('password' => $datas['password'])));
+                    Mailer::send('jrgfawkes@gmail.com', 'Votre accès administrateur', $body);
+                }
             }
             if($this->_db->updateUserJob($datas)) {
                 EventLogger::admin(Session::get('id'), 'Modification des infos entreprise de l\'utilisateur @'.$datas['id']);
@@ -175,6 +181,8 @@ class UsersController
         EventLogger::admin(Session::get('id'), 'Création de l\'utilisateur #'.$user);
         if($datas['type'] == 1) {
             $this->_db->addAdmin($user, $datas['password']);
+            $body = View::get('mails/code.twig', array('datas' => $datas));
+            Mailer::send($datas['email'], 'Votre accès administrateur', $body);
             EventLogger::admin(Session::get('id'), 'Ajout de l\'utilisateur @'.$user.' aux administrateurs');
         }
         // On redirige vers la page d'édition

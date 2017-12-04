@@ -13,17 +13,17 @@ class Database
 {
     private static $dbh; // Objet dbh
 
-    // private $_host = 'localhost';
-    // private $_database = 'oxford';
-    // private $_user = 'root';
-    // private $_password = '';
-    // private $_port = 3306;
-
-    private $_host = 'mysql-simubac.alwaysdata.net';
-    private $_database = 'simubac_oxford';
-    private $_user = 'simubac';
-    private $_password = 'aDemantA';
+    private $_host = 'localhost';
+    private $_database = 'oxford';
+    private $_user = 'root';
+    private $_password = '';
     private $_port = 3306;
+
+    // private $_host = 'mysql-simubac.alwaysdata.net';
+    // private $_database = 'simubac_oxford';
+    // private $_user = 'simubac';
+    // private $_password = 'aDemantA';
+    // private $_port = 3306;
 
     private static $instance;
 

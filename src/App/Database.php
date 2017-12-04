@@ -109,7 +109,15 @@ class Database
         $result = $req->fetchAll();
         return $result;
     }
-
+    /**
+     * Ajoute un nouveau titre de sujet dans la BDD
+     */
+    public function addSubject(string $nomSujet){
+        $sql='INSERT INTO `subjects`(`value`, `created`) VALUES (:nomSujet,1)';
+        $req = Database::$dbh->prepare($sql);
+        $req->execute(array('nomSujet' => $nomSujet));
+        return Database::$dbh->lastInsertId();
+    }
     /**
      * Récupération des utilisateurs par type classés par id (desc)
      * @return array Résultat de la requête (utilisateurs)

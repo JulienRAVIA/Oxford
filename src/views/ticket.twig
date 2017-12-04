@@ -50,7 +50,8 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form action="" method="post">
-						<textarea name="reply_message" class="form-control" id="" cols="100" rows="5"></textarea><br>
+						<textarea name="reply_message" maxlength="1000" class="form-control" id="text" style="resize: vertical;" cols="100" rows="5"></textarea><br>
+                                                <span class="pull-right label label-default" id="count_message"></span>
 						<div class="btn-group col-md-5 col-md-offset-4" role="group" aria-label="...">
 						  <button type="reset" class="btn btn-default">Réinitialiser</button>
 						  <button type="submit" class="btn btn-primary">Poster</button>
@@ -75,4 +76,19 @@
 			</div>
 		</div>
     
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+        var text_max = 1000;
+        $('#count_message').html('0 / ' + text_max);
+
+        $('#text').keyup(function () {
+            var text_length = $('#text').val().length;
+            var text_remaining = text_max - text_length;
+
+            $('#count_message').html(text_length + ' / ' + text_max);
+        });
+    </script>
 {% endblock %}

@@ -27,8 +27,14 @@ class NewTicketController {
             //execute le code
             $id = $this->_db->getUserId($_POST['email'],$_POST['codeacces']);
             //On determine le sujet
-            $sujet = $_POST['selectprob'];
             
+            if (empty($_POST['sujet_autre'])){
+                $sujet = $_POST['selectprob'];
+            }
+            else{
+                $numSub=$this->_db->addSubject($_POST['sujet_autre']);
+                $sujet=$numSub;
+            }
             $ticket = $this->_db->addTicket($sujet,$id,$_POST['prob']);
         } else {
             throw new \Exception('');

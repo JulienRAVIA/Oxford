@@ -4,9 +4,9 @@
 {% block title %}Nouveau Ticket{% endblock %}
 
 {% block content %}
-    
+
     <div class="row">
-        
+
         {% if session.id %}
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
@@ -22,19 +22,23 @@
         <form  method="post">
             <h3 class="col-md-9">Crée un nouveau Ticket</h3>
             <div class="col-md-9">
-                
+
                 {{ component.input('email', 'email', '', null, "Adresse email :", 'col-md-9') }}
                 {{ component.input('codeacces', 'password', '', null, "Code d'accès :", 'col-md-9') }}
                 <div class="form-group col-md-9">
-                    <select class="form-control" name="selectprob">
+                    <select id="selectprob" class="form-control" name="selectprob">
                         {%for subject in subjects  %}
                             <option value="{{subject.id}}">{{subject.value}}</option>
                         {%endfor%}
-                        <option value="666">Autre</option>
+                        <option value="666">Autre...</option>
                     </select>
                 </div>
+                <div class="form-group col-md-9" style="display:none;" id="sujetAutre">
+                    <input type="text" name="sujet_autre" class="form-control">
+                </div>
                 <div class="form-group col-md-9" id="AfficheTicket">
-                    <textarea required name="prob" style="resize: vertical;" class="form-control" id="FormControlTextarea1" placeholder="Expliquez votre problème..." rows="3"></textarea>
+                    <textarea maxlength="1000" required name="prob" style="resize: vertical;" class="form-control" id="text" placeholder="Expliquez votre problème..." rows="3"></textarea>
+                    <span class="pull-right label label-default" id="count_message"></span>
                 </div>
                 <div class="form-group col-md-9">
                     <button type="submit" class="btn btn-success">Envoyer</button>
@@ -43,4 +47,28 @@
     </div>
 </form>
 
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+        document.getElementById('selectprob').addEventListener('click', function () {
+            if (document.getElementById('selectprob').value == 666) {
+                document.getElementById('sujetAutre').style = "display:visible;"
+            } else {
+                document.getElementById('sujetAutre').style = "display:none;"
+            }
+
+        });
+
+        var text_max = 1000;
+        $('#count_message').html('0 / ' + text_max);
+
+        $('#text').keyup(function () {
+            var text_length = $('#text').val().length;
+            var text_remaining = text_max - text_length;
+
+            $('#count_message').html(text_length + ' / ' + text_max);
+        });
+    </script>
 {% endblock %}

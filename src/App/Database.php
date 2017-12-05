@@ -19,12 +19,6 @@ class Database
     private $_password = '';
     private $_port = 3306;
 
-    // private $_host = 'mysql-simubac.alwaysdata.net';
-    // private $_database = 'simubac_oxford';
-    // private $_user = 'simubac';
-    // private $_password = 'aDemantA';
-    // private $_port = 3306;
-
     private static $instance;
 
     private function __construct()
@@ -88,7 +82,7 @@ class Database
             $req = Database::$dbh->query('SELECT users.id, nom, prenom, status, photos.value as photo, type, types.icon, types.filter FROM users 
                                           INNER JOIN photos ON users.photo = photos.id
                                           INNER JOIN types ON users.type = types.id
-                                          WHERE status IS NULL
+                                          WHERE status = 42
                                           ORDER BY users.id DESC');
         } else {
             $req = Database::$dbh->prepare('SELECT users.id, nom, prenom, status, photos.value as photo, type, types.icon, types.filter FROM users 
@@ -385,7 +379,7 @@ class Database
      * @return Exception    Exception
      */
     public function deleteUser(int $user) {
-        $req = Database::$dbh->prepare('UPDATE users SET status = NULL WHERE id = :id');
+        $req = Database::$dbh->prepare('UPDATE users SET status = 42 WHERE id = :id');
         if($req->execute(array('id' => $user))) {
             return true;      
         } else {
@@ -630,7 +624,7 @@ class Database
     {
         $req = Database::$dbh->prepare('DELETE FROM types WHERE id = :id');
         $req->execute(array('id' => $id));
-        $req = Database::$dbh->prepare('UPDATE users SET status = NULL WHERE type = :id');
+        $req = Database::$dbh->prepare('UPDATE users SET status = 42 WHERE type = :id');
         $req->execute(array('id' => $id));
     }
 

@@ -32,7 +32,6 @@ class UsersController
     public function index() {
         $users = $this->_db->getUsers();
         $types = $this->_db->getTypes();
-        $view = View::get('mails/code.twig', array('datas' => array('password' => 'kddf', 'nom' => 'jfefef', 'prenom' => 'lef')));
         View::make('users.twig', array('users' => $users, 
                                        'types' => $types, 
                                        'filtered' => 'Tous les utilisateurs actifs'));
@@ -103,15 +102,16 @@ class UsersController
             $fields = array('poste');
             if($_POST['poste'] == 1) {
                 $fields[] = 'password';
-                EventLogger::admin(Session::get('id'), 'Ajout aux administrateurs l\'utilisateur @'.$request['id']);
+                EventLogger::admin(Session::get('id'), 'Ajout d\'un accès administrateur à l\'utilisateur @'.$request['id']);
             }
             if(Form::isNotEmpty($_POST, $fields)) {
                 $datas['id'] = $request['id'];  
                 $datas['poste'] = Form::isInt($_POST['poste']);
                 $datas['password'] = Form::isPassword($_POST['password']);
                 if($_POST['poste'] == 1) {
-                    $body = View::get('mails/code.twig', array('datas' => array('password' => $datas['password'])));
-                    Mailer::send('jrgfawkes@gmail.com', 'Votre accès administrateur', $body);
+                    $email = $this->_db->getUser($datas['id']);
+                    $body = View::get('mails/admin.twig', array('datas' => array('password' => $datas['password'])));
+                    Mailer::send($email['email'], 'Votre accès administrateur', $body);
                 }
             }
             if($this->_db->updateUserJob($datas)) {
@@ -130,6 +130,10 @@ class UsersController
                 $datas['code'] = $_POST['code'];  
             }
             if($this->_db->updateUserCode($datas)) {
+                $body = View::get('mails/code.twig', array('datas' => array('code' => $datas['code'])));
+                $email = $this->_db->getUser($datas['id']);
+                Mailer::send($email['email'], 'Votre code d\'accès', $body);
+
                 EventLogger::admin(Session::get('id'), 'Modification du code d\'accès de l\'utilisateur @'.$datas['id']);
                 View::redirect('/user/'.$request['id']);
             }
@@ -181,9 +185,12 @@ class UsersController
         EventLogger::admin(Session::get('id'), 'Création de l\'utilisateur #'.$user);
         if($datas['type'] == 1) {
             $this->_db->addAdmin($user, $datas['password']);
-            $body = View::get('mails/code.twig', array('datas' => $datas));
-            Mailer::send($datas['email'], 'Votre accès administrateur', $body);
-            EventLogger::admin(Session::get('id'), 'Ajout de l\'utilisateur @'.$user.' aux administrateurs');
+            $body = View::get('mails/admin_new.twig', array('datas' => $datas));
+            Mailer::send($datas['email'], 'Un compte vous à été créé', $body);
+            EventLogger::admin(Session::get('id'), 'Ajout d\'un accès administrateur à l\'utilisateur @'.$user);
+        } else {
+            $body = View::get('mails/new.twig', array('datas' => $datas));
+            Mailer::send($datas['email'], 'Un compte vous à été créé', $body);
         }
         // On redirige vers la page d'édition
         View::redirect('/user/'.$user); 
@@ -196,8 +203,10 @@ class UsersController
      */
     public function deleteUser($request)
     {
-        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
+        $user = $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez supprimer n\'existe pas');
         $this->_db->deleteUser($request['id']);
+        $body = View::get('mails/delete.twig', array('datas' => $user));
+        Mailer::send($user['email'], 'Votre profil entreprise à été supprimé', $body);
         EventLogger::admin(Session::get('id'), 'Suppression de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
@@ -209,8 +218,10 @@ class UsersController
      */
     public function revokeUser($request)
     {
-        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez révoquer n\'existe pas');
+        $user = $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez révoquer n\'existe pas');
         $this->_db->revokeUser($request['id']);
+        $body = View::get('mails/revoke.twig', array('datas' => $user));
+        Mailer::send($user['email'], 'Votre accès à l\'entreprise à été révoqué', $body);
         EventLogger::admin(Session::get('id'), 'Révocation des accès de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
@@ -222,8 +233,10 @@ class UsersController
      */
     public function autorizeUser($request)
     {
-        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');
+        $user = $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez autoriser n\'existe pas');
         $this->_db->autorizeUser($request['id']);
+        $body = View::get('mails/authorize.twig', array('datas' => $user));
+        Mailer::send($user['email'], 'Votre accès à l\'entreprise à été réattribué', $body);
         EventLogger::admin(Session::get('id'), 'Réattribution des accès de l\'utilisateur @'.$request['id']);
         View::redirect('/user/'.$request['id']);
     }
@@ -235,8 +248,10 @@ class UsersController
      */
     public function restoreUser($request)
     {
-        $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez restaurer n\'existe pas');
+        $user = $this->_db->getUser($request['id'], 'L\'utilisateur que vous souhaitez restaurer n\'existe pas');
         $this->_db->restoreUser($request['id']);
+        $body = View::get('mails/restore.twig', array('datas' => $user));
+        Mailer::send($user['email'], 'Votre profil entreprise à été restauré', $body);
         EventLogger::admin(Session::get('id'), 'Restauration des accès de l\'utilisateur @'.$request['id'].' supprimé');
         View::redirect('/user/'.$request['id']);
     }

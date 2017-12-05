@@ -69,6 +69,9 @@ class ConfigController
         if ($request['id'] != Session::get('id')) {
             \App\Utils\EventLogger::admin(Session::get('id'), 'Suppression de l\'accès du membre @'.$request['id']);
             $this->_db->deleteAccess($request['id']);
+            $email = $this->_db->getUser($request['id']);
+            $body = View::get('mails/delete_admin.twig', array('datas' => $email));
+            Mailer::send($email['email'], 'Suppression de votre accès administrateur', $body);
         }
         View::redirect('/config');
     }

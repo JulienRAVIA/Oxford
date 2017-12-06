@@ -6,21 +6,7 @@
 {% block content %}
 	<div class="row" style="margin-bottom: 10px;">
 		<div class="col-md-12">
-			<ul class="nav nav-pills">
-  			  	<li><a href="{{component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
-  			  	<li class="dropdown active">
-  				  <a class="dropdown-toggle" data-toggle="dropdown" href="{{component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs
-  				  <span class="caret"></span></a>
-  				  <ul class="dropdown-menu">
-  				    <li><a href="{{component.url('/users') }}"><i class="fa fa-list"></i> Liste des employés</a></li>
-  				    <li><a href="{{component.url('/user/new') }}"><i class="fa fa-plus"></i> Nouvel employé</a></li>
-  				  </ul>
-  				</li>
-			  	<li><a href="{{component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
-			  	<li><a href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
-			  	<li><a href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
-                                <li><a href="{{ component.url('/tickets/new') }}"><i class="fa fa-ticket"></i> Nouveau Tickets</a></li>
-			</ul>
+			{{ component.menu('users', 'nav-pills') }}
 		</div>
 	</div>
 	<div class="row">

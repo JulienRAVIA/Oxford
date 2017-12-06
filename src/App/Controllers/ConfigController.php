@@ -96,7 +96,7 @@ class ConfigController
     {
         $fields = array('sujet');
         if(\App\Utils\Form::isNotEmpty($_POST, $fields)) {
-            $event = $this->_db->addSubject($_POST['sujet']);
+            $event = $this->_db->addDefaultSubject($_POST['sujet']);
     		\App\Utils\EventLogger::admin(Session::get('id'), 'Ajout du sujet par défaut ~'.$event);
     	}
     	View::redirect('/config');

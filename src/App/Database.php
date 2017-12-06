@@ -718,4 +718,22 @@ class Database
            throw new \Exception('Email ou mot de passe incorrect !'); 
         }
     }
+
+    /**
+     * Récupération du token d'un ticket à partir de l'id du ticket
+     * @return array Résultat de la requête (Id utilisateur)
+     */
+    public function getToken($id){ 
+        $req = Database::$dbh->prepare('SELECT token 
+                                        FROM tickets 
+                                        WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $result = $req->fetchAll();
+        if(!empty($result)){
+            return $result[0]['token'];
+        }
+        else{
+           throw new \Exception('Ticket inexistant'); 
+        }
+    }
 }

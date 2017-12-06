@@ -96,3 +96,15 @@
 		{% endfor %}
 	</div>
 {% endmacro %}
+
+{% macro menu(uc, class) %}
+    {% import _self as component %}
+		<ul class="nav {{ class|default('nav-pills nav-stacked') }}">
+  		  	<li {% if uc == 'home' %}class="active"{% endif %}><a  href="{{ component.url('/home') }}"><i class="fa fa-home"></i> Accueil</a></li>
+  		  	<li {% if uc == 'users' %}class="active"{% endif %}><a  href="{{ component.url('/users') }}"><i class="fa fa-users"></i> Gestion des utilisateurs</a></li>
+		  	<li {% if uc == 'events' %}class="active"{% endif %}><a  href="{{ component.url('/events') }}"><i class="fa fa-eye"></i> Journal des événements</a></li>
+		  	<li {% if uc == 'tickets' %}class="active"{% endif %}><a  href="{{ component.url('/tickets') }}"><i class="fa fa-ticket"></i> Gestion des tickets</a></li>
+		  	<li {% if uc == 'config' %}class="active"{% endif %}><a  href="{{ component.url('/config') }}"><i class="fa fa-wrench"></i> Configuration</a></li>
+            <li {% if uc == 'newticket' %}class="active"{% endif %}><a  href="{{ component.url('/tickets/new') }}"><i class="fa fa-ticket"></i> Nouveau ticket</a></li>
+		</ul>
+{% endmacro %}

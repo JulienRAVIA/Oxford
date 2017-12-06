@@ -1,17 +1,10 @@
 <center><img src="https://i.imgur.com/kzj1x2Q.png"></center><br><br><br>
 
 Bonjour {{ datas.nom|capitalize ~ ' ' ~ datas.prenom|upper }},<br>
-Votre ticket à été créé, <br>
+Un RSSI à répondu à votre ticket #{{ id }} ce jour à {{ "now"|date('H:i:s') }}</b><br>
 
-"<i>{{ probleme|nl2br }}</i>" <br><br>
-
-Un RSSI y répondra ultérieurement et dans les plus brefs délais. <br>
-Vous recevrez par mail sa réponse. <br>
-
-Voici un lien pour accèder aux informations de votre ticket et y répondre ou ajouter de nouveaux détails concernant votre problème : <br>
+Vous pouvez consulter sa réponse et y répondre à ce lien : <br>
 <a href="http://oxfordbonaparte.alwaysdata.net/ticket/{{id}}/token_{{token}}">http://oxfordbonaparte.alwaysdata.net/ticket/{{id}}/token_{{token}}</a><br>
-
-A partir de ce lien vous pourrez également visualiser vos autres tickets sur la page "Mes tickets" <br>
 
 Cordialement, l'équipe Oxford. <br><br>
 

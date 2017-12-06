@@ -25,9 +25,9 @@
                     {{ component.input('codeacces', 'password', '', null, "Code d'accès :", 'col-md-2 col-md-offset-1') }}
                     <div class="form-group col-md-10 col-md-offset-1">
                         <select id="selectprob" class="form-control" name="selectprob">
-                            {%for subject in subjects  %}
+                            {% for subject in subjects  %}
                                 <option value="{{subject.id}}">{{subject.value}}</option>
-                            {%endfor%}
+                            {% endfor %}
                             <option value="666">Autre...</option>
                         </select>
                     </div>

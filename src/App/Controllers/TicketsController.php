@@ -35,8 +35,13 @@ class TicketsController
 			View::make('tickets.twig', array('tickets' => $tickets, 'filtered' => 'Tous les tickets'));
 		} else {
 			// sinon on recupère les tickets de l'utilisateur correspondant à notre cookie
-			Session::set('user_tickets', 5);
-			$this->filterByUser(array('id' => Session::get('user_tickets')), 'Mes tickets');
+			if (Session::get('user_tickets')) {
+				// sinon on recupère les tickets de l'utilisateur correspondant à notre cookie
+				$id = Session::get('user_tickets');
+			} else {
+				$id = 0;
+			}
+			$this->filterByUser(array('id' => $id), 'Mes tickets');
 		}
 	}
 
@@ -72,8 +77,14 @@ class TicketsController
 	 */
 	public function newReply($request) {
 		if(Session::get('type') == 'rssi') {
+			$ticket = $this->_db->getTicket($request['id']);
+			$datas = $this->_db->getUser($ticket['user']);
 			$user = Session::get('id');
 			EventLogger::admin(Session::get('id'), 'Nouvelle réponse au ticket #'.$request['id']);
+			$body = View::get('mails/reply_message.twig', array('datas' => $datas, 
+															    'token' => $ticket['token'], 
+															    'id' => $request['id']));
+			\App\Utils\Mailer::send($datas['email'], 'Nouvelle réponse à votre ticket #'.$request['id'], $body);
 		} else {
 			$user = Session::get('user_tickets');
 			EventLogger::info($user, 'Nouvelle réponse au ticket #'.$request['id']. ' par l\'utilisateur @'.$user);
@@ -106,10 +117,18 @@ class TicketsController
 	 */
 	public function changeTicketStatus($request) {
 		if ($request['action'] == 'cloturer') {
-			EventLogger::admin(Session::get('id'), 'Cloture du ticket #'.$request['id']);
+			if (Session::get('type')) {
+				EventLogger::admin(Session::get('id'), 'Cloture du ticket #'.$request['id']);
+			} else {
+				EventLogger::info(Session::get('user_tickets'), 'Cloture du ticket #'.$request['id']);
+			}
 			$statut = 4;
 		} elseif($request['action'] == 'ouvrir') {
-			EventLogger::admin(Session::get('id'), 'Ouverture du ticket #'.$request['id']);
+			if (Session::get('type')) {
+				EventLogger::admin(Session::get('id'), 'Ouverture du ticket #'.$request['id']);
+			} else {
+				EventLogger::info(Session::get('user_tickets'), 'Ouverture du ticket #'.$request['id']);
+			}
 			$statut = 1;
 		}
 		$this->_db->updateTicketStatus($request['id'], $statut);
@@ -136,7 +155,7 @@ class TicketsController
 	public function filterByUser($request, $filtered = '')
 	{
 		$tickets = $this->_db->getTicketsByUser($request['id']);
-		$user = $this->_db->getUser($request['id']);
+		$user = $this->_db->getUserBis($request['id']);
 		if (empty($filtered)) {
         	$filtered = 'Tickets de l\'utilisateur '.$user['nom'].' '.$user['prenom'];
         }

@@ -16,7 +16,7 @@ class Database
     private $_host = 'localhost';
     private $_database = 'oxford';
     private $_user = 'root';
-    private $_password = '';
+    private $_password = 'uwannaknowright?';
     private $_port = 3306;
 
     private static $instance;
@@ -114,7 +114,31 @@ class Database
         if($result) {
             return $result;
         } else {
-            throw new \Exception($exception);
+            if ($exception) {
+                throw new \Exception($exception);
+            }
+        }
+    }
+
+    /**
+     * Récupération des infos d'un utilisateur
+     * S'il n'existe pas on lance une exception
+     * @param  int $user Utilisateur dont on va récupérer les infos
+     * @return array     Résultat de la requête (infos utilisateur)
+     */
+    public function getUserBis(int $user)
+    {
+        $req = Database::$dbh->prepare('SELECT users.id as id, nom, prenom, type, types.value, birth, sexe, status, email, photos.value as photo 
+                                        FROM users 
+                                        LEFT JOIN types ON users.type = types.id 
+                                        LEFT JOIN photos ON users.photo = photos.id
+                                        WHERE users.id = :user');
+        $req->execute(array('user' => $user));
+        $result = $req->fetch();
+        if($result) {
+            return $result;
+        } else {
+            return 0;
         }
     }
 
@@ -734,6 +758,25 @@ class Database
         }
         else{
            throw new \Exception('Ticket inexistant'); 
+        }
+    }
+
+    /**
+     * Fonction pour récupérer un sujet à partir de son id
+     * @param  int $id Identifiant du ticket
+     * @return array     Résultats
+     */
+    public function getSubject($id) {
+        $req = Database::$dbh->prepare('SELECT value 
+                                        FROM subjects 
+                                        WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $result = $req->fetchAll();
+        if(!empty($result)){
+            return $result[0]['value'];
+        }
+        else{
+           throw new \Exception('Sujet inexistant'); 
         }
     }
 }

@@ -14,19 +14,19 @@ class Mailer
 	private $mail;
 
     public static function send($address, $subject, $body) {
-		    $mail = new PHPMailer(true);
+		$mail = new PHPMailer(true);
         //Server settings
         $mail->SMTPDebug = 0;                                 // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = 'sio.bonaparte@gmail.com';                 // SMTP username
-        $mail->Password = 'sCAtenTU';                           // SMTP password
+        $mail->Password = 'uwannaknowright?';                           // SMTP password
         $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 587;                                    // TCP port to connect to
         $mail->setFrom('sio.bonaparte@gmail.com', utf8_decode('BTS SIO Lycée Bonaparte'));
         $mail->addAddress($address);
-        $mail->AddReplyTo('bts-sio@lyc-bonaparte.fr', utf8_decode('BTS SIO Lycée Bonaparte'));
+        $mail->isHTML(true);     
         $mail->Subject = utf8_decode($subject);
         $mail->Body = utf8_decode($body);
         try {

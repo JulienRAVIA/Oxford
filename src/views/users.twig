@@ -20,7 +20,7 @@
 						<a href="{{ component.url('/user/'~ user.id) }}"><img src="{{ component.url('/photos/'~ user.photo) }}" class="img-responsive"></a>
 					</div>
 					<div class="panel-footer">
-						{{ user.prenom ~ ' ' ~ user.nom|upper }} 
+						{{ user.prenom|upper ~ ' ' ~ user.nom|capitalize }} 
 						<span class="pull-right">
 						<a href="" class="dropdown-toggle" type="button" id="dropdownUser{{user.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
   						  <i class="fa fa-{{ user.icon }}" title="{{ user.filter }}"></i>

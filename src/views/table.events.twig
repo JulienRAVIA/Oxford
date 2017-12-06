@@ -23,7 +23,7 @@
   	<tr class="{{class}}">
   		<td>{{ event.id }}</td>
   		<td>{{ event.value }}</td>
-  		<td><a href="{{ component.url('/user/') }}{{event.user}}">{{event.nom}} {{event.prenom}}</a></td>
+  		<td><a href="{{ component.url('/user/') }}{{event.user}}">{{event.nom|capitalize ~ ' ' ~ event.prenom|upper}}</a></td>
   		<td>{{ event.date|date('d/m/Y') }} {{ event.date|date('H:i:s') }}</td>
   		<td>
         <a href="{{ component.url('/events/category/') }}{% if event.category == 'Succès' %}succes{% else %}{{ event.category|lower }}{% endif %} ">{{ event.category }}</a>

@@ -4,21 +4,29 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-	<div class="jumbotron">
-	  <div class="container">
-	    <h2>Bienvenue sur l'administration</h2>
-	  </div>
-	</div>
-	<div class="col-sm-6 col-md-4 col-tile">
-		{{ component.tile('teal', 'users', 'Utilisateurs', 'users', 'tile-wide') }}
-	</div>
-	<div class="col-sm-6 col-md-2 col-tile">
-		{{ component.tile('blue', 'tasks', 'Logs', 'events', 'tile-wide') }}
-	</div>
-	<div class="col-sm-6 col-md-4 col-tile">
-		{{ component.tile('red', 'ticket', 'Tickets de support', 'tickets', 'tile-wide') }}
-	</div>
-	<div class="col-sm-6 col-md-2 col-tile">
-		{{ component.tile('silver', 'wrench', 'Config', 'config', 'tile-wide') }}
-	</div>
+    <div class="jumbotron">
+        <div class="container">
+            <h2>Bienvenue sur l'administration</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-sm-6 col-md-3 col-tile">
+            {{ component.tile('teal', 'users', 'Utilisateurs', 'users', 'tile-wide') }}
+        </div>
+        <div class="col-sm-6 col-md-2 col-tile">
+            {{ component.tile('blue', 'tasks', 'Logs', 'events', 'tile-wide') }}
+        </div>
+        <div class="col-sm-6 col-md-3 col-tile">
+            {{ component.tile('silver', 'wrench', 'Config', 'config', 'tile-wide') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-sm-6 col-md-4 col-tile">
+            {{ component.tile('red', 'ticket', 'Tickets de support', 'tickets', 'tile-wide') }}
+        </div>
+        <div class="col-sm-6 col-md-4 col-tile">
+            {{ component.tile('green', 'plus', 'Nouveau ticket', 'tickets/new', 'tile-wide') }}
+        </div>
+    </div>
+   
 {% endblock %}

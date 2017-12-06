@@ -104,6 +104,13 @@ $router->addRoutes(array(
     array('POST','/config/addsubject', 'App\\Controllers\\ConfigController@addSubject', 'config.add.subject')
 ));
 
+// Ajout d'un ticket
+$router->addRoutes(array(
+    // affichage d'un ticket
+    array('GET','/tickets/new', 'App\\Controllers\\NewTicketController@index', 'ticket.new'),
+    //envoie du ticket
+    array('POST','/tickets/new', 'App\\Controllers\\NewTicketController@create', 'ticket.new.envoie')
+));
 
 $match = $router->match();
 
@@ -124,5 +131,3 @@ if (!$match) {
         // Throw an exception in debug, send a 500 error in production
     }
 }
-
-?>

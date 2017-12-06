@@ -17,7 +17,7 @@ class Twig
      */
     public function __construct()
     {
-        $this->_loader = new \Twig_Loader_Filesystem('..\src\views');
+        $this->_loader = new \Twig_Loader_Filesystem('../src/views');
 		$this->_twig = new \Twig_Environment($this->_loader, array(
     		'cache' => false,
             'debug' => true
@@ -42,5 +42,3 @@ class Twig
     	}
     }
 }
-
-?>

@@ -667,10 +667,55 @@ class Database
      * Ajout d'un sujet par défaut
      * @param array $array Sujet à ajouter aux sujets par défaut
      */
-    public function addSubject($subject)
+    public function addDefaultSubject($subject)
     {
         $req = Database::$dbh->prepare('INSERT INTO subjects(value, created) VALUES(:sujet, 0)');
         $req->execute(array('sujet' => $subject));
         return Database::$dbh->lastInsertId();
+    }
+
+    /**
+     * Ajoute un nouveau titre de sujet dans la BDD
+     */
+    public function addSubject($nomSujet){
+        $sql='INSERT INTO `subjects`(`value`, `created`) VALUES (:nomSujet,1)';
+        $req = Database::$dbh->prepare($sql);
+        $req->execute(array('nomSujet' => $nomSujet));
+        return Database::$dbh->lastInsertId();
+    }
+
+    /**
+     * Ajoute un nouveau ticket
+     * 
+     */
+    public function addTicket($subject, $user, $value){
+        $req = Database::$dbh->prepare("INSERT INTO `tickets`(`event`, `subject`, `user`, `date`, `statut`, `token`) 
+                                         VALUES (:event,:subject,:user,:date,:statut,:token)");
+        $req->execute(array('event' => 0,'subject' => $subject,'user' => $user,'date' => time(),'statut' => 1,'token' => uniqid(rand(), false)));
+        $ticket = Database::$dbh->lastInsertId();
+        $req = Database::$dbh->prepare("INSERT INTO `tickets_replies`(`user`, `value`, `date`, `ticket`) VALUES (:user,:value,:time,:ticket)");
+        $req->execute(array('user' => $user,'value' => $value,'time' => time(),'ticket' => $ticket));
+        return $ticket;
+    }
+
+    /**
+     * Récupération de l'ID utilisateurs, en utilisant l'email et le code de ce dernier,
+     * si l'ID est incorrecte on retournera une exception qu'on aura passé dans le prototype
+     * comme avec getUser.
+     * @return array Résultat de la requête (Id utilisateur)
+     */
+    public function getUserId($email,$code){ 
+        $req = Database::$dbh->prepare('SELECT users.id 
+                                        FROM users 
+                                        WHERE code=:code AND email=:email');
+        $req->execute(array('email' => $email,'code'=>$code));
+        $result = $req->fetchAll();
+        
+        if(!empty($result)){
+            return $result[0]['id'];
+        }
+        else{
+           throw new \Exception('Email ou mot de passe incorrect !'); 
+        }
     }
 }

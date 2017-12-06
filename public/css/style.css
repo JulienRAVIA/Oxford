@@ -38,3 +38,13 @@ tr.info > td > a {
 tr.success > td {
 	color: white;
 }
+
+.wrap-text {
+    word-wrap: break-word;
+    text-overflow: ellipsis; 
+    -webkit-hyphens: auto; 
+    -moz-hyphens: auto; 
+    -ms-hyphens: auto; 
+    -o-hyphens: auto; 
+    hyphens: auto;
+}
